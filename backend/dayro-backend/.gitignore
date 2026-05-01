@@ -1,0 +1,52 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
+### VS Code ###
+.vscode/
+
+### Mac ###
+.DS_Store
+
+### Windows ###
+Thumbs.db
+
+### Logs ###
+logs/
+*.log
+
+### Environment variables ###
+.env
+.env.*
+!.env.example
+
+### Application local config ###
+application-local.properties
+application-dev.properties
+application-prod.properties
+
+### Secret files ###
+*.pem
+*.key
+*.p12
+*.jks
+secrets/
