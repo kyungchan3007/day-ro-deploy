@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: dayro
+  profiles:
+    active: loc
+
+server:
+  port: 8080
