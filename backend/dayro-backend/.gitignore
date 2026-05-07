@@ -40,9 +40,9 @@ logs/
 !.env.example
 
 ### Application local config ###
-application-local.properties
-application-dev.properties
-application-prod.properties
+application-loc.yml
+application-dev.yml
+application-prod.yml
 
 ### Secret files ###
 *.pem
