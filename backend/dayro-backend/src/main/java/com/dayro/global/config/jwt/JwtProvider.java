@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -116,6 +117,10 @@ public class JwtProvider {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    public LocalDateTime getRefreshTokenExpiresAt() {
+        return LocalDateTime.now().plusDays(14);
     }
 
     // 토큰 유효성 검증
