@@ -31,7 +31,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
                 "/health",
-                "/api/auth/kakao",
+                "/api/auth/kakao/callback",
                 "/api/auth/refresh",
                 "/error"
             ).permitAll()
