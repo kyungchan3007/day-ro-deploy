@@ -15,6 +15,9 @@ public class KakaoUserInfo {
     @NoArgsConstructor
     public static class KakaoAccount {
         private String email;
+        private String name;        // 실명 (name 동의항목)
+        private String gender;      // "male" / "female"
+        private String birthday;    // "MMDD" 형식 (연도는 birthyear 별도 항목)
         private Profile profile;
 
         @Data

@@ -1,11 +1,15 @@
 package com.dayro.auth.service.impl;
 
 import com.dayro.auth.client.KakaoClient;
+import com.dayro.auth.domain.Gender;
 import com.dayro.auth.domain.Member;
+import com.dayro.auth.domain.MemberServiceTerm;
 import com.dayro.auth.domain.RefreshToken;
+import com.dayro.auth.dto.KakaoServiceTerms;
 import com.dayro.auth.dto.KakaoUserInfo;
 import com.dayro.auth.dto.response.AuthResponse;
 import com.dayro.auth.repository.MemberRepository;
+import com.dayro.auth.repository.MemberServiceTermRepository;
 import com.dayro.auth.repository.RefreshTokenRepository;
 import com.dayro.auth.service.AuthService;
 import com.dayro.global.config.jwt.JwtProvider;
@@ -15,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.UUID;
 
 @Service
@@ -23,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final KakaoClient kakaoClient;
     private final MemberRepository memberRepository;
+    private final MemberServiceTermRepository memberServiceTermRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtProvider jwtProvider;
 
@@ -40,6 +47,10 @@ public class AuthServiceImpl implements AuthService {
         String email = account != null ? account.getEmail() : null;
         String nickname = (account != null && account.getProfile() != null) ? account.getProfile().getNickname() : null;
         String profileImage = (account != null && account.getProfile() != null) ? account.getProfile().getProfileImageUrl() : null;
+        // 카카오싱크 추가 정보 (선택 동의 항목이라 미동의 시 null)
+        String name = account != null ? account.getName() : null;
+        Gender gender = Gender.from(account != null ? account.getGender() : null);
+        String birthday = account != null ? account.getBirthday() : null;
 
         boolean isNewUser;
         Member member = memberRepository.findByKakaoId(kakaoId).orElse(null);
@@ -50,10 +61,15 @@ public class AuthServiceImpl implements AuthService {
                     .email(email)
                     .nickname(nickname)
                     .profileImage(profileImage)
+                    .name(name)
+                    .gender(gender)
+                    .birthday(birthday)
                     .build());
+            // 신규 가입자에 한해 카카오싱크 약관 동의 내역 저장
+            saveServiceTerms(member, kakaoAccessToken);
             isNewUser = true;
         } else {
-            member.updateProfile(nickname, profileImage);
+            member.updateProfile(nickname, profileImage, name, gender, birthday);
             isNewUser = false;
         }
 
@@ -68,6 +84,23 @@ public class AuthServiceImpl implements AuthService {
                 .build());
 
         return new AuthResponse(accessToken, refreshToken, isNewUser);
+    }
+
+    // 카카오싱크 약관 동의 내역을 조회해 동의(agreed=true)한 약관만 저장
+    private void saveServiceTerms(Member member, String kakaoAccessToken) {
+        KakaoServiceTerms serviceTerms = kakaoClient.getServiceTerms(kakaoAccessToken);
+        if (serviceTerms == null || serviceTerms.getServiceTerms() == null) {
+            return;
+        }
+        serviceTerms.getServiceTerms().stream()
+                .filter(KakaoServiceTerms.ServiceTerm::isAgreed)
+                .forEach(term -> memberServiceTermRepository.save(MemberServiceTerm.builder()
+                        .member(member)
+                        .tag(term.getTag())
+                        .agreedAt(term.getAgreedAt() != null
+                                ? term.getAgreedAt().atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime()
+                                : null)
+                        .build()));
     }
 
     @Transactional(readOnly = true)
