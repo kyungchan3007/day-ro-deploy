@@ -1,0 +1,338 @@
+version: 1
+
+metadata:
+  name: dayro-frontend-aiagent
+  description: AI agent ontology and operating policy reference for Codex and Claude.
+
+ontology:
+  concepts:
+    Agent:
+      description: A role-specific AI worker guided by project rules.
+      types:
+        - ArchitectureAgent
+        - FeatureAgent
+        - TestAgent
+        - ValidationAgent
+
+    Task:
+      description: A unit of work assigned to an agent.
+      types:
+        - ArchitectureDesign
+        - FeatureImplementation
+        - TestCreation
+        - QualityValidation
+
+    Artifact:
+      description: A file, command output, or report produced during work.
+      types:
+        - SourceCode
+        - TestCode
+        - BuildLog
+        - TestLog
+        - ValidationReport
+        - FeatureSlice
+        - CustomHook
+        - FeatureModel
+        - FeatureType
+        - FeatureUI
+
+    Policy:
+      description: A project rule that guides agent behavior.
+      types:
+        - FileAccessPolicy
+        - CommandPolicy
+        - ApprovalPolicy
+        - CompletionPolicy
+        - ArchitecturePolicy
+
+    Evidence:
+      description: Proof used by the validation agent to accept or reject work.
+      types:
+        - PassingTest
+        - PassingBuild
+        - PassingLint
+        - RequirementChecklist
+        - ManualReviewNote
+
+  relationships:
+    - subject: Agent
+      predicate: performs
+      object: Task
+    - subject: Agent
+      predicate: produces
+      object: Artifact
+    - subject: Policy
+      predicate: constrains
+      object: Agent
+    - subject: Evidence
+      predicate: supports
+      object: ValidationReport
+    - subject: FeatureSlice
+      predicate: contains
+      object: SourceCode
+    - subject: ArchitecturePolicy
+      predicate: constrains
+      object: FeatureSlice
+
+operating_policy:
+  default_mode: sequential
+  design_work: disabled
+
+  architecture:
+    style: vertical_slice_architecture
+    principles:
+      - organize_by_feature_or_domain_flow
+      - keep_feature_changes_inside_relevant_slice
+      - expose_slice_public_api_through_index
+      - avoid_cross_slice_internal_imports
+      - promote_to_shared_only_after_real_reuse
+      - avoid_layer_first_foldering_for_feature_code
+    feature_internal_roles:
+      ui: feature_specific_components_and_rendering
+      types: feature_type_contracts
+      model: business_rules_state_model_and_state_transitions
+      hooks: feature_specific_custom_hooks
+      api: bff_communication_and_request_functions
+      lib: feature_internal_pure_utilities
+    dependency_direction:
+      - ui_may_use_hooks_and_types
+      - hooks_may_use_model_api_types_and_lib
+      - model_must_not_depend_on_react_dom_or_next_routing
+      - api_must_not_import_ui
+      - custom_hooks_belong_in_hooks
+      - non_hook_business_rules_belong_in_model
+    data_strategy:
+      api_boundary: bff
+      realtime_by_default: false
+      initial_data_loading: ssr_or_server_component_first
+      client_fetch_allowed_for:
+        - user_interaction_after_initial_render
+        - explicitly_client_only_state
+        - approved_exception
+      disallowed_by_default:
+        - direct_external_backend_api_call_from_client
+        - polling
+        - websocket
+        - subscription
+      sensitive_data_boundary:
+        - auth_tokens_stay_server_side
+        - cookies_and_headers_composed_in_bff_or_server_layer
+        - ui_must_not_own_external_api_auth_details
+
+  approval:
+    required_for:
+      - dependency_install
+      - destructive_file_operation
+      - production_config_change
+      - external_network_access
+      - broad_refactor
+
+  file_access:
+    default: read_only
+    writable_paths:
+      - src/**
+      - tests/**
+      - __tests__/**
+      - app/**
+      - components/**
+      - features/**
+      - hooks/**
+      - lib/**
+      - shared/**
+      - entities/**
+      - widgets/**
+      - utils/**
+      - public/**
+      - package.json
+      - package-lock.json
+      - pnpm-lock.yaml
+      - yarn.lock
+      - aiagent.yaml
+
+  command_policy:
+    allow:
+      - npm test
+      - npm run test
+      - npm run lint
+      - npm run typecheck
+      - npm run build
+      - pnpm test
+      - pnpm lint
+      - pnpm typecheck
+      - pnpm build
+      - yarn test
+      - yarn lint
+      - yarn typecheck
+      - yarn build
+    require_approval:
+      - npm install
+      - pnpm install
+      - yarn install
+      - rm
+      - git reset
+      - git clean
+      - git push
+
+agents:
+  architecture:
+    type: ArchitectureAgent
+    mission: Design and review frontend vertical slice architecture.
+    responsibilities:
+      - identify_domain_flows
+      - define_slice_boundaries
+      - review_module_coupling
+      - propose_architecture_options
+      - document_risks_and_tradeoffs
+    can_modify:
+      - .agents/agents/architecture.md
+      - .agents/domain/**
+      - aiagent.yaml
+    completion_criteria:
+      - slice_boundaries_are_documented
+      - public_api_boundaries_are_defined
+      - shared_usage_is_justified
+      - risks_and_alternatives_are_recorded
+
+  feature:
+    type: FeatureAgent
+    mission: Implement requested frontend functionality with minimal, focused changes.
+    responsibilities:
+      - analyze_requirements
+      - inspect_existing_code
+      - implement_feature
+      - preserve_existing_behavior
+      - handoff_to_test_agent
+    can_modify:
+      - src/**
+      - app/**
+      - components/**
+      - features/**
+      - hooks/**
+      - lib/**
+      - shared/**
+      - entities/**
+      - widgets/**
+      - utils/**
+      - public/**
+    cannot_modify:
+      - design/**
+      - brand/**
+      - visual_identity/**
+    completion_criteria:
+      - implementation_matches_requirement
+      - no_unrelated_refactor
+      - changed_files_are_explained
+      - vertical_slice_boundary_is_preserved
+
+  test:
+    type: TestAgent
+    mission: Add and run tests that prove the feature works and prevent regressions.
+    responsibilities:
+      - identify_test_scope
+      - add_unit_tests
+      - add_integration_tests_when_needed
+      - reproduce_failures
+      - report_test_results
+    can_modify:
+      - tests/**
+      - __tests__/**
+      - src/**/*.test.*
+      - src/**/*.spec.*
+      - app/**/*.test.*
+      - app/**/*.spec.*
+      - components/**/*.test.*
+      - components/**/*.spec.*
+      - features/**/*.test.*
+      - features/**/*.spec.*
+      - shared/**/*.test.*
+      - shared/**/*.spec.*
+    preferred_commands:
+      - npm test
+      - npm run test
+      - pnpm test
+      - yarn test
+    completion_criteria:
+      - relevant_tests_exist
+      - tests_pass_or_failures_are_explained
+      - edge_cases_are_covered
+      - tests_are_near_relevant_slice_when_possible
+
+  validation:
+    type: ValidationAgent
+    mission: Verify implementation quality, requirement coverage, and release readiness.
+    responsibilities:
+      - verify_requirement_checklist
+      - run_quality_commands
+      - inspect_change_scope
+      - detect_regressions
+      - produce_validation_report
+    can_modify: []
+    preferred_commands:
+      - npm run lint
+      - npm run typecheck
+      - npm run build
+      - npm test
+      - pnpm lint
+      - pnpm typecheck
+      - pnpm build
+      - pnpm test
+      - yarn lint
+      - yarn typecheck
+      - yarn build
+      - yarn test
+    completion_criteria:
+      - requirements_are_satisfied
+      - quality_commands_pass_or_failures_are_explained
+      - no_unauthorized_changes_detected
+      - vertical_slice_architecture_is_preserved
+      - final_decision_is_recorded
+
+workflow:
+  feature_delivery:
+    - step: intake
+      owner: feature
+      output: requirement_summary
+    - step: architecture_review
+      owner: architecture
+      output: slice_boundary_decision
+    - step: domain_context
+      owner: architecture
+      output: domain_boundary_document
+    - step: implementation
+      owner: feature
+      output: code_changes
+    - step: test_creation
+      owner: test
+      output: test_changes
+    - step: test_execution
+      owner: test
+      output: test_log
+    - step: validation
+      owner: validation
+      output: validation_report
+
+validation:
+  required_evidence:
+    - requirement_checklist
+    - changed_file_summary
+    - test_result
+    - architecture_check
+  optional_evidence:
+    - lint_result
+    - typecheck_result
+    - build_result
+    - manual_review_note
+
+  decision_values:
+    - approved
+    - approved_with_notes
+    - rejected
+    - blocked
+
+reporting:
+  final_report_sections:
+    - summary
+    - changed_files
+    - tests
+    - validation_result
+    - risks_or_followups
