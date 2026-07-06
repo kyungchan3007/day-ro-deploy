@@ -28,12 +28,19 @@ feature-name/
 ```
 
 ## 내부 역할
-- `ui`: feature 전용 화면 컴포넌트와 JSX 렌더링
+- `ui`: feature 전용 UI 조각과 JSX 렌더링
 - `types`: feature 내부 타입, props 타입, DTO, ViewModel 타입
 - `model`: 비즈니스 규칙, 상태 모델, 상태 전이, schema, store, query key
 - `hooks`: feature 전용 커스텀 훅
 - `api`: BFF 통신, 요청 함수, API 타입 매핑
 - `lib`: feature 내부 순수 유틸리티
+
+## feature 책임
+- feature는 사용자 기능 단위의 조각을 설계하고 구현한다.
+- feature `ui`에는 버튼, 입력창, 폼 섹션, 상태 뷰처럼 기능에 속한 조각을 둔다.
+- feature는 가능한 한 자기 기능 안에서 닫히는 동작과 상태를 가진다.
+- feature가 여러 조각을 포함할 수는 있지만, 화면 전체를 조립하는 최종 책임은 가지지 않는다.
+- 헤더, 히어로, CTA, 안내문구처럼 여러 조각을 배치해 하나의 화면 영역이나 진입 화면을 만드는 일은 `widgets` 또는 `app`의 책임이다.
 
 ## 의존 방향
 - `ui`는 `hooks`, `types`를 사용할 수 있다.
@@ -66,3 +73,5 @@ feature-name/
 - 단순 중복 제거만을 이유로 `shared`로 이동하지 않는다.
 - 커스텀 훅은 `hooks`에 둔다.
 - React hook이 아닌 비즈니스 규칙은 `model`에 둔다.
+- feature는 "화면 완성본"보다 "기능 조각"을 우선한다.
+- 여러 feature 또는 shared 조각을 합쳐 화면 단위를 만드는 컴포넌트는 `widgets`로 올린다.
