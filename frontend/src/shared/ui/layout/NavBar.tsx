@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "../lib";
 import { ArrowLeftIcon } from "../icon";
-import { Logo } from "../logo";
+import { LogoHorizontal } from "../logo";
 
 export interface NavBarProps {
   /** 뒤로가기 버튼 표시. 기본 true. */
@@ -45,7 +45,7 @@ export function NavBar({
         )}
       </div>
       <div className="flex flex-1 items-center justify-center">
-        {center ?? <Logo height={22} />}
+        {center ?? <LogoHorizontal height={22} />}
       </div>
       <div className="flex w-12 items-center justify-end">{right}</div>
     </header>
