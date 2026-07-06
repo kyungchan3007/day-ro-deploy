@@ -71,6 +71,7 @@
   /* ── Semantic: Surface & Border ───────────────────────────────── */
   --color-surface: #ffffff;
   --color-surface-subtle: var(--color-neutral-50);
+  --color-frame: var(--color-neutral-50); /* AppShell 좌우 여백(gutter) = 미색 */
   --color-border: var(--color-neutral-200);
   --color-border-strong: var(--color-neutral-300);
 

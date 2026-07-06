@@ -36,15 +36,19 @@ FeatureAgent는 다음 스킬을 사용한다.
 - 외부 공개가 필요한 값은 슬라이스의 `index.ts`에서 export한다.
 - 공용 코드는 실제 다중 사용이 확인될 때만 `shared`로 이동한다.
 - 계층별 분리보다 기능 단위 응집을 우선한다.
+- feature는 UI 및 기능 단위 조각을 구현하는 곳으로 본다.
+- 화면 완성본 조합이 필요하면 `widgets`로 분리하고 feature 안에 화면 전체를 닫아두지 않는다.
 
 ## 슬라이스 내부 구현 기준
 - `ui`에는 feature 전용 컴포넌트와 렌더링 코드를 둔다.
+- `ui`는 버튼, 필드, 상태 뷰, 기능 섹션 같은 feature 조각 중심으로 유지한다.
 - `types`에는 feature 타입 계약을 둔다.
 - `model`에는 비즈니스 규칙, 상태 모델, 상태 전이를 둔다.
 - `hooks`에는 feature 전용 커스텀 훅을 둔다.
 - `api`에는 BFF 통신과 요청 함수를 둔다.
 - `lib`에는 feature 내부 순수 유틸리티를 둔다.
 - 커스텀 훅은 `hooks`에 두고, hook이 아닌 규칙은 `model`에 둔다.
+- 헤더, 본문, CTA를 합친 로그인 화면 같은 조합 컴포넌트는 `widgets` 책임으로 본다.
 
 ## BFF/SSR 구현 기준
 - feature `api`는 BFF endpoint 호출만 담당한다.
