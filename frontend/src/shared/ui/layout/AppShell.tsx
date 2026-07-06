@@ -6,8 +6,8 @@ export interface AppShellProps {
   nav?: ReactNode;
   /** 하단 고정 액션/탭 슬롯 (예: CTA 버튼, 바텀 탭). 컬럼 최하단에 배치된다. */
   footer?: ReactNode;
-  /** 본문. */
-  children: ReactNode;
+  /** 본문. 스캐폴딩 단계에서는 비어 있을 수 있다. */
+  children?: ReactNode;
   /**
    * 본문 좌우/상하 기본 패딩을 제거한다(full-bleed 컨텐츠용).
    * 지도·이미지처럼 화면 끝까지 붙여야 할 때만 사용하고, 내부 정렬은 <Container> 로 잡는다.
