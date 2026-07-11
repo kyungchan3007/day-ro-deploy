@@ -43,6 +43,50 @@ export function CarIcon(props: IconProps) {
   );
 }
 
+/* 목적 -------------------------------------------------------------------- */
+
+export function HeartIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M12 20.5C12 20.5 4 15.5 4 9.5A4.5 4.5 0 0 1 12 6.8A4.5 4.5 0 0 1 20 9.5C20 15.5 12 20.5 12 20.5Z" />
+    </IconBase>
+  );
+}
+
+export function CoffeeIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M5 8h12v4a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5V8Z" />
+      <path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17" />
+      <path d="M8 2.6c-.6.8-.6 1.6 0 2.4M11.5 2.6c-.6.8-.6 1.6 0 2.4" />
+      <path d="M4 20.5h14" />
+    </IconBase>
+  );
+}
+
+export function SmileIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8.5 14a4 4 0 0 0 7 0" />
+      <circle cx="9" cy="10" r="0.8" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="10" r="0.8" fill="currentColor" stroke="none" />
+    </IconBase>
+  );
+}
+
+export function GiftIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 12v7.5a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5V12" />
+      <rect x="3" y="8" width="18" height="4" rx="1" />
+      <path d="M12 8v12" />
+      <path d="M12 8s-1-4-3.3-3.5A1.8 1.8 0 0 0 8.5 8" />
+      <path d="M12 8s1-4 3.3-3.5A1.8 1.8 0 0 1 15.5 8" />
+    </IconBase>
+  );
+}
+
 /* 정보/메타 --------------------------------------------------------------- */
 
 export function ClockIcon(props: IconProps) {

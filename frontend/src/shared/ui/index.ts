@@ -5,8 +5,12 @@
  */
 export * from "./lib";
 export * from "./icon";
+export * from "./illustration";
 export * from "./logo";
 export * from "./layout";
+export * from "./progress";
+export * from "./motion";
+export * from "./feedback";
 export * from "./button";
 export * from "./toast";
 export * from "./course";
