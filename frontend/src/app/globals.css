@@ -59,6 +59,7 @@
 
   /* ── Semantic: Status ─────────────────────────────────────────── */
   --color-success: #00b52d;
+  --color-danger: #e5484d; /* 검증/에러 문구 */
 
   /* ── Semantic: Text ───────────────────────────────────────────── */
   --color-text-strong: var(--color-neutral-950); /* Title/Body */
@@ -87,6 +88,12 @@
   --color-transport-car: #2699ec; /* NOTE: 공식 팔레트 외 값(SVG 뱃지 전용). 확정 필요 */
   --color-transport-arrive: var(--color-primary-800);
 
+  /* ── Semantic: 목적 팔레트 (카드 아이콘 accent) ────────────────── */
+  --color-purpose-date: #d4537e; /* pink */
+  --color-purpose-blind: #378add; /* blue */
+  --color-purpose-friends: #ef9f27; /* amber */
+  --color-purpose-anniversary: #d85a30; /* coral */
+
   /* ── Radius ───────────────────────────────────────────────────── */
   --radius-xs: 4px;
   --radius-sm: 6px;
@@ -94,6 +101,25 @@
   --radius-lg: 14px;
   --radius-xl: 20px;
   --radius-pill: 999px;
+
+  /* ── Motion ───────────────────────────────────────────────────── */
+  --animate-float: float 2.4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float {
+    animation: none;
+  }
 }
 
 :root {

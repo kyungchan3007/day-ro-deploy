@@ -13,4 +13,8 @@ export {
   ArrowLeftIcon,
   DownloadIcon,
   RefreshIcon,
+  HeartIcon,
+  CoffeeIcon,
+  SmileIcon,
+  GiftIcon,
 } from "./icons";

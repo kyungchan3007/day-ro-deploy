@@ -4,3 +4,5 @@ export { LogoFull } from "./LogoFull";
 export type { LogoFullProps } from "./LogoFull";
 export { LogoHorizontal } from "./LogoHorizontal";
 export type { LogoHorizontalProps } from "./LogoHorizontal";
+export { LogoSymbol } from "./LogoSymbol";
+export type { LogoSymbolProps } from "./LogoSymbol";

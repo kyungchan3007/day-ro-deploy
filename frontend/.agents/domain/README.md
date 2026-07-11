@@ -1,16 +1,28 @@
 # Domain Index
 
-이 디렉터리는 VSA 기준 도메인과 기능 슬라이스 경계를 기록한다.
+이 디렉터리는 Dayro 프론트엔드의 도메인 온톨로지를 기록한다.
 
 ## 목적
-- 도메인 용어 통일
-- 사용자 흐름 정의
-- feature slice 경계 정의
-- shared/entities/widgets 사용 근거 기록
+- canonical term 통일
+- alias 관리
+- domain/subflow/entity/value object/action/state/transition 구조 정의
+- 구현 소유권과 도메인 소유권 분리
+- 검증 가능한 invariant 기록
 
-## 작성 규칙
-- 새 도메인 또는 큰 기능 흐름을 만들기 전에 `template.md`를 복사해 도메인 문서를 작성한다.
-- 도메인 문서는 구현 파일보다 먼저 작성하거나, 구현과 함께 갱신한다.
-- ArchitectureAgent는 이 문서를 기준으로 VSA 경계를 판단한다.
-- FeatureAgent는 관련 도메인 문서를 읽고 구현한다.
-- ValidationAgent는 구현 결과가 도메인 경계를 지키는지 확인한다.
+## 문서 구성
+- `common.md`: 공통 메타-온톨로지, 관계 타입, 구조 제약
+- `home.md`: `Home` 도메인 온톨로지
+- `login.md`: `Login` 도메인 온톨로지
+- `course.md`: `Course` 도메인 온톨로지
+
+## 운영 규칙
+- 새 도메인은 먼저 `common.md`의 개념 타입과 관계 타입으로 모델링한다.
+- 구현 문서가 아니라 개념 문서로 작성한다.
+- 코드 경로 이름이 도메인 이름과 다르면 alias를 반드시 기록한다.
+- 상태 전이 규칙은 prose가 아니라 표 형태로 유지한다.
+- invariants는 테스트 가능한 문장으로 유지한다.
+
+## 적용 주체
+- ArchitectureAgent는 경계와 소유권을 판단할 때 이 문서를 기준으로 삼는다.
+- FeatureAgent는 구현 전에 관련 도메인 온톨로지를 읽는다.
+- ValidationAgent는 코드가 온톨로지의 states, transitions, invariants를 깨지 않는지 검증한다.

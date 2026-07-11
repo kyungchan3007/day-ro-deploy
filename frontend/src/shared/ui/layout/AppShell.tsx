@@ -25,6 +25,8 @@ export interface AppShellProps {
  *   - 모바일(≤640): 컬럼이 화면을 꽉 채움(Full).
  *   - 640 초과: 컬럼은 640에서 멈추고, 좌우 여백은 프레임 색(bg-frame, 미색)으로 채워진다.
  *   - 복잡한 반응형 그리드 없이 컬럼 폭만 고정 → 요소는 비율대로만 커진다.
+ *   - 컬럼 높이는 뷰포트에 고정(h-dvh): nav/footer 는 고정되고 본문(main)만 스크롤된다.
+ *     → 하단 CTA(footer)가 콘텐츠 길이와 무관하게 항상 화면에 보인다.
  *
  * 앞으로 만드는 모든 페이지는 이 컴포넌트로 감싼다.
  */
@@ -37,10 +39,14 @@ export function AppShell({
 }: AppShellProps) {
   return (
     <div className="flex min-h-dvh w-full justify-center bg-frame">
-      <div className="flex min-h-dvh w-full max-w-[640px] flex-col bg-surface">
+      <div className="flex h-dvh w-full max-w-[640px] flex-col bg-surface">
         {nav}
         <main
-          className={cn("flex-1", bleed ? undefined : "px-4 py-4 sm:px-6", className)}
+          className={cn(
+            "min-h-0 flex-1 overflow-y-auto",
+            bleed ? undefined : "px-4 py-4 sm:px-6",
+            className,
+          )}
         >
           {children}
         </main>

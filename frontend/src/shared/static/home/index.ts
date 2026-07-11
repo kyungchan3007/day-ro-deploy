@@ -7,7 +7,7 @@ export const homeStatic = {
     create: {
       title: "데이트 코스 짜러가기",
       subtitle: "새로운 코스를 생성할 수 있어요",
-      href: "#", // 라우트 확정 시 교체
+      href: "/course/new", // 상황입력 플로우 진입
     },
     saved: {
       title: "찜한 코스 보러가기",
