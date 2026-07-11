@@ -30,4 +30,4 @@ jobs:
           CHAN_PUSH_TOKEN: ${{ secrets.CHAN_PUSH_TOKEN }}
         run: |
           git remote add chan-sync https://x-access-token:${CHAN_PUSH_TOKEN}@github.com/kyungchan3007/day-ro-deploy.git
-          git push chan-sync HEAD:main --force-with-lease
+          git push chan-sync HEAD:main --force
