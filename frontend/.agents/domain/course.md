@@ -43,8 +43,8 @@
 | `RegionGroup` | `id`, `label`, `areas` | `src/features/situation/model/types.ts` |
 | `TransportSelection` | `go`, `local` | `src/features/situation/model/types.ts` |
 | `PurposeChoice` | 문자열 집합 | `src/features/situation/model/types.ts` |
-| `SituationAnswers` | `time`, `region`, `transport`, `purpose` | `src/features/situation/model/types.ts` |
-| `SituationStepKey` | `time | region | transport | purpose` | `src/features/situation/model/flow.ts` |
+| `SituationAnswers` | `time`, `region`, `transport` | `src/features/situation/model/types.ts` |
+| `SituationStepKey` | `time | region | transport` | `src/features/situation/model/flow.ts` |
 | `SituationFlowStep` | `SituationStepKey | loading` | `src/features/situation/model/flow.ts` |
 
 ## Actions
@@ -54,11 +54,9 @@
 | `SelectTimeRange` | 사용자가 시간 step 완료 | `SituationAnswers.time` 갱신 |
 | `SelectRegion` | 사용자가 지역 step 완료 | `SituationAnswers.region` 갱신 |
 | `SelectTransport` | 사용자가 이동수단 step 완료 | `SituationAnswers.transport` 갱신 |
-| `SelectPurpose` | 사용자가 목적 step 완료 | `SituationAnswers.purpose` 갱신 |
 | `AdvanceSituationStep` | 유효 입력 후 시스템 규칙 실행 | 다음 step 이동 |
 | `GoBackSituationStep` | 사용자가 뒤로가기 클릭 | 이전 step 또는 브라우저 back |
-| `ResolveSituationStepFromQuery` | route query 해석 | 현재 step 결정 |
-| `StartCourseGeneration` | 목적 step 완료 | loading 상태 진입 |
+| `StartCourseGeneration` | 이동수단 step 완료 | loading 상태 진입 |
 
 ## States
 
@@ -68,28 +66,22 @@
 | `SituationTime` | 시간 step이 보이는 상태 |
 | `SituationRegion` | 지역 step이 보이는 상태 |
 | `SituationTransport` | 이동수단 step이 보이는 상태 |
-| `SituationPurpose` | 목적 step이 보이는 상태 |
 | `CourseGenerationLoading` | 추천 생성 준비/로딩 화면이 보이는 상태 |
 
 ## Transitions
 
 | From | Action | To | 제약 |
 | --- | --- | --- | --- |
-| `CourseEntry` | `ResolveSituationStepFromQuery` | `SituationTime` | query가 없거나 유효하지 않으면 기본값 |
-| `CourseEntry` | `ResolveSituationStepFromQuery` | `SituationRegion` | query가 `region`일 때만 |
-| `CourseEntry` | `ResolveSituationStepFromQuery` | `SituationTransport` | query가 `transport`일 때만 |
-| `CourseEntry` | `ResolveSituationStepFromQuery` | `SituationPurpose` | query가 `purpose`일 때만 |
-| `CourseEntry` | `ResolveSituationStepFromQuery` | `CourseGenerationLoading` | query가 `loading`일 때만 |
+| `CourseEntry` | 초기화 | `SituationTime` | 내부 상태 기본값 |
 | `SituationTime` | `SelectTimeRange` + `AdvanceSituationStep` | `SituationRegion` | 유효한 시간 범위 필요 |
 | `SituationRegion` | `SelectRegion` + `AdvanceSituationStep` | `SituationTransport` | 지역 선택 필요 |
-| `SituationTransport` | `SelectTransport` + `AdvanceSituationStep` | `SituationPurpose` | 두 이동수단 값 모두 필요 |
-| `SituationPurpose` | `SelectPurpose` + `StartCourseGeneration` | `CourseGenerationLoading` | 목적 선택 필요 |
+| `SituationTransport` | `SelectTransport` + `StartCourseGeneration` | `CourseGenerationLoading` | 두 이동수단 값 모두 필요 |
 
 ## Invariants
-- `SituationInput`의 step 순서는 고정이다: `time -> region -> transport -> purpose -> loading`.
+- `SituationInput`의 step 순서는 고정이다: `time -> region -> transport -> loading`.
 - `SituationAnswers`는 하위 흐름 전체에서 누적된다.
 - `SituationFlow`는 step registry와 patch 규칙을 직접 소유하면 안 된다.
-- URL query에서 step을 해석하는 규칙은 screen UI가 아니라 feature model과 controller/hook이 소유해야 한다.
+- step 전이 규칙은 screen UI가 아니라 feature model과 controller/hook이 소유해야 한다.
 - `CourseGenerationLoading`은 progress step 집계에서 제외된다.
 
 ## Owned UI Artifacts
@@ -100,14 +92,12 @@
 | `SituationTimeScreen` | UIArtifact | `src/widgets/situation/SituationTimeScreen.tsx` |
 | `SituationRegionScreen` | UIArtifact | `src/widgets/situation/SituationRegionScreen.tsx` |
 | `SituationTransportScreen` | UIArtifact | `src/widgets/situation/SituationTransportScreen.tsx` |
-| `SituationPurposeScreen` | UIArtifact | `src/widgets/situation/SituationPurposeScreen.tsx` |
 | `SituationLoadingScreen` | UIArtifact | `src/widgets/situation/SituationLoadingScreen.tsx` |
 | `TimeRangeField` | UIArtifact | `src/features/situation/ui/TimeRangeField.tsx` |
 | `TimeWheel` | UIArtifact | `src/features/situation/ui/TimeWheel.tsx` |
 | `RegionGroupChips` | UIArtifact | `src/features/situation/ui/RegionPicker.tsx` |
 | `RegionAreaChips` | UIArtifact | `src/features/situation/ui/RegionPicker.tsx` |
 | `TransportCardGroup` | UIArtifact | `src/features/situation/ui/TransportCardGroup.tsx` |
-| `PurposeOptionGrid` | UIArtifact | `src/features/situation/ui/PurposeOptionGrid.tsx` |
 
 ## Owned Implementation
 
@@ -130,11 +120,9 @@
 | `SituationInput` | `collects` | `TimeRange` |
 | `SituationInput` | `collects` | `RegionArea` |
 | `SituationInput` | `collects` | `TransportSelection` |
-| `SituationInput` | `collects` | `PurposeChoice` |
 | `SituationInput` | `uses` | `SituationAnswers` |
 | `SituationInput` | `renders` | `SituationFlow` |
 | `SituationFlow` | `dependsOn` | `useSituationFlowController` |
-| `useSituationFlowController` | `dependsOn` | `resolveSituationStep` |
 | `useSituationFlowController` | `dependsOn` | `patchSituationAnswers` |
 
 ## Out Of Scope

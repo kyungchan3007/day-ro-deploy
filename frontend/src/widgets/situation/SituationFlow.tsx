@@ -3,7 +3,6 @@
 import { SituationTimeScreen } from "./SituationTimeScreen";
 import { SituationRegionScreen } from "./SituationRegionScreen";
 import { SituationTransportScreen } from "./SituationTransportScreen";
-import { SituationPurposeScreen } from "./SituationPurposeScreen";
 import { SituationLoadingScreen } from "./SituationLoadingScreen";
 import { SituationSummary } from "@/features/situation";
 import { useSituationFlowController } from "./hooks";
@@ -19,25 +18,6 @@ export function SituationFlow() {
   }
 
   switch (flow.currentStep) {
-    case "purpose":
-      return (
-        <SituationPurposeScreen
-          stepNumber={flow.stepNumber}
-          totalSteps={flow.totalSteps}
-          value={flow.answers.purpose}
-          nextLabel={flow.nextLabel}
-          summary={
-            <SituationSummary
-              answers={flow.answers}
-              currentStep="purpose"
-              onEdit={flow.editStep}
-              className="mb-5"
-            />
-          }
-          onBack={flow.handleBack}
-          onNext={flow.setPurpose}
-        />
-      );
     case "transport":
       return (
         <SituationTransportScreen

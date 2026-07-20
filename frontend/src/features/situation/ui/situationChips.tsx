@@ -8,7 +8,6 @@ import {
   formatDuration,
 } from "../model";
 import type { SituationAnswers, SituationStepKey } from "../model";
-import { PURPOSE_META } from "./purposeMeta";
 import { TRANSPORT_META } from "./transportMeta";
 
 export interface SituationChip {
@@ -45,14 +44,6 @@ export function buildSituationChips(answers: SituationAnswers): SituationChip[] 
       step: "transport",
       Icon: TRANSPORT_META[go].Icon,
       label: `${TRANSPORT_META[go].label}·${TRANSPORT_META[local].label}`,
-    });
-  }
-
-  if (answers.purpose) {
-    chips.push({
-      step: "purpose",
-      Icon: PURPOSE_META[answers.purpose].Icon,
-      label: PURPOSE_META[answers.purpose].label,
     });
   }
 
