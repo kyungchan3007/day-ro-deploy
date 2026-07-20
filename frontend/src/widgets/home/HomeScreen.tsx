@@ -1,5 +1,6 @@
 import { AppShell, NavBar, LogoHorizontal } from "@/shared/ui";
 import { HomeEntryCard } from "@/features/home";
+import { AccountMenu } from "@/features/auth";
 import { homeStatic } from "@/shared/static/home";
 import imgCreate from "./assets/img-create.png";
 import imgSaved from "./assets/img-saved.png";
@@ -19,7 +20,7 @@ export function HomeScreen() {
   return (
     <AppShell
       bleed
-      nav={<NavBar showBack={false} />}
+      nav={<NavBar showBack={false} right={<AccountMenu />} />}
       footer={
         <footer className="flex justify-center border-t border-border bg-surface-subtle py-4">
           <LogoHorizontal height={18} />

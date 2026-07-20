@@ -44,12 +44,11 @@ export interface TransportSelection {
 
 /**
  * 상황입력 플로우가 스텝을 거치며 누적하는 응답.
- * 스텝이 늘어나면 이 타입에 필드를 추가한다(예: purpose).
+ * 스텝이 늘어나면 이 타입에 필드를 추가한다.
  */
 export interface SituationAnswers {
   time?: TimeRange;
   /** 선택한 세부 지역 id. */
   region?: string;
   transport?: TransportSelection;
-  purpose?: PurposeChoice;
 }

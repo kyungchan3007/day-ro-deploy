@@ -7,7 +7,7 @@ import type { TransportSelection } from "@/features/situation";
 export interface SituationTransportScreenProps {
   /** 진행 표시용. 기본 3. */
   stepNumber?: number;
-  /** 전체 스텝 수. 기본 4(시안). */
+  /** 전체 스텝 수. 기본 3(시안). */
   totalSteps?: number;
   /** 이전 선택값(뒤로 왔을 때 복원). */
   value?: TransportSelection;
@@ -33,7 +33,7 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
  */
 export function SituationTransportScreen({
   stepNumber = 3,
-  totalSteps = 4,
+  totalSteps = 3,
   value,
   destinationLabel = "목적지",
   nextLabel = "다음",

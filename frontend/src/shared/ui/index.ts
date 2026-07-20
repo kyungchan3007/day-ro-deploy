@@ -8,6 +8,8 @@ export * from "./icon";
 export * from "./illustration";
 export * from "./logo";
 export * from "./layout";
+export * from "./menu";
+export * from "./auth";
 export * from "./progress";
 export * from "./motion";
 export * from "./feedback";

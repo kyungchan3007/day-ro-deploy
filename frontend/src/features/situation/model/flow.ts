@@ -3,8 +3,7 @@ import type { SituationAnswers } from "./types";
 export const SITUATION_STEPS = [
   { key: "time", nextLabel: "다음은 어디서 만날까요?" },
   { key: "region", nextLabel: "다음은 어떻게 이동할까요?" },
-  { key: "transport", nextLabel: "다음은 어떤 만남인가요?" },
-  { key: "purpose", nextLabel: "추천받기!" },
+  { key: "transport", nextLabel: "추천받기!" },
 ] as const;
 
 export type SituationStepKey = (typeof SITUATION_STEPS)[number]["key"];

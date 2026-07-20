@@ -19,4 +19,10 @@ export const authStatic = {
       suffix: "에 동의하게 됩니다.",
     },
   },
+  /** 햄버거 계정 메뉴 문구 (프로필은 로그인 연동 전까지 placeholder). */
+  menu: {
+    profileName: "게스트님",
+    avatarInitial: "G",
+    myInfo: "내 정보",
+  },
 } as const;
