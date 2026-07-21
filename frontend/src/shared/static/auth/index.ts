@@ -25,4 +25,30 @@ export const authStatic = {
     avatarInitial: "G",
     myInfo: "내 정보",
   },
+  /** 회원탈퇴 흐름 문구 (줄바꿈은 whitespace-pre-line 로 렌더). */
+  withdraw: {
+    navTitle: "회원탈퇴",
+    title: "데이로를 탈퇴하려는 이유가\n무엇인가요?",
+    sub: "복수 선택 가능",
+    options: [
+      { value: "freq", label: "이용 빈도가 낮아요" },
+      { value: "bug", label: "오류가 자주 발생해요" },
+      { value: "course", label: "원하는 데이트 코스를 추천받지 못했어요" },
+      { value: "rejoin", label: "다시 가입하고 싶어요" },
+      { value: "etc", label: "직접 입력" },
+    ],
+    etcPlaceholder: "탈퇴 이유를 자유롭게 입력해주세요",
+    nextLabel: "다음",
+    confirm: {
+      title: "정말 탈퇴하시겠어요?",
+      body: "탈퇴 시 계정과 저장된 모든 코스가\n삭제되며 복구할 수 없어요.",
+      cancel: "취소",
+      confirm: "탈퇴하기",
+    },
+    done: {
+      title: "탈퇴가 완료됐어요",
+      body: "그동안 Dayro를 이용해주셔서\n감사했어요.",
+      confirm: "확인",
+    },
+  },
 } as const;

@@ -133,6 +133,14 @@ export function ChevronUpIcon(props: IconProps) {
   );
 }
 
+export function ChevronRightIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M9 6l6 6-6 6" />
+    </IconBase>
+  );
+}
+
 export function ArrowLeftIcon(props: IconProps) {
   return (
     <IconBase {...props}>
@@ -169,6 +177,23 @@ export function CloseIcon(props: IconProps) {
   return (
     <IconBase {...props}>
       <path d="M6 6l12 12M18 6L6 18" />
+    </IconBase>
+  );
+}
+
+export function CheckIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M20 6L9 17l-5-5" />
+    </IconBase>
+  );
+}
+
+export function AlertCircleIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7.5v5M12 16h.01" />
     </IconBase>
   );
 }

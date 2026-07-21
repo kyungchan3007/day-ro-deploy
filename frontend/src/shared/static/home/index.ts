@@ -12,7 +12,7 @@ export const homeStatic = {
     saved: {
       title: "찜한 코스 보러가기",
       subtitle: "내가 만들었던 데이트 코스를\n확인할 수 있어요",
-      href: "#", // 라우트 확정 시 교체
+      href: "/saved", // 찜한 코스 목록
     },
   },
 } as const;

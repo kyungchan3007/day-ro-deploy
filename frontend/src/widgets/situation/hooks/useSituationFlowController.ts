@@ -1,34 +1,49 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+  type ReadonlyURLSearchParams,
+} from "next/navigation";
 
 import {
-  findRegionAreaLabel,
   getNextSituationStep,
   getPreviousSituationStep,
   getSituationNextLabel,
   getSituationStepIndex,
   patchSituationAnswers,
+  resolveSituationStep,
   SITUATION_LOADING_STEP,
-  SITUATION_STEPS,
   TOTAL_SITUATION_STEPS,
+  type PurposeChoice,
   type SituationAnswers,
-  type SituationFlowStep,
   type SituationStepKey,
   type TimeRange,
-  type TransportSelection,
 } from "@/features/situation";
+
+function updateStepParam(
+  params: ReadonlyURLSearchParams,
+  step: string,
+): URLSearchParams {
+  const next = new URLSearchParams(params.toString());
+  next.set("step", step);
+  return next;
+}
 
 export function useSituationFlowController() {
   const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
 
   const [answers, setAnswers] = useState<SituationAnswers>({});
-  const [currentStep, setCurrentStep] = useState<SituationFlowStep>(
-    SITUATION_STEPS[0].key,
-  );
+  const currentStep = resolveSituationStep(params.get("step"));
 
-  const goStep = (step: SituationFlowStep) => setCurrentStep(step);
+  const goStep = (step: string) => {
+    const next = updateStepParam(params, step);
+    router.push(`${pathname}?${next.toString()}`);
+  };
 
   if (currentStep === SITUATION_LOADING_STEP) {
     return {
@@ -48,7 +63,7 @@ export function useSituationFlowController() {
       return;
     }
 
-    router.back();
+    router.push("/");
   };
 
   const setTime = (time: TimeRange) => {
@@ -65,8 +80,8 @@ export function useSituationFlowController() {
     }
   };
 
-  const setTransport = (transport: TransportSelection) => {
-    setAnswers((prev) => patchSituationAnswers(prev, { transport }));
+  const setPurpose = (purpose: PurposeChoice) => {
+    setAnswers((prev) => patchSituationAnswers(prev, { purpose }));
     goStep(SITUATION_LOADING_STEP);
   };
 
@@ -79,12 +94,11 @@ export function useSituationFlowController() {
     stepNumber: stepIndex + 1,
     totalSteps: TOTAL_SITUATION_STEPS,
     nextLabel: getSituationNextLabel(activeStep),
-    destinationLabel: findRegionAreaLabel(answers.region) ?? "목적지",
     answers,
     handleBack,
     editStep,
     setTime,
     setRegion,
-    setTransport,
+    setPurpose,
   };
 }

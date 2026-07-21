@@ -51,4 +51,5 @@ export interface SituationAnswers {
   /** 선택한 세부 지역 id. */
   region?: string;
   transport?: TransportSelection;
+  purpose?: PurposeChoice;
 }
