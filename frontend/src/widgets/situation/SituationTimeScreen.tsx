@@ -59,6 +59,8 @@ export function SituationTimeScreen({
     isValid,
     overnight,
     durationLabel,
+    exceedsLimit,
+    maxDurationLabel,
   } = useTimeRangeStep(value ?? DEFAULT_RANGE);
 
   return (
@@ -112,6 +114,11 @@ export function SituationTimeScreen({
             <span className="font-bold text-text-strong">{durationLabel}</span> 동안 함께해요
             {overnight && <span className="text-primary"> · 다음날까지</span>}
           </span>
+        </p>
+        <p className="mt-2 text-center text-sm text-text-muted">
+          {exceedsLimit
+            ? `만나는 시작 시간 기준 ${maxDurationLabel} 이내로 선택해 주세요.`
+            : `만나는 시작 시간 기준 최대 ${maxDurationLabel}까지 선택할 수 있어요.`}
         </p>
 
         <TimeWheel

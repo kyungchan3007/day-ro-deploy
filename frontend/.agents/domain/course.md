@@ -73,13 +73,14 @@
 | From | Action | To | 제약 |
 | --- | --- | --- | --- |
 | `CourseEntry` | 초기화 | `SituationTime` | 내부 상태 기본값 |
-| `SituationTime` | `SelectTimeRange` + `AdvanceSituationStep` | `SituationRegion` | 유효한 시간 범위 필요 |
+| `SituationTime` | `SelectTimeRange` + `AdvanceSituationStep` | `SituationRegion` | 유효한 시간 범위 필요, 시작 시각 기준 최대 10시간 |
 | `SituationRegion` | `SelectRegion` + `AdvanceSituationStep` | `SituationTransport` | 지역 선택 필요 |
 | `SituationTransport` | `SelectTransport` + `StartCourseGeneration` | `CourseGenerationLoading` | 두 이동수단 값 모두 필요 |
 
 ## Invariants
 - `SituationInput`의 step 순서는 고정이다: `time -> region -> transport -> loading`.
 - `SituationAnswers`는 하위 흐름 전체에서 누적된다.
+- `SituationTime`에서 선택 가능한 데이트 길이는 시작 시각 기준 최대 10시간이다.
 - `SituationFlow`는 step registry와 patch 규칙을 직접 소유하면 안 된다.
 - step 전이 규칙은 screen UI가 아니라 feature model과 controller/hook이 소유해야 한다.
 - `CourseGenerationLoading`은 progress step 집계에서 제외된다.
