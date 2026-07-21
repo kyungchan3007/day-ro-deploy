@@ -31,8 +31,8 @@ describe("Course domain", () => {
     const initial: SituationAnswers = {};
     const withTime = patchSituationAnswers(initial, {
       time: {
-        start: { meridiem: "am", hour: 10, minute: 0 },
-        end: { meridiem: "pm", hour: 1, minute: 0 },
+        start: { meridiem: "오전", hour: 10, minute: 0 },
+        end: { meridiem: "오후", hour: 1, minute: 0 },
       },
     });
     const withRegion = patchSituationAnswers(withTime, {
@@ -41,8 +41,8 @@ describe("Course domain", () => {
 
     expect(withRegion).toEqual({
       time: {
-        start: { meridiem: "am", hour: 10, minute: 0 },
-        end: { meridiem: "pm", hour: 1, minute: 0 },
+        start: { meridiem: "오전", hour: 10, minute: 0 },
+        end: { meridiem: "오후", hour: 1, minute: 0 },
       },
       region: "gangnam",
     });
