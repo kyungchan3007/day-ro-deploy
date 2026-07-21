@@ -11,7 +11,7 @@
     "frontend/e2e-impact-map.json"
   ],
   "defaultSpecs": [
-    "e2e/**/*.spec.ts"
+    "src/app/e2e/**/*.spec.ts"
   ],
   "mappings": [
     {
@@ -22,7 +22,7 @@
         "frontend/src/widgets/situation/"
       ],
       "specs": [
-        "e2e/course-new.spec.ts"
+        "src/app/e2e/course/course-new.spec.ts"
       ]
     },
     {
@@ -33,7 +33,7 @@
         "frontend/src/widgets/home/"
       ],
       "specs": [
-        "e2e/home.spec.ts"
+        "src/app/e2e/home/home.spec.ts"
       ]
     },
     {
@@ -50,7 +50,7 @@
         "frontend/src/shared/ui/layout/SideMenu.tsx"
       ],
       "specs": [
-        "e2e/auth-profile.spec.ts"
+        "src/app/e2e/auth/auth-profile.spec.ts"
       ]
     }
   ]

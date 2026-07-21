@@ -93,7 +93,7 @@ function listSpecs(patterns) {
   return [...new Set([...tracked, ...listLocalSpecs()])];
 }
 
-function listLocalSpecs(dir = resolve(serviceRoot, "e2e")) {
+function listLocalSpecs(dir = resolve(serviceRoot, "src/app/e2e")) {
   if (!existsSync(dir)) return [];
 
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
