@@ -1,6 +1,7 @@
 import type { Time, TimeRange } from "./types";
 
 export const pad2 = (n: number): string => String(n).padStart(2, "0");
+export const MAX_SITUATION_DURATION_MINUTES = 10 * 60;
 
 /** "6:55" 형태(분만 2자리). meridiem 은 별도 표기. */
 export const formatClock = (t: Time): string => `${t.hour}:${pad2(t.minute)}`;
@@ -34,4 +35,8 @@ export function formatDuration(minutes: number): string {
   if (h === 0) return `${m}분`;
   if (m === 0) return `${h}시간`;
   return `${h}시간 ${m}분`;
+}
+
+export function exceedsMaxDuration(range: TimeRange): boolean {
+  return durationMinutes(range) > MAX_SITUATION_DURATION_MINUTES;
 }

@@ -9,6 +9,10 @@ import {
   SITUATION_STEPS,
   TOTAL_SITUATION_STEPS,
 } from "../model/flow";
+import {
+  exceedsMaxDuration,
+  MAX_SITUATION_DURATION_MINUTES,
+} from "../model/time";
 import type { SituationAnswers } from "../model/types";
 
 describe("Course domain", () => {
@@ -46,5 +50,21 @@ describe("Course domain", () => {
       },
       region: "gangnam",
     });
+  });
+
+  it("limits the meeting duration to 10 hours from the start time", () => {
+    expect(MAX_SITUATION_DURATION_MINUTES).toBe(600);
+    expect(
+      exceedsMaxDuration({
+        start: { meridiem: "오전", hour: 10, minute: 0 },
+        end: { meridiem: "오후", hour: 8, minute: 0 },
+      }),
+    ).toBe(false);
+    expect(
+      exceedsMaxDuration({
+        start: { meridiem: "오전", hour: 10, minute: 0 },
+        end: { meridiem: "오후", hour: 8, minute: 5 },
+      }),
+    ).toBe(true);
   });
 });
