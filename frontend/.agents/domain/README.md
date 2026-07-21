@@ -14,6 +14,8 @@
 - `home.md`: `Home` 도메인 온톨로지
 - `login.md`: `Login` 도메인 온톨로지
 - `course.md`: `Course` 도메인 온톨로지
+- `saved.md`: `Saved` 도메인 온톨로지
+- `withdraw.md`: `Withdraw` 도메인 온톨로지
 
 ## 운영 규칙
 - 새 도메인은 먼저 `common.md`의 개념 타입과 관계 타입으로 모델링한다.

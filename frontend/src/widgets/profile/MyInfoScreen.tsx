@@ -27,7 +27,7 @@ export function MyInfoScreen() {
       }
       footer={
         <div className="flex justify-center px-5 pb-6 pt-2">
-          <WithdrawButton label={withdrawLabel} />
+          <WithdrawButton label={withdrawLabel} href="/mypage/withdraw" />
         </div>
       }
     >

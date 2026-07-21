@@ -1,0 +1,108 @@
+"use client";
+
+import { createPortal } from "react-dom";
+import { useEffect, useSyncExternalStore, type ReactNode } from "react";
+import { cn } from "../lib";
+
+/** hydration-safe 클라이언트 감지 (portal 은 클라 전용). */
+const noopSubscribe = () => () => {};
+
+export interface ConfirmDialogProps {
+  open: boolean;
+  /** backdrop 클릭·Esc·취소 시 호출. */
+  onClose: () => void;
+  icon?: ReactNode;
+  title: string;
+  body?: ReactNode;
+  confirmLabel: string;
+  onConfirm: () => void;
+  /** 확인 버튼 톤. 기본 primary. */
+  confirmTone?: "primary" | "danger";
+  /** 있으면 취소 버튼도 렌더(2버튼). 없으면 확인 버튼 단독. */
+  cancelLabel?: string;
+}
+
+/**
+ * confirm-dialog : 범용 확인 다이얼로그 (공용 UI primitive).
+ *
+ * 화면 전체를 덮는 센터 모달. document.body 로 portal 하고 `fixed` 로 렌더한다.
+ * 도메인 로직은 담지 않고 동작은 onConfirm/onClose 로 주입한다. (로그아웃·탈퇴 등 재사용)
+ */
+export function ConfirmDialog({
+  open,
+  onClose,
+  icon,
+  title,
+  body,
+  confirmLabel,
+  onConfirm,
+  confirmTone = "primary",
+  cancelLabel,
+}: ConfirmDialogProps) {
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <div
+      aria-hidden={!open}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className={cn(
+        "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6 transition-opacity duration-200",
+        open ? "opacity-100" : "pointer-events-none opacity-0",
+      )}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        className={cn(
+          "w-full max-w-[300px] rounded-2xl bg-surface p-6 text-center shadow-xl transition-transform duration-200",
+          open ? "scale-100" : "scale-95",
+        )}
+      >
+        {icon && (
+          <div className="mx-auto mb-3 flex size-11 items-center justify-center rounded-full bg-surface-subtle">
+            {icon}
+          </div>
+        )}
+        <p className="text-base font-bold text-text-strong">{title}</p>
+        {body && (
+          <p className="mt-2 text-sm leading-relaxed text-text-muted">{body}</p>
+        )}
+        <div className="mt-5 flex gap-2">
+          {cancelLabel && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="h-11 flex-1 rounded-xl bg-surface-subtle text-sm font-semibold text-text-strong transition active:brightness-95"
+            >
+              {cancelLabel}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={onConfirm}
+            className={cn(
+              "h-11 flex-1 rounded-xl text-sm font-semibold text-white transition active:brightness-95",
+              confirmTone === "danger" ? "bg-danger" : "bg-primary",
+            )}
+          >
+            {confirmLabel}
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}

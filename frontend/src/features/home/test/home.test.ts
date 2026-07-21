@@ -10,6 +10,6 @@ describe("Home domain", () => {
   it("keeps the saved entry copy separate from the create flow", () => {
     expect(homeStatic.cards.saved.title).toContain("찜한 코스");
     expect(homeStatic.cards.saved.subtitle).toContain("\n");
-    expect(homeStatic.cards.saved.href).toBe("#");
+    expect(homeStatic.cards.saved.href).toBe("/saved");
   });
 });
