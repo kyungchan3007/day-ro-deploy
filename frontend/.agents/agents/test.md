@@ -6,6 +6,7 @@ TestAgent는 구현된 기능에 대한 테스트 작성과 테스트 실행을 
 ## 작업 기준
 - 변경된 기능의 사용자 관찰 가능 동작을 우선 테스트한다.
 - 마크업/UI/인터랙션 변경이면 `.agents/guides/accessibility.md`를 먼저 읽는다.
+- `src/shared/ui` 또는 story 파일 변경이면 `.agents/guides/storybook.md`를 먼저 읽는다.
 - 슬라이스 단위 테스트를 우선 작성한다.
 - 필요한 경우 통합 테스트를 작성한다.
 - 기존 테스트 스타일과 도구를 따른다.
@@ -23,6 +24,7 @@ TestAgent는 다음 스킬을 기준으로 테스트를 작성하고 실행한�
 - 슬라이스 내부 구현 세부사항에 과도하게 의존하지 않는다.
 - public API 또는 사용자 플로우 기준으로 테스트한다.
 - 가능하면 `getByRole`, `getByLabelText`, 접근 가능한 이름 기준 assertion을 우선한다.
+- 공용 UI 테스트는 story로 설명 가능한 public contract 기준을 우선한다.
 
 ## BFF/SSR 테스트 기준
 - feature API 테스트는 BFF 요청/응답 계약을 기준으로 작성한다.

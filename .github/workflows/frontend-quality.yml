@@ -49,3 +49,9 @@ jobs:
 
       - name: Run service-local Vitest and e2e
         run: npm run test:e2e:ci
+
+      - name: Publish Storybook to Chromatic
+        if: github.repository == 'kyungchan3007/day-ro-deploy'
+        run: npm run chromatic -- --exit-once-uploaded
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

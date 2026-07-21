@@ -12,6 +12,10 @@
 - `domain/README.md`: 도메인 문서 작성 규칙
 - `domain/template.md`: 도메인 문서 템플릿
 
+## Guides
+- `guides/accessibility.md`: 시맨틱 마크업, 웹 접근성, 인터랙션 구현/검증 기준
+- `guides/storybook.md`: 공용 UI story 작성과 모노레포 대비 Storybook 운영 기준
+
 ## Skills
 각 agent 문서에 명시된 skill만 사용한다.
 

@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
+import { BackButton } from "../button";
 import { cn } from "../lib";
-import { ArrowLeftIcon } from "../icon";
 import { LogoHorizontal } from "../logo";
 
 export interface NavBarProps {
@@ -17,9 +16,6 @@ export interface NavBarProps {
   right?: ReactNode;
   className?: string;
 }
-
-const backClass =
-  "flex size-9 items-center justify-center rounded-full text-text-strong transition-colors hover:bg-surface-subtle active:bg-border";
 
 /**
  * nav-bar-top : 상단 내비게이션 바 (뒤로가기 + 중앙 로고).
@@ -40,21 +36,7 @@ export function NavBar({
         className="flex h-12 w-full items-center justify-between px-2"
       >
         <div className="flex w-12 items-center justify-start">
-          {showBack &&
-            (backHref ? (
-              <Link href={backHref} aria-label="뒤로가기" className={backClass}>
-                <ArrowLeftIcon size={22} />
-              </Link>
-            ) : (
-              <button
-                type="button"
-                onClick={onBack}
-                aria-label="뒤로가기"
-                className={backClass}
-              >
-                <ArrowLeftIcon size={22} />
-              </button>
-            ))}
+          {showBack && <BackButton href={backHref} onClick={onBack} />}
         </div>
         <div className="flex flex-1 items-center justify-center">
           {center ?? <LogoHorizontal height={22} />}

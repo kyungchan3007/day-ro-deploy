@@ -13,6 +13,7 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 - 테스트 작성/실행: `.agents/agents/test.md`
 - 최종 검증: `.agents/agents/validation.md`
 - 웹 접근성 구현/검증: `.agents/guides/accessibility.md`
+- 스토리북 운영 기준: `.agents/guides/storybook.md`
 - 도메인/VSA 경계: `.agents/domain/`
 
 스킬은 각 역할 문서에 명시된 `.agents/skills/*/SKILL.md`만 사용한다.
@@ -27,6 +28,16 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 - e2e 또는 단위 테스트에서 사용자 상호작용 검증 추가
 
 웹 접근성은 선택 품질이 아니라 기본 완료 조건이다.
+
+## 스토리북 필수 규칙
+다음 중 하나라도 해당하면 작업 시작 전에 반드시 `.agents/guides/storybook.md`를 먼저 읽고 준수한다.
+
+- `src/shared/ui` 컴포넌트 추가/수정
+- 공용 UI 컴포넌트 승격 또는 API 변경
+- story 파일 추가/수정
+- 향후 `packages/ui` 이동 가능성이 있는 UI 작업
+
+스토리북은 선택 문서가 아니라 공용 UI 계약 관리 기준이다.
 
 ## 작업 범위
 에이전트는 다음 작업만 수행한다.
