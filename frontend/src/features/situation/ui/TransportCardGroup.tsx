@@ -24,7 +24,11 @@ export function TransportCardGroup({
   className,
 }: TransportCardGroupProps) {
   return (
-    <div className={cn("grid grid-cols-2 gap-2.5", className)}>
+    <div
+      role="radiogroup"
+      aria-label="이동수단 선택"
+      className={cn("grid grid-cols-2 gap-2.5", className)}
+    >
       {choices.map((choice) => {
         const meta = TRANSPORT_META[choice];
         const active = value === choice;
@@ -33,7 +37,8 @@ export function TransportCardGroup({
           <button
             key={choice}
             type="button"
-            aria-pressed={active}
+            role="radio"
+            aria-checked={active}
             onClick={() => onChange(choice)}
             className={cn(
               "relative flex flex-col items-center gap-2 rounded-2xl border p-4 transition-colors",
@@ -44,6 +49,7 @@ export function TransportCardGroup({
           >
             <span
               className="flex size-11 items-center justify-center rounded-xl"
+              aria-hidden="true"
               style={{
                 color: meta.colorVar,
                 backgroundColor: `color-mix(in srgb, ${meta.colorVar} 12%, transparent)`,
@@ -60,7 +66,10 @@ export function TransportCardGroup({
               {meta.label}
             </span>
             {active && (
-              <span className="absolute right-2 top-2 flex size-[18px] items-center justify-center rounded-full bg-primary text-white">
+              <span
+                aria-hidden="true"
+                className="absolute right-2 top-2 flex size-[18px] items-center justify-center rounded-full bg-primary text-white"
+              >
                 <svg
                   viewBox="0 0 24 24"
                   width="11"

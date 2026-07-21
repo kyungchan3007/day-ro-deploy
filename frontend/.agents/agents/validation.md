@@ -5,6 +5,7 @@ ValidationAgent는 기능 구현, 테스트 결과, 아키텍처 준수 여부�
 
 ## 작업 기준
 - 요구사항 충족 여부를 확인한다.
+- 마크업/UI/인터랙션 변경이면 `.agents/guides/accessibility.md` 준수 여부를 확인한다.
 - 테스트 결과를 확인한다.
 - 린트, 타입체크, 빌드 결과를 확인한다.
 - 변경 범위가 요청과 일치하는지 확인한다.
@@ -41,6 +42,9 @@ ValidationAgent는 일반 검증 시 다음 스킬을 사용한다.
 - 커스텀 훅은 `hooks`에 위치해야 한다.
 - React hook이 아닌 비즈니스 규칙은 `model`에 위치해야 한다.
 - `widgets`, `page`, `screen`, `flow`, `ui` 파일은 조합과 렌더링 중심으로 유지되어야 한다.
+- 링크/버튼 역할이 맞아야 하고, 가짜 링크(`href="#"`)나 클릭 가능한 `div`가 없어야 한다.
+- 입력에는 label 또는 동등한 이름 계산 경로가 있어야 한다.
+- dialog/drawer 는 제목, 포커스 이동, `Esc` 닫기, 포커스 순환을 갖춰야 한다.
 - 한 파일에 라우터 제어, 도메인 상태 누적, step 전이 규칙, 화면 스위칭이 함께 있으면 역할 혼재로 본다.
 - step 정의, step index 계산, next/back 전이 규칙, answers patch 규칙은 `ui`가 아니라 `model` 또는 전용 controller/hook 으로 분리되어야 한다.
 - URL query 해석을 도메인 step/state로 바꾸는 로직은 화면 본문 컴포넌트 안에 직접 두지 않는다.

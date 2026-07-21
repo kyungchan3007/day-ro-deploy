@@ -35,6 +35,8 @@ export function TimeRangeField({
 }: TimeRangeFieldProps) {
   return (
     <div
+      role="radiogroup"
+      aria-label="시간 입력 필드 선택"
       className={cn(
         "grid grid-cols-2 overflow-hidden rounded-2xl bg-surface-subtle",
         className,
@@ -49,7 +51,8 @@ export function TimeRangeField({
             key={field}
             type="button"
             onClick={() => onSelectField(field)}
-            aria-pressed={active}
+            role="radio"
+            aria-checked={active}
             className={cn(
               "flex flex-col gap-1 px-4 py-3 text-left transition-colors",
               field === "end" && "border-l border-border",

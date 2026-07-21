@@ -34,33 +34,33 @@ export function NavBar({
   className,
 }: NavBarProps) {
   return (
-    <header
-      className={cn(
-        "flex h-12 w-full items-center justify-between border-b border-border px-2",
-        className,
-      )}
-    >
-      <div className="flex w-12 items-center justify-start">
-        {showBack &&
-          (backHref ? (
-            <Link href={backHref} aria-label="뒤로가기" className={backClass}>
-              <ArrowLeftIcon size={22} />
-            </Link>
-          ) : (
-            <button
-              type="button"
-              onClick={onBack}
-              aria-label="뒤로가기"
-              className={backClass}
-            >
-              <ArrowLeftIcon size={22} />
-            </button>
-          ))}
-      </div>
-      <div className="flex flex-1 items-center justify-center">
-        {center ?? <LogoHorizontal height={22} />}
-      </div>
-      <div className="flex w-12 items-center justify-end">{right}</div>
+    <header className={cn("border-b border-border", className)}>
+      <nav
+        aria-label="상단 탐색"
+        className="flex h-12 w-full items-center justify-between px-2"
+      >
+        <div className="flex w-12 items-center justify-start">
+          {showBack &&
+            (backHref ? (
+              <Link href={backHref} aria-label="뒤로가기" className={backClass}>
+                <ArrowLeftIcon size={22} />
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={onBack}
+                aria-label="뒤로가기"
+                className={backClass}
+              >
+                <ArrowLeftIcon size={22} />
+              </button>
+            ))}
+        </div>
+        <div className="flex flex-1 items-center justify-center">
+          {center ?? <LogoHorizontal height={22} />}
+        </div>
+        <div className="flex w-12 items-center justify-end">{right}</div>
+      </nav>
     </header>
   );
 }

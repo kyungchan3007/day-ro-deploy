@@ -27,11 +27,17 @@ export function AccountMenu() {
 
       <div className="mb-2 h-px bg-border" />
 
-      <MenuItem
-        href="/mypage"
-        icon={<UserIcon size={18} className="text-text-muted" />}
-        label={menu.myInfo}
-      />
+      <nav aria-label="계정 메뉴 항목">
+        <ul>
+          <li>
+            <MenuItem
+              href="/mypage"
+              icon={<UserIcon size={18} className="text-text-muted" />}
+              label={menu.myInfo}
+            />
+          </li>
+        </ul>
+      </nav>
 
       <div className="flex-1" />
 

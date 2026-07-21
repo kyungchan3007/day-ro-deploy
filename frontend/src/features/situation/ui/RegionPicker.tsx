@@ -26,7 +26,11 @@ export function RegionGroupChips({
   className,
 }: RegionGroupChipsProps) {
   return (
-    <div className={cn("flex flex-wrap justify-center gap-2", className)}>
+    <div
+      role="radiogroup"
+      aria-label="지역 그룹 선택"
+      className={cn("flex flex-wrap justify-center gap-2", className)}
+    >
       {groups.map((group) => {
         const active = group.id === activeGroup;
         const hasSelected = group.areas.some((a) => a.id === selected);
@@ -35,7 +39,8 @@ export function RegionGroupChips({
             key={group.id}
             type="button"
             onClick={() => onSelectGroup(group.id)}
-            aria-pressed={active}
+            role="radio"
+            aria-checked={active}
             className={cn(
               "inline-flex items-center gap-1.5 rounded-pill border px-3.5 py-1.5 text-sm font-semibold transition-colors",
               active
@@ -73,7 +78,11 @@ export function RegionAreaChips({
   className,
 }: RegionAreaChipsProps) {
   return (
-    <div className={cn("flex flex-wrap justify-center gap-2", className)}>
+    <div
+      role="radiogroup"
+      aria-label="세부 지역 선택"
+      className={cn("flex flex-wrap justify-center gap-2", className)}
+    >
       {areas.map((area) => {
         const active = area.id === selected;
         return (
@@ -81,7 +90,8 @@ export function RegionAreaChips({
             key={area.id}
             type="button"
             onClick={() => onSelectArea(area.id)}
-            aria-pressed={active}
+            role="radio"
+            aria-checked={active}
             className={cn(
               "rounded-pill border px-3.5 py-1.5 text-sm transition-colors",
               active

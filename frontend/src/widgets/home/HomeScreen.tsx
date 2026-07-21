@@ -28,18 +28,30 @@ export function HomeScreen() {
       }
       className="flex flex-col justify-center items-center gap-6 bg-gradient-to-b from-primary-800 via-primary-600 to-primary-300"
     >
-      <HomeEntryCard
-        image={imgCreate}
-        title={create.title}
-        subtitle={create.subtitle}
-        href={create.href}
-      />
-      <HomeEntryCard
-        image={imgSaved}
-        title={saved.title}
-        subtitle={saved.subtitle}
-        href={saved.href}
-      />
+      <h1 className="sr-only">Dayro 홈</h1>
+      <section aria-labelledby="home-entry-heading" className="w-full">
+        <h2 id="home-entry-heading" className="sr-only">
+          주요 서비스 진입
+        </h2>
+        <ul className="flex flex-col items-center gap-6">
+          <li>
+            <HomeEntryCard
+              image={imgCreate}
+              title={create.title}
+              subtitle={create.subtitle}
+              href={create.href}
+            />
+          </li>
+          <li>
+            <HomeEntryCard
+              image={imgSaved}
+              title={saved.title}
+              subtitle={saved.subtitle}
+              href={saved.href}
+            />
+          </li>
+        </ul>
+      </section>
     </AppShell>
   );
 }
