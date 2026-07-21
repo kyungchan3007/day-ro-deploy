@@ -28,24 +28,25 @@ export function SavedListScreen() {
         />
       }
     >
+      <h1 className="sr-only">{navTitle}</h1>
       {courses.length === 0 ? (
         <p className="px-5 py-10 text-center text-[13px] text-text-disabled">
           {emptyText}
         </p>
       ) : (
-        <div className="flex flex-col gap-3 px-5 py-4">
+        <ul aria-label="찜한 코스 목록" className="flex flex-col gap-3 px-5 py-4">
           {courses.map((course, i) => (
-            <SavedCourseCard
-              key={course.id}
-              number={i + 1}
-              name={course.name}
-              desc={course.desc}
-              meta={course.meta}
-              date={course.date}
-              href="#"
-            />
+            <li key={course.id}>
+              <SavedCourseCard
+                number={i + 1}
+                name={course.name}
+                desc={course.desc}
+                meta={course.meta}
+                date={course.date}
+              />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </AppShell>
   );

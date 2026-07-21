@@ -1,7 +1,13 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { useEffect, useSyncExternalStore, type ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 import { cn } from "../lib";
 
 /** hydration-safe 클라이언트 감지 (portal 은 클라 전용). */
@@ -40,13 +46,34 @@ export function ConfirmDialog({
   cancelLabel,
 }: ConfirmDialogProps) {
   const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
+  const titleId = useId();
+  const bodyId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const confirmRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
+      if (e.key !== "Tab" || !dialogRef.current) return;
+
+      const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (!first || !last) return;
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
+    confirmRef.current?.focus();
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
@@ -64,8 +91,11 @@ export function ConfirmDialog({
       )}
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
+        aria-labelledby={titleId}
+        aria-describedby={body ? bodyId : undefined}
         className={cn(
           "w-full max-w-[300px] rounded-2xl bg-surface p-6 text-center shadow-xl transition-transform duration-200",
           open ? "scale-100" : "scale-95",
@@ -76,9 +106,16 @@ export function ConfirmDialog({
             {icon}
           </div>
         )}
-        <p className="text-base font-bold text-text-strong">{title}</p>
+        <p id={titleId} className="text-base font-bold text-text-strong">
+          {title}
+        </p>
         {body && (
-          <p className="mt-2 text-sm leading-relaxed text-text-muted">{body}</p>
+          <div
+            id={bodyId}
+            className="mt-2 text-sm leading-relaxed text-text-muted"
+          >
+            {body}
+          </div>
         )}
         <div className="mt-5 flex gap-2">
           {cancelLabel && (
@@ -91,6 +128,7 @@ export function ConfirmDialog({
             </button>
           )}
           <button
+            ref={confirmRef}
             type="button"
             onClick={onConfirm}
             className={cn(

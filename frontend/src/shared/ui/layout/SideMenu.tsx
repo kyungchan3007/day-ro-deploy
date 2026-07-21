@@ -3,6 +3,7 @@
 import { createPortal } from "react-dom";
 import {
   useEffect,
+  useId,
   useRef,
   useState,
   useSyncExternalStore,
@@ -44,6 +45,8 @@ export function SideMenu({
 }: SideMenuProps) {
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
 
   // 서버에선 false, 클라 mount 후 true → portal 을 클라에서만 렌더
   const mounted = useSyncExternalStore(
@@ -55,7 +58,26 @@ export function SideMenu({
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab" || !panelRef.current) return;
+
+      const focusables = panelRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (!first || !last) return;
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
     closeRef.current?.focus();
@@ -74,9 +96,10 @@ export function SideMenu({
       )}
     >
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label={title}
+        aria-labelledby={titleId}
         className={cn(
           "absolute inset-y-0 right-0 flex w-[78%] max-w-[300px] flex-col overflow-y-auto bg-surface p-5 shadow-xl transition-transform duration-300 ease-out",
           open ? "translate-x-0" : "translate-x-full",
@@ -91,6 +114,9 @@ export function SideMenu({
         >
           <CloseIcon size={20} />
         </button>
+        <h2 id={titleId} className="sr-only">
+          {title}
+        </h2>
         {children}
       </div>
     </div>

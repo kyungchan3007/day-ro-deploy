@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   cn,
@@ -22,6 +22,8 @@ export function WithdrawReasonForm() {
   const router = useRouter();
   const { title, sub, options, etcPlaceholder, nextLabel, confirm, done } =
     authStatic.withdraw;
+  const reasonsHintId = useId();
+  const etcLabelId = useId();
 
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [etcText, setEtcText] = useState("");
@@ -42,55 +44,78 @@ export function WithdrawReasonForm() {
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 overflow-y-auto px-5 py-6">
-        <h1 className="whitespace-pre-line text-xl font-extrabold leading-snug text-text-strong">
-          {title} <span className="text-danger">*</span>
-        </h1>
-        <p className="mt-2 text-sm text-text-muted">{sub}</p>
+        <fieldset className="min-w-0">
+          <legend className="whitespace-pre-line text-xl font-extrabold leading-snug text-text-strong">
+            {title} <span className="text-danger">*</span>
+          </legend>
+          <p id={reasonsHintId} className="mt-2 text-sm text-text-muted">
+            {sub}
+          </p>
 
-        <div className="mt-5">
-          {options.map((opt) => {
-            const checked = selected.has(opt.value);
-            return (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => toggle(opt.value)}
-                aria-pressed={checked}
-                className="flex w-full items-center gap-3 border-b border-border/60 py-3.5 text-left"
-              >
-                <span
-                  className={cn(
-                    "flex size-[22px] shrink-0 items-center justify-center rounded-md border transition-colors",
-                    checked
-                      ? "border-primary bg-primary text-white"
-                      : "border-border-strong text-transparent",
-                  )}
-                >
-                  <CheckIcon size={14} />
-                </span>
-                <span
-                  className={cn(
-                    "text-[15px]",
-                    checked
-                      ? "font-bold text-primary"
-                      : "font-medium text-text-strong",
-                  )}
-                >
-                  {opt.label}
-                </span>
-              </button>
-            );
-          })}
+          <div className="mt-5" aria-describedby={reasonsHintId}>
+            {options.map((opt) => {
+              const checked = selected.has(opt.value);
+              const inputId = `withdraw-reason-${opt.value}`;
 
-          {selected.has("etc") && (
-            <textarea
-              value={etcText}
-              onChange={(e) => setEtcText(e.target.value)}
-              placeholder={etcPlaceholder}
-              className="mt-2.5 h-[70px] w-full resize-none rounded-md border border-border bg-surface-subtle p-3 text-[13px] text-text-strong placeholder:text-text-disabled focus:outline-none focus:ring-2 focus:ring-primary/30"
-            />
-          )}
-        </div>
+              return (
+                <label
+                  key={opt.value}
+                  htmlFor={inputId}
+                  className="flex cursor-pointer items-center gap-3 border-b border-border/60 py-3.5 text-left"
+                >
+                  <input
+                    id={inputId}
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggle(opt.value)}
+                    className="sr-only peer"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "flex size-[22px] shrink-0 items-center justify-center rounded-md border transition-colors",
+                      checked
+                        ? "border-primary bg-primary text-white"
+                        : "border-border-strong text-transparent",
+                    )}
+                  >
+                    <CheckIcon size={14} />
+                  </span>
+                  <span
+                    className={cn(
+                      "text-[15px]",
+                      checked
+                        ? "font-bold text-primary"
+                        : "font-medium text-text-strong",
+                    )}
+                  >
+                    {opt.label}
+                  </span>
+                </label>
+              );
+            })}
+
+            {selected.has("etc") && (
+              <div className="mt-2.5">
+                <label
+                  id={etcLabelId}
+                  htmlFor="withdraw-etc-reason"
+                  className="sr-only"
+                >
+                  직접 입력 탈퇴 사유
+                </label>
+                <textarea
+                  id="withdraw-etc-reason"
+                  value={etcText}
+                  onChange={(e) => setEtcText(e.target.value)}
+                  placeholder={etcPlaceholder}
+                  aria-labelledby={etcLabelId}
+                  className="h-[70px] w-full resize-none rounded-md border border-border bg-surface-subtle p-3 text-[13px] text-text-strong placeholder:text-text-disabled focus:outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
+            )}
+          </div>
+        </fieldset>
       </div>
 
       <div className="border-t border-border px-5 py-3.5">

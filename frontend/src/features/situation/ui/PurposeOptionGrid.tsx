@@ -23,7 +23,11 @@ export function PurposeOptionGrid({
   className,
 }: PurposeOptionGridProps) {
   return (
-    <div className={cn("grid grid-cols-2 gap-2.5", className)}>
+    <div
+      role="radiogroup"
+      aria-label="만남 목적 선택"
+      className={cn("grid grid-cols-2 gap-2.5", className)}
+    >
       {choices.map((choice) => {
         const meta = PURPOSE_META[choice];
         const active = value === choice;
@@ -32,7 +36,8 @@ export function PurposeOptionGrid({
           <button
             key={choice}
             type="button"
-            aria-pressed={active}
+            role="radio"
+            aria-checked={active}
             onClick={() => onChange(choice)}
             className={cn(
               "relative flex flex-col items-center gap-2.5 rounded-2xl border p-5 transition-colors",
@@ -43,6 +48,7 @@ export function PurposeOptionGrid({
           >
             <span
               className="flex size-12 items-center justify-center rounded-xl"
+              aria-hidden="true"
               style={{
                 color: meta.colorVar,
                 backgroundColor: `color-mix(in srgb, ${meta.colorVar} 12%, transparent)`,
@@ -59,7 +65,10 @@ export function PurposeOptionGrid({
               {meta.label}
             </span>
             {active && (
-              <span className="absolute right-2.5 top-2.5 flex size-[18px] items-center justify-center rounded-full bg-primary text-white">
+              <span
+                aria-hidden="true"
+                className="absolute right-2.5 top-2.5 flex size-[18px] items-center justify-center rounded-full bg-primary text-white"
+              >
                 <svg
                   viewBox="0 0 24 24"
                   width="11"

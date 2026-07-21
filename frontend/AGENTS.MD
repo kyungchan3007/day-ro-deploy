@@ -12,9 +12,21 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 - 기능 구현: `.agents/agents/feature.md`
 - 테스트 작성/실행: `.agents/agents/test.md`
 - 최종 검증: `.agents/agents/validation.md`
+- 웹 접근성 구현/검증: `.agents/guides/accessibility.md`
 - 도메인/VSA 경계: `.agents/domain/`
 
 스킬은 각 역할 문서에 명시된 `.agents/skills/*/SKILL.md`만 사용한다.
+
+## 웹 접근성 필수 규칙
+다음 중 하나라도 해당하면 작업 시작 전에 반드시 `.agents/guides/accessibility.md`를 먼저 읽고 준수한다.
+
+- HTML/JSX 마크업 수정
+- UI 컴포넌트 추가/수정
+- 버튼, 링크, 입력, 폼, 다이얼로그, 드로어, 메뉴, 카드, 탭, 아코디언 등 인터랙션 변경
+- 페이지/위젯/레이아웃 구조 변경
+- e2e 또는 단위 테스트에서 사용자 상호작용 검증 추가
+
+웹 접근성은 선택 품질이 아니라 기본 완료 조건이다.
 
 ## 작업 범위
 에이전트는 다음 작업만 수행한다.
@@ -84,13 +96,14 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 기능 작업은 다음 순서로 진행한다.
 
 1. 요구사항 정리
-2. 필요 시 ArchitectureAgent가 슬라이스 구조 검토
-3. 관련 도메인 문서 확인 또는 작성
-4. FeatureAgent가 기능 구현
-5. TestAgent가 테스트 작성 또는 수정
-6. TestAgent가 테스트 실행
-7. ValidationAgent가 최종 검증
-8. 최종 보고
+2. 마크업/UI/인터랙션 변경이면 `.agents/guides/accessibility.md` 확인
+3. 필요 시 ArchitectureAgent가 슬라이스 구조 검토
+4. 관련 도메인 문서 확인 또는 작성
+5. FeatureAgent가 기능 구현
+6. TestAgent가 테스트 작성 또는 수정
+7. TestAgent가 테스트 실행
+8. ValidationAgent가 최종 검증
+9. 최종 보고
 
 ## 승인 필요한 작업
 다음 작업은 사용자 승인이 필요하다.
