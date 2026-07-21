@@ -17,10 +17,10 @@ import {
 } from "@/features/situation";
 import type { TimeRange } from "@/features/situation";
 
-/** 시안 초기 상태(오전 6:55 ~ 오전 12:55). */
+/** 시안 초기 상태(오전 6:55 ~ 오후 12:55). */
 const DEFAULT_RANGE: TimeRange = {
   start: { meridiem: "오전", hour: 6, minute: 55 },
-  end: { meridiem: "오전", hour: 12, minute: 55 },
+  end: { meridiem: "오후", hour: 12, minute: 55 },
 };
 
 export interface SituationTimeScreenProps {
