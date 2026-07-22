@@ -6,6 +6,7 @@ ValidationAgent는 기능 구현, 테스트 결과, 아키텍처 준수 여부�
 ## 작업 기준
 - 요구사항 충족 여부를 확인한다.
 - 마크업/UI/인터랙션 변경이면 `.agents/guides/accessibility.md` 준수 여부를 확인한다.
+- Next.js 성능 분석/최적화 작업이면 `.agents/guides/performance.md` 준수 여부를 확인한다.
 - `src/shared/ui` 또는 story 파일 변경이면 `.agents/guides/storybook.md` 준수 여부를 확인한다.
 - 테스트 결과를 확인한다.
 - 린트, 타입체크, 빌드 결과를 확인한다.
@@ -13,6 +14,7 @@ ValidationAgent는 기능 구현, 테스트 결과, 아키텍처 준수 여부�
 - 관련 도메인 문서와 구현 결과가 일치하는지 확인한다.
 - VSA 경계 위반이 없는지 확인한다.
 - 레이어 경계뿐 아니라 파일 내부 책임 과밀 여부를 확인한다.
+- 성능 작업이면 `LCP attribution`, 저위험 우선 순서, 전역 구조 변경 리스크 명시 여부를 확인한다.
 - 소스 파일을 수정하지 않는다.
 
 ## 기본 검증 스킬

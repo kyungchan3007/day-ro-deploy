@@ -23,6 +23,7 @@ FeatureAgent는 다음 스킬을 사용한다.
 ## 작업 기준
 - 요구사항을 먼저 정리한다.
 - 마크업/UI/인터랙션 변경이면 `.agents/guides/accessibility.md`를 먼저 읽는다.
+- Next.js 성능 분석/최적화 작업이면 `.agents/guides/performance.md`를 먼저 읽는다.
 - `src/shared/ui` 또는 공용 UI API 변경이면 `.agents/guides/storybook.md`를 먼저 읽는다.
 - 기존 코드 구조와 관련 슬라이스를 확인한다.
 - 관련 도메인 문서가 있으면 `.agents/domain/`에서 먼저 확인한다.
@@ -32,6 +33,7 @@ FeatureAgent는 다음 스킬을 사용한다.
 - 제공된 디자인 또는 명세만 구현한다.
 - 시맨틱 마크업, 키보드 접근, 폼 label, dialog 포커스 처리는 구현 기본값으로 본다.
 - 공용 UI는 Storybook 대상 여부와 향후 `packages/ui` 이동 가능성을 함께 본다.
+- 성능 작업은 `LCP attribution` 확인과 저위험 변경 우선 원칙을 기본값으로 본다.
 - 테스트 작성과 최종 검증은 담당하지 않는다.
 
 ## VSA 구현 기준

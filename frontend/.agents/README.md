@@ -14,6 +14,7 @@
 
 ## Guides
 - `guides/accessibility.md`: 시맨틱 마크업, 웹 접근성, 인터랙션 구현/검증 기준
+- `guides/performance.md`: Next.js 성능 분석, 병목 분류, 저위험 우선 최적화, 검증 기준
 - `guides/storybook.md`: 공용 UI story 작성과 모노레포 대비 Storybook 운영 기준
 
 ## Skills

@@ -13,6 +13,7 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 - 테스트 작성/실행: `.agents/agents/test.md`
 - 최종 검증: `.agents/agents/validation.md`
 - 웹 접근성 구현/검증: `.agents/guides/accessibility.md`
+- 성능 분석/최적화: `.agents/guides/performance.md`
 - 스토리북 운영 기준: `.agents/guides/storybook.md`
 - 도메인/VSA 경계: `.agents/domain/`
 
@@ -28,6 +29,17 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 - e2e 또는 단위 테스트에서 사용자 상호작용 검증 추가
 
 웹 접근성은 선택 품질이 아니라 기본 완료 조건이다.
+
+## 성능 작업 필수 규칙
+다음 중 하나라도 해당하면 작업 시작 전에 반드시 `.agents/guides/performance.md`를 먼저 읽고 준수한다.
+
+- Next.js 성능 분석 또는 최적화 작업
+- Lighthouse 또는 Core Web Vitals 하락 원인 분석
+- LCP, INP, CLS, TTFB 개선 작업
+- `unused CSS`, `unused JS`, 번들 크기, hydration, dynamic import 관련 성능 작업
+- 전역 레이아웃, Provider, 전역 네비게이션, 공용 청크 구조를 성능 이유로 검토하는 작업
+
+성능 최적화는 점수 중심 작업이 아니라 병목 원인 식별과 저위험 변경 우선 원칙을 기본 완료 조건으로 본다.
 
 ## 스토리북 필수 규칙
 다음 중 하나라도 해당하면 작업 시작 전에 반드시 `.agents/guides/storybook.md`를 먼저 읽고 준수한다.
@@ -108,13 +120,14 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 
 1. 요구사항 정리
 2. 마크업/UI/인터랙션 변경이면 `.agents/guides/accessibility.md` 확인
-3. 필요 시 ArchitectureAgent가 슬라이스 구조 검토
-4. 관련 도메인 문서 확인 또는 작성
-5. FeatureAgent가 기능 구현
-6. TestAgent가 테스트 작성 또는 수정
-7. TestAgent가 테스트 실행
-8. ValidationAgent가 최종 검증
-9. 최종 보고
+3. 성능 분석/최적화 작업이면 `.agents/guides/performance.md` 확인
+4. 필요 시 ArchitectureAgent가 슬라이스 구조 검토
+5. 관련 도메인 문서 확인 또는 작성
+6. FeatureAgent가 기능 구현
+7. TestAgent가 테스트 작성 또는 수정
+8. TestAgent가 테스트 실행
+9. ValidationAgent가 최종 검증
+10. 최종 보고
 
 ## 승인 필요한 작업
 다음 작업은 사용자 승인이 필요하다.
