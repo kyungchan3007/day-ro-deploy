@@ -16,7 +16,9 @@ public class CourseRecommendationServiceImpl implements CourseRecommendationServ
         return new CourseCandidateResponse(List.of(
                 new CourseCandidateResponse.PlaceCandidate("stub-1", "경복궁", "고궁", "종로구"),
                 new CourseCandidateResponse.PlaceCandidate("stub-2", "광장시장", "시장", "종로구"),
-                new CourseCandidateResponse.PlaceCandidate("stub-3", "북촌한옥마을", "한옥마을", "종로구")
+                new CourseCandidateResponse.PlaceCandidate("stub-3", "북촌한옥마을", "한옥마을", "종로구"),
+                new CourseCandidateResponse.PlaceCandidate("stub-4", "창덕궁", "고궁", "종로구"),
+                new CourseCandidateResponse.PlaceCandidate("stub-5", "인사동", "문화거리", "종로구")
         ));
     }
 }
