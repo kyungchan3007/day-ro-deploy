@@ -1,6 +1,7 @@
 package com.dayro.situation.dto.request;
 
 import com.dayro.situation.domain.Purpose;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import java.time.LocalTime;
 // AI 코스생성 도메인으로 전달되는 상황입력 요청 계약 (기획안 슬라이드5/15 검증 규칙 반영)
 public record SituationInputRequest(
         @NotNull LocalTime startTime,
-        @NotNull LocalTime endTime,
+        @NotNull @Schema(example = "18:30:00") LocalTime endTime,
         @NotBlank String districtId,
         @NotNull Purpose purpose
 ) {

@@ -33,7 +33,12 @@ public class SecurityConfig {
                 "/health",
                 "/api/auth/kakao/callback",
                 "/api/auth/refresh",
-                "/error"
+                "/error",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                // 비회원도 상황입력/코스생성까지는 로그인 없이 이용 가능해야 함 (기획안 로그인 정책 - 로그인은 코스 저장/찜한 코스 보기 시점에만 요구)
+                "/api/regions/**",
+                "/api/situations/**"
             ).permitAll()
             .anyRequest().authenticated()
         ).addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
