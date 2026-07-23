@@ -64,6 +64,8 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: dayro
           SPRING_DATA_REDIS_HOST: localhost
           SPRING_DATA_REDIS_PORT: 6379
+          # CI는 매번 빈 DB로 뜨므로 스키마 자동 생성 필요 (로컬 application-loc.yml과 동일하게 update)
+          SPRING_JPA_HIBERNATE_DDL_AUTO: update
           # 컨텍스트 로딩만 통과하면 되는 값 - 실제 외부 API를 호출하는 테스트는 없음
           SPRING_AI_OPENAI_API_KEY: ci-dummy-key
           SEOUL_OPEN_API_KEY: ci-dummy-key
