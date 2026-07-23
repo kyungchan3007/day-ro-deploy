@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -16,9 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
 // Testcontainers 도입 예시 - 실제 Postgres 컨테이너로 JPA 쿼리 메서드를 검증
+// ddl-auto를 명시적으로 지정 - 로컬 loc 프로파일이나 CI 환경변수에 기대지 않고 이 테스트 단독으로도 통과해야 함
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = Replace.NONE)
+@TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=create-drop")
 class RegionRepositoryTest {
 
     @Container
