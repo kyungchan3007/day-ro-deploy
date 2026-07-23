@@ -1,0 +1,57 @@
+name: Frontend Quality
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - "frontend/**"
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - "frontend/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Run service-local Vitest and e2e
+        run: npm run test:e2e:ci
+
+      - name: Publish Storybook to Chromatic
+        if: github.repository == 'kyungchan3007/day-ro-deploy'
+        run: npm run chromatic -- --exit-once-uploaded
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

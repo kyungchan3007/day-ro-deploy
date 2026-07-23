@@ -1,0 +1,33 @@
+name: Sync Origin Main to Chan
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Push develop to chan main
+        env:
+          CHAN_PUSH_TOKEN: ${{ secrets.CHAN_PUSH_TOKEN }}
+        run: |
+          git remote add chan-sync https://x-access-token:${CHAN_PUSH_TOKEN}@github.com/kyungchan3007/day-ro-deploy.git
+          git push chan-sync HEAD:main --force

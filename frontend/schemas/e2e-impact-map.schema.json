@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Service E2E Impact Map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["serviceRoots", "defaultSpecs", "mappings"],
+  "properties": {
+    "serviceRoots": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "defaultSpecs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "mappings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "changed", "specs"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "changed": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 1
+          },
+          "specs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+/*
+ * 데이로 디자인 토큰
+ * 출처: Figma 컬러 시스템 보드(figma_htmlgenerator export) 픽셀 추출값 + 컴포넌트 시트(node 77:8713).
+ * 구성:
+ *   1) Palette ramp  : 원본 스케일 (primary / neutral / orange / teal)
+ *   2) Semantic      : 컴포넌트가 실제로 소비하는 의미 토큰 (ramp 를 참조)
+ * 헤드리스 UI + 향후 packages/ui 분리를 전제로, 컴포넌트는 semantic 토큰만 사용한다.
+ * (Neutral 은 원본 라벨이 불규칙/일부 누락이라 light→dark 50~950 으로 정규화함)
+ */
+@theme {
+  /* ── Palette: Primary (브랜드 보라) 100~1000 ───────────────────── */
+  --color-primary-100: #faf5ff;
+  --color-primary-200: #f4eafd;
+  --color-primary-300: #ddc2f5;
+  --color-primary-400: #cba4ef;
+  --color-primary-500: #b37de6;
+  --color-primary-600: #954ed8;
+  --color-primary-700: #7800e9; /* Base */
+  --color-primary-800: #3e0078;
+  --color-primary-900: #250048;
+  --color-primary-1000: #130026;
+
+  /* ── Palette: Neutral 50~950 ──────────────────────────────────── */
+  --color-neutral-50: #f6f6f6;
+  --color-neutral-100: #f0f0f0;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #c9c9c9;
+  --color-neutral-400: #a8a8a8;
+  --color-neutral-500: #8f8f8f;
+  --color-neutral-600: #797979;
+  --color-neutral-700: #5b5b5b;
+  --color-neutral-800: #383838;
+  --color-neutral-900: #1e1e1e;
+  --color-neutral-950: #111111;
+
+  /* ── Palette: Secondary Orange 100~600 ────────────────────────── */
+  --color-orange-100: #ffefe4;
+  --color-orange-200: #ffd5b4;
+  --color-orange-300: #ffaa57;
+  --color-orange-400: #ea8c30;
+  --color-orange-500: #ff6a04;
+  --color-orange-600: #c74c00;
+
+  /* ── Palette: Secondary Teal 100~600 ──────────────────────────── */
+  --color-teal-100: #e9fdfb;
+  --color-teal-200: #befaf5;
+  --color-teal-300: #6dede2;
+  --color-teal-400: #08ead8;
+  --color-teal-500: #00b2a4;
+  --color-teal-600: #00978b;
+
+  /* ── Semantic: Brand ──────────────────────────────────────────── */
+  --color-primary: var(--color-primary-700);
+  --color-primary-weak: var(--color-primary-600);
+  --color-primary-pressed: var(--color-primary-800);
+  --color-primary-surface: var(--color-primary-100);
+
+  /* ── Semantic: Status ─────────────────────────────────────────── */
+  --color-success: #00b52d;
+  --color-danger: #e5484d; /* 검증/에러 문구 */
+
+  /* ── Semantic: Text ───────────────────────────────────────────── */
+  --color-text-strong: var(--color-neutral-950); /* Title/Body */
+  --color-text: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-800); /* SubTitle */
+  --color-text-tertiary: var(--color-neutral-700);
+  --color-text-muted: var(--color-neutral-600);
+  --color-text-disabled: var(--color-neutral-400); /* Disabled */
+
+  /* ── Semantic: Surface & Border ───────────────────────────────── */
+  --color-surface: #ffffff;
+  --color-surface-subtle: var(--color-neutral-50);
+  --color-frame: var(--color-neutral-50); /* AppShell 좌우 여백(gutter) = 미색 */
+  --color-border: var(--color-neutral-200);
+  --color-border-strong: var(--color-neutral-300);
+
+  /* ── Semantic: Feedback (toast) ───────────────────────────────── */
+  --color-toast-bg: var(--color-neutral-900);
+
+  /* ── Semantic: 이동수단 팔레트 (badge/route 스텝) ──────────────── */
+  --color-transport-start: var(--color-primary-700);
+  --color-transport-walk: var(--color-primary-600);
+  --color-transport-subway: var(--color-success); /* type3(green) */
+  --color-transport-subway-alt: var(--color-teal-500); /* type2(teal) */
+  --color-transport-bus: var(--color-orange-400);
+  --color-transport-car: #2699ec; /* NOTE: 공식 팔레트 외 값(SVG 뱃지 전용). 확정 필요 */
+  --color-transport-arrive: var(--color-primary-800);
+
+  /* ── Semantic: 목적 팔레트 (카드 아이콘 accent) ────────────────── */
+  --color-purpose-date: #d4537e; /* pink */
+  --color-purpose-blind: #378add; /* blue */
+  --color-purpose-friends: #ef9f27; /* amber */
+  --color-purpose-anniversary: #d85a30; /* coral */
+
+  /* ── Radius ───────────────────────────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* ── Motion ───────────────────────────────────────────────────── */
+  --animate-float: float 2.4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float {
+    animation: none;
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #111111;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+}
