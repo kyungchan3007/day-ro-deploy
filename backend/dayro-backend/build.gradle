@@ -19,6 +19,7 @@ repositories {
 
 ext {
 	set('springAiVersion', "1.1.4")
+	set('testcontainersVersion', "2.0.5")
 }
 
 dependencies {
@@ -58,11 +59,20 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Testcontainers
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.testcontainers:postgresql'
+
+	// Fixture Monkey
+	testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:1.1.21'
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
 	}
 }
 
