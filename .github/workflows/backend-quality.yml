@@ -71,6 +71,10 @@ jobs:
           SEOUL_OPEN_API_KEY: ci-dummy-key
           # JwtProvider가 Keys.hmacShaKeyFor()로 서명키를 만들어서 최소 32바이트 이상 필요
           JWT_SECRET_KEY: ci-dummy-jwt-secret-key-do-not-use-in-production-32bytes
+          # KakaoClient가 @Value로 주입받음 - 컨텍스트 로딩용 더미값 (실제 카카오 API 호출 테스트 없음)
+          KAKAO_REST_API_KEY: ci-dummy-key
+          KAKAO_CLIENT_SECRET: ci-dummy-secret
+          KAKAO_REDIRECT_URI: http://localhost:3000/dummy-callback
 
       - name: Upload test report
         if: always()

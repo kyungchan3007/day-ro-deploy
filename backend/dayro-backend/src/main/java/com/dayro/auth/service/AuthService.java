@@ -4,11 +4,11 @@ import com.dayro.auth.dto.response.AuthResponse;
 
 public interface AuthService {
     /**
-     * 카카오 로그인
-     * @param String
+     * 카카오 로그인 (인가코드 방식)
+     * @param code 카카오 인가코드
      * @return AuthResponse
      * */
-    AuthResponse kakaoLogin(String kakaoAccessToken);
+    AuthResponse kakaoLogin(String code);
 
     /**
      * Refresh 토큰 검증

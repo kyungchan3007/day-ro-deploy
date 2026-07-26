@@ -57,6 +57,7 @@ public class AuthServiceImplTest {
         account.setProfile(profile);
         userInfo.setKakaoAccount(account);
 
+        given(kakaoClient.getAccessToken(anyString())).willReturn("kakao-access-token");
         given(kakaoClient.getUserInfo(anyString())).willReturn(userInfo);
         given(memberRepository.findByKakaoId(anyString())).willReturn(Optional.empty());
 
@@ -73,7 +74,7 @@ public class AuthServiceImplTest {
         given(jwtProvider.createRefreshToken(anyString())).willReturn("test-refresh-token");
         given(jwtProvider.getRefreshTokenExpiresAt()).willReturn(LocalDateTime.now().plusDays(14));
 
-        AuthResponse result = authService.kakaoLogin("kakao-access-token");
+        AuthResponse result = authService.kakaoLogin("kakao-auth-code");
 
         assertThat(result.isNewUser()).isTrue();
         assertThat(result.accessToken()).isEqualTo("test-access-token");
@@ -103,13 +104,14 @@ public class AuthServiceImplTest {
                 .build();
         ReflectionTestUtils.setField(existingMember, "id", UUID.randomUUID());
 
+        given(kakaoClient.getAccessToken(anyString())).willReturn("kakao-access-token");
         given(kakaoClient.getUserInfo(anyString())).willReturn(userInfo);
         given(memberRepository.findByKakaoId(anyString())).willReturn(Optional.of(existingMember));
         given(jwtProvider.createAccessToken(anyString())).willReturn("test-access-token");
         given(jwtProvider.createRefreshToken(anyString())).willReturn("test-refresh-token");
         given(jwtProvider.getRefreshTokenExpiresAt()).willReturn(LocalDateTime.now().plusDays(14));
 
-        AuthResponse result = authService.kakaoLogin("kakao-access-token");
+        AuthResponse result = authService.kakaoLogin("kakao-auth-code");
 
         assertThat(result.isNewUser()).isFalse();
         assertThat(result.accessToken()).isEqualTo("test-access-token");
@@ -117,7 +119,17 @@ public class AuthServiceImplTest {
     }
 
     @Test
+    void kakaoLogin_codeExchangeFailed() {
+        given(kakaoClient.getAccessToken(anyString())).willThrow(new RuntimeException("카카오 토큰 교환 실패"));
+
+        assertThatThrownBy(() -> authService.kakaoLogin("invalid-code"))
+                .isInstanceOf(BusinessException.class)
+                .hasFieldOrPropertyWithValue("errorCode", ErrorCode.KAKAO_AUTH_FAILED);
+    }
+
+    @Test
     void kakaoLogin_kakaoAuthFailed() {
+        given(kakaoClient.getAccessToken(anyString())).willReturn("kakao-access-token");
         given(kakaoClient.getUserInfo(anyString())).willThrow(new RuntimeException("카카오 서버 오류"));
 
         assertThatThrownBy(() -> authService.kakaoLogin("invalid-kakao-token"))

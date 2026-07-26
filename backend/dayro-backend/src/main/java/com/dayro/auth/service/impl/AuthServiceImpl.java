@@ -16,6 +16,7 @@ import com.dayro.global.config.jwt.JwtProvider;
 import com.dayro.global.error.BusinessException;
 import com.dayro.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     private final KakaoClient kakaoClient;
@@ -34,11 +36,14 @@ public class AuthServiceImpl implements AuthService {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public AuthResponse kakaoLogin(String kakaoAccessToken) {
+    public AuthResponse kakaoLogin(String code) {
+        String kakaoAccessToken;
         KakaoUserInfo userInfo;
         try {
+            kakaoAccessToken = kakaoClient.getAccessToken(code);
             userInfo = kakaoClient.getUserInfo(kakaoAccessToken);
         } catch (Exception e) {
+            log.warn("카카오 인증 실패", e);
             throw new BusinessException(ErrorCode.KAKAO_AUTH_FAILED);
         }
 
@@ -87,8 +92,15 @@ public class AuthServiceImpl implements AuthService {
     }
 
     // 카카오싱크 약관 동의 내역을 조회해 동의(agreed=true)한 약관만 저장
+    // 카카오싱크 권한 미승인 앱에서는 403(permission denied)이 나는데, 부가 정보라 로그인 자체를 막으면 안 됨
     private void saveServiceTerms(Member member, String kakaoAccessToken) {
-        KakaoServiceTerms serviceTerms = kakaoClient.getServiceTerms(kakaoAccessToken);
+        KakaoServiceTerms serviceTerms;
+        try {
+            serviceTerms = kakaoClient.getServiceTerms(kakaoAccessToken);
+        } catch (Exception e) {
+            log.warn("카카오싱크 약관 동의 내역 조회 실패 - 로그인은 계속 진행", e);
+            return;
+        }
         if (serviceTerms == null || serviceTerms.getServiceTerms() == null) {
             return;
         }
