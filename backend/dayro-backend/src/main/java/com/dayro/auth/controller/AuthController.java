@@ -24,7 +24,7 @@ public class AuthController {
 
     @PostMapping("/kakao/callback")
     public ResponseEntity<ApiResponse<AuthResponse>> kakaoLogin(@RequestBody @Valid KakaoLoginRequest request) {
-        return ResponseEntity.ok(ApiResponse.success(authService.kakaoLogin(request.accessToken())));
+        return ResponseEntity.ok(ApiResponse.success(authService.kakaoLogin(request.code())));
     }
 
     @PostMapping("/refresh")
