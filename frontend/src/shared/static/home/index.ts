@@ -15,4 +15,13 @@ export const homeStatic = {
       href: "/saved", // 찜한 코스 목록
     },
   },
+  footer: {
+    // 홈 하단 정책 링크 + 저작권. 각 링크는 정적 라우트(SSG)로 연결된다.
+    links: [
+      { label: "이용약관", href: "/terms" },
+      { label: "개인정보처리방침", href: "/privacy" },
+      { label: "FAQ", href: "/faq" },
+    ],
+    copyright: "© 2026 Dayro. All rights reserved.",
+  },
 } as const;
