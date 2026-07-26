@@ -50,3 +50,24 @@ export type {
   SituationAnswers,
 } from "./model/types";
 export type { SituationFlowStep, SituationStepKey } from "./model/flow";
+export {
+  situationOpenApi,
+  situationPurposeSchema,
+  situationInputRequestSchema,
+  placeCandidateSchema,
+  courseCandidateResponseDataSchema,
+  regionItemSchema,
+  regionResponseItemSchema,
+  courseCandidateResponseSchema,
+  regionsResponseSchema,
+} from "@/shared/api/openapi/dayro.openapi";
+export type {
+  SituationPurpose,
+  SituationInputRequest,
+  PlaceCandidate,
+  CourseCandidateResponseData,
+  CourseCandidateResponse,
+  RegionItem,
+  RegionResponseItem,
+  RegionsResponse,
+} from "@/shared/api/openapi/dayro.openapi";

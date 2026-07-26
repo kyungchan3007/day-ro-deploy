@@ -1,5 +1,10 @@
 export const BFF_ENDPOINTS = {
   health: "/api/health",
+  authKakaoCallback: "/api/auth/kakao/callback",
+  authRefresh: "/api/auth/refresh",
+  authLogout: "/api/auth/logout",
+  regions: "/api/regions",
+  situations: "/api/situations",
 } as const;
 
 export type BffEndpointKey = keyof typeof BFF_ENDPOINTS;

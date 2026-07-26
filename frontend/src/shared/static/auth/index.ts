@@ -13,9 +13,9 @@ export const authStatic = {
     kakaoButtonLabel: "카카오 로그인",
     terms: {
       prefix: "로그인하면 ",
-      service: { label: "서비스 이용약관", href: "#" }, // 라우트 확정 시 교체
+      service: { label: "서비스 이용약관", href: "/terms" },
       separator: " 및 ",
-      privacy: { label: "개인정보처리방침", href: "#" }, // 라우트 확정 시 교체
+      privacy: { label: "개인정보처리방침", href: "/privacy" },
       suffix: "에 동의하게 됩니다.",
     },
   },
