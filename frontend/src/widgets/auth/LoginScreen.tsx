@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import { AppShell, LogoHorizontal } from "@/shared/ui";
 import { KakaoLoginButton } from "@/features/auth";
+import { getLoginErrorMessage } from "@/features/auth";
 import { authStatic } from "@/shared/static/auth";
 import imgIntro from "./assets/img-intro.png";
 
@@ -15,8 +17,14 @@ import imgIntro from "./assets/img-intro.png";
  * feature 는 조각(KakaoLoginButton)만 제공하고, 화면 조합 책임은 widget 이 가진다.
  * 인증 로직은 포함하지 않는다(UI/UX 전용).
  */
-export function LoginScreen() {
+export interface LoginScreenProps {
+  error?: string;
+  message?: string;
+}
+
+export function LoginScreen({ error, message }: LoginScreenProps) {
   const { intro, kakaoButtonLabel, terms } = authStatic.login;
+  const errorMessage = message || getLoginErrorMessage(error);
 
   return (
     <AppShell className="flex flex-col items-center justify-center bg-frame">
@@ -41,6 +49,15 @@ export function LoginScreen() {
           </p>
         </div>
 
+        {errorMessage ? (
+          <p
+            role="alert"
+            className="mt-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
+          >
+            {errorMessage}
+          </p>
+        ) : null}
+
         <div className="mt-6 flex justify-center">
           <Image src={imgIntro} alt="" width={300} height={231} priority />
         </div>
@@ -49,26 +66,26 @@ export function LoginScreen() {
 
         <p className="mt-4 text-center text-xs leading-relaxed text-text-muted">
           {terms.prefix}
-          <a
+          <Link
             href={terms.service.href}
             className="underline transition-colors hover:text-text-secondary"
           >
             {terms.service.label}<br/>
-          </a>
+          </Link>
           {terms.separator}
-          <a
+          <Link
             href={terms.privacy.href}
             className="underline transition-colors hover:text-text-secondary"
           >
             {terms.privacy.label}
-          </a>
+          </Link>
           {terms.suffix}
         </p>
 
       </section>
-      <div className="mt-5 w-full">
-        <KakaoLoginButton label={kakaoButtonLabel} />
-      </div>
+      <form action="/api/auth/kakao/start" method="get" className="mt-5 w-full">
+        <KakaoLoginButton label={kakaoButtonLabel} type="submit" />
+      </form>
     </AppShell>
   );
 }
