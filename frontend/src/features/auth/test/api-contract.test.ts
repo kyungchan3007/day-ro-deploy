@@ -9,7 +9,7 @@ import {
 
 describe("Auth API contracts", () => {
   it("keeps auth endpoint contracts in the shared openapi module", () => {
-    expect(authOpenApi.paths.kakaoCallback).toBe("/api/auth/kakao/callback");
+    expect(authOpenApi.paths.kakaoToken).toBe("/api/auth/kakao/token");
     expect(authOpenApi.paths.refresh).toBe("/api/auth/refresh");
     expect(authOpenApi.paths.logout).toBe("/api/auth/logout");
   });
@@ -17,10 +17,10 @@ describe("Auth API contracts", () => {
   it("parses auth login and refresh requests", () => {
     expect(
       kakaoLoginRequestSchema.parse({
-        accessToken: "kakao-access-token",
+        code: "kakao-authorization-code",
       }),
     ).toEqual({
-      accessToken: "kakao-access-token",
+      code: "kakao-authorization-code",
     });
 
     expect(

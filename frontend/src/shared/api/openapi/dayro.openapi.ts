@@ -52,13 +52,13 @@ export const dayroOpenApi = {
   },
   auth: {
     paths: {
-      kakaoCallback: BFF_ENDPOINTS.authKakaoCallback,
+      kakaoToken: BFF_ENDPOINTS.authKakaoToken,
       refresh: BFF_ENDPOINTS.authRefresh,
       logout: BFF_ENDPOINTS.authLogout,
     },
     schemas: {
       kakaoLoginRequest: z.object({
-        accessToken: z.string().min(1),
+        code: z.string().min(1),
       }),
       refreshRequest: z.object({
         refreshToken: z.string().min(1),

@@ -24,6 +24,14 @@ export const authStatic = {
     profileName: "게스트님",
     avatarInitial: "G",
     myInfo: "내 정보",
+    /** 로그아웃 확인 모달 문구. */
+    logout: {
+      title: "로그아웃 하시겠어요?",
+      cancel: "취소",
+      confirm: "로그아웃",
+      pending: "로그아웃 중…",
+      error: "로그아웃에 실패했어요. 잠시 후 다시 시도해주세요.",
+    },
   },
   /** 회원탈퇴 흐름 문구 (줄바꿈은 whitespace-pre-line 로 렌더). */
   withdraw: {

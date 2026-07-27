@@ -1,6 +1,6 @@
 export const BFF_ENDPOINTS = {
   health: "/api/health",
-  authKakaoCallback: "/api/auth/kakao/callback",
+  authKakaoToken: "/api/auth/kakao/token",
   authRefresh: "/api/auth/refresh",
   authLogout: "/api/auth/logout",
   regions: "/api/regions",

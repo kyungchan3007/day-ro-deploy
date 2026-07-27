@@ -13,6 +13,7 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 - 테스트 작성/실행: `.agents/agents/test.md`
 - 최종 검증: `.agents/agents/validation.md`
 - 웹 접근성 구현/검증: `.agents/guides/accessibility.md`
+- BFF/서버 연동 기준: `.agents/guides/bff.md`
 - 성능 분석/최적화: `.agents/guides/performance.md`
 - 스토리북 운영 기준: `.agents/guides/storybook.md`
 - 도메인/VSA 경계: `.agents/domain/`
@@ -35,11 +36,26 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 
 - Next.js 성능 분석 또는 최적화 작업
 - Lighthouse 또는 Core Web Vitals 하락 원인 분석
-- LCP, INP, CLS, TTFB 개선 작업
+- LCP, INP, CLS, TTFB, FCP 개선 또는 검토 작업
 - `unused CSS`, `unused JS`, 번들 크기, hydration, dynamic import 관련 성능 작업
 - 전역 레이아웃, Provider, 전역 네비게이션, 공용 청크 구조를 성능 이유로 검토하는 작업
+- `middleware` 또는 `proxy`, Route Handler, auth/session/cookie 흐름 변경
+- 초기 렌더 경로의 인증, SSR, Server Component 데이터 준비 방식 변경
+- Above-the-fold 이미지, 로고, 헤더, 첫 화면 주요 CTA 변경
 
 성능 최적화는 점수 중심 작업이 아니라 병목 원인 식별과 저위험 변경 우선 원칙을 기본 완료 조건으로 본다.
+
+## BFF 작업 필수 규칙
+다음 중 하나라도 해당하면 작업 시작 전에 반드시 `.agents/guides/bff.md`를 먼저 읽고 준수한다.
+
+- `src/app/api/**` Route Handler 추가/수정
+- `src/shared/api/**` 추가/수정
+- `src/features/*/api` 추가/수정
+- 외부 백엔드 API 연동
+- 인증, 토큰, 쿠키, 세션, 헤더 조합 변경
+- SSR/Server Component 데이터 준비 방식 변경
+
+BFF는 선택 구현이 아니라 프런트와 백엔드 경계 관리 기준이다.
 
 ## 스토리북 필수 규칙
 다음 중 하나라도 해당하면 작업 시작 전에 반드시 `.agents/guides/storybook.md`를 먼저 읽고 준수한다.
@@ -120,14 +136,26 @@ MCP 서버는 사용하지 않는다. `aiagent.yaml`은 실행 강제 파일이 
 
 1. 요구사항 정리
 2. 마크업/UI/인터랙션 변경이면 `.agents/guides/accessibility.md` 확인
-3. 성능 분석/최적화 작업이면 `.agents/guides/performance.md` 확인
-4. 필요 시 ArchitectureAgent가 슬라이스 구조 검토
-5. 관련 도메인 문서 확인 또는 작성
-6. FeatureAgent가 기능 구현
-7. TestAgent가 테스트 작성 또는 수정
-8. TestAgent가 테스트 실행
-9. ValidationAgent가 최종 검증
-10. 최종 보고
+3. BFF/서버 연동 작업이면 `.agents/guides/bff.md` 확인
+4. 성능 분석/최적화 작업이거나 전역 구조, auth/session, middleware, 초기 렌더 경로 변경이면 `.agents/guides/performance.md` 확인
+5. 필요 시 ArchitectureAgent가 슬라이스 구조 검토
+6. 관련 도메인 문서 확인 또는 작성
+7. FeatureAgent가 기능 구현
+8. TestAgent가 테스트 작성 또는 수정
+9. TestAgent가 테스트 실행
+10. ValidationAgent가 최종 검증
+11. 최종 보고
+
+## 검증 트리거 명확화
+다음 중 하나라도 해당하면 ValidationAgent는 일반 기능 검증으로 축소하지 말고 성능 항목까지 포함해 검증한다.
+
+- 사용자가 "검증", "리뷰", "확인"을 요청한 경우
+- `src/app/api/**`, `middleware`/`proxy`, `src/shared/api/**` 변경
+- 인증, 세션, 쿠키, 리다이렉트, SSR 데이터 준비 방식 변경
+- `src/shared/ui`, 전역 nav/layout, dialog/drawer 변경
+- 첫 화면 또는 로그인/홈/마이페이지처럼 주요 진입 화면 변경
+
+이 경우 ValidationAgent는 최소한 `validation.md`, `.agents/guides/bff.md`, `.agents/guides/performance.md`를 함께 기준으로 삼는다.
 
 ## 승인 필요한 작업
 다음 작업은 사용자 승인이 필요하다.

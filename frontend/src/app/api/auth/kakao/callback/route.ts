@@ -4,10 +4,8 @@ import {
   OAUTH_STATE_COOKIE_NAME,
 } from "@/features/auth/model/oauth";
 import {
-  buildKakaoCallbackUrl,
   clearOAuthStateCookie,
-  exchangeKakaoCodeForAccessToken,
-  loginWithBackendKakaoAccessToken,
+  loginWithBackendKakaoCode,
   setAuthTokenCookies,
 } from "@/shared/api/server-auth";
 
@@ -46,14 +44,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const redirectUri = buildKakaoCallbackUrl(request);
-    const kakaoToken = await exchangeKakaoCodeForAccessToken({
-      code,
-      redirectUri,
-    });
-    const backendAuth = await loginWithBackendKakaoAccessToken(
-      kakaoToken.access_token,
-    );
+    const backendAuth = await loginWithBackendKakaoCode(code);
 
     const response = NextResponse.redirect(new URL("/", request.url));
     clearOAuthStateCookie(request, response);
