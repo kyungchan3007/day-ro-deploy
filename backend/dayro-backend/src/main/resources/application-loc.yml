@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dayro
+    username: dayro
+    password: dayro
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  ai:
+    openai:
+      api-key: local-dev-placeholder
+
+seoul-open-api:
+  key: 65666d6d54786f72373542676b7079
+
+jwt:
+  secret:
+    key: em0qJmdyOnMwSSExd051LHhpWTZBZlBgWDlHZX1Le2tkQTp7bkA3bGM2L2wlNixIYyc
+
+kakao:
+  # dayro 실제 앱 - 박경찬님이 확인해준 등록된 redirect_uri: http://localhost:3000/api/auth/kakao/callback (프론트 포트)
+  rest-api-key: c038589528ab4e52e51e51ccec6b7f0a
+  client-secret: ugf3eH9ImJgwtlK22WBnWUIg9VsOrJ0E
+  redirect-uri: http://localhost:3000/api/auth/kakao/callback
