@@ -6,6 +6,11 @@ export { KakaoLoginButton } from "./ui/KakaoLoginButton";
 export type { KakaoLoginButtonProps } from "./ui/KakaoLoginButton";
 export { AccountMenu } from "./ui/AccountMenu";
 export { WithdrawReasonForm } from "./ui/WithdrawReasonForm";
+export { useAuthSession } from "./hooks/useAuthSession";
+export {
+  getSessionUserDisplayName,
+  getSessionUserInitial,
+} from "./lib/session-user";
 export {
   ACCESS_TOKEN_COOKIE_NAME,
   REFRESH_TOKEN_COOKIE_NAME,
@@ -16,18 +21,23 @@ export {
   getLoginErrorMessage,
 } from "./model/oauth";
 export type { LoginErrorKey } from "./model/oauth";
+export type { AuthSession as FeatureAuthSession, SessionUser } from "./model/session";
 export {
   authOpenApi,
+  authSessionSchema,
   kakaoLoginRequestSchema,
   refreshRequestSchema,
   authResponseDataSchema,
   authResponseSchema,
   logoutResponseSchema,
+  sessionUserSchema,
 } from "@/shared/api/openapi/dayro.openapi";
 export type {
   KakaoLoginRequest,
   RefreshRequest,
   AuthResponseData,
   AuthResponse,
+  AuthSession,
   LogoutResponse,
+  SessionUserResponseData,
 } from "@/shared/api/openapi/dayro.openapi";

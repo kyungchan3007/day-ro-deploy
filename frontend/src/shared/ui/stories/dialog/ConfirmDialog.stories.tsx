@@ -39,3 +39,24 @@ export const WithCancel: Story = {
     ).toBeVisible();
   },
 };
+
+/** 처리 중: 버튼이 잠기고 backdrop·Esc 닫기가 막힌다. */
+export const Pending: Story = {
+  args: {
+    icon: <AlertCircleIcon size={24} className="text-danger" />,
+    cancelLabel: "취소",
+    confirmLabel: "삭제 중…",
+    confirmTone: "danger",
+    pending: true,
+  },
+  play: async ({ canvasElement }) => {
+    const portalCanvas = within(canvasElement.ownerDocument.body);
+    const dialog = await portalCanvas.findByRole("dialog", {
+      name: "정말 삭제할까요?",
+    });
+    await expect(dialog).toHaveAttribute("aria-busy", "true");
+    await expect(
+      portalCanvas.getByRole("button", { name: "삭제 중…" }),
+    ).toBeDisabled();
+  },
+};

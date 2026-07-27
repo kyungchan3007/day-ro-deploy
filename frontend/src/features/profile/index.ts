@@ -7,3 +7,4 @@ export type {
   ProfileInfoListProps,
   ProfileInfoRow,
 } from "./ui/ProfileInfoList";
+export { buildProfileInfoRows } from "./model/profile-info";

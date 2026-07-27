@@ -26,6 +26,8 @@ export interface ConfirmDialogProps {
   confirmTone?: "primary" | "danger";
   /** 있으면 취소 버튼도 렌더(2버튼). 없으면 확인 버튼 단독. */
   cancelLabel?: string;
+  /** 처리 중 상태. true 면 버튼을 잠그고 backdrop·Esc 닫기를 막는다. */
+  pending?: boolean;
 }
 
 /**
@@ -44,6 +46,7 @@ export function ConfirmDialog({
   onConfirm,
   confirmTone = "primary",
   cancelLabel,
+  pending = false,
 }: ConfirmDialogProps) {
   const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
   const titleId = useId();
@@ -54,7 +57,7 @@ export function ConfirmDialog({
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape" && !pending) onClose();
       if (e.key !== "Tab" || !dialogRef.current) return;
 
       const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
@@ -75,7 +78,7 @@ export function ConfirmDialog({
     document.addEventListener("keydown", onKey);
     confirmRef.current?.focus();
     return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  }, [open, onClose, pending]);
 
   if (!mounted) return null;
 
@@ -83,7 +86,7 @@ export function ConfirmDialog({
     <div
       aria-hidden={!open}
       onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
+        if (e.target === e.currentTarget && !pending) onClose();
       }}
       className={cn(
         "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6 transition-opacity duration-200",
@@ -94,6 +97,7 @@ export function ConfirmDialog({
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
+        aria-busy={pending || undefined}
         aria-labelledby={titleId}
         aria-describedby={body ? bodyId : undefined}
         className={cn(
@@ -122,7 +126,8 @@ export function ConfirmDialog({
             <button
               type="button"
               onClick={onClose}
-              className="h-11 flex-1 rounded-xl bg-surface-subtle text-sm font-semibold text-text-strong transition active:brightness-95"
+              disabled={pending}
+              className="h-11 flex-1 rounded-xl bg-surface-subtle text-sm font-semibold text-text-strong transition active:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {cancelLabel}
             </button>
@@ -131,8 +136,9 @@ export function ConfirmDialog({
             ref={confirmRef}
             type="button"
             onClick={onConfirm}
+            disabled={pending}
             className={cn(
-              "h-11 flex-1 rounded-xl text-sm font-semibold text-white transition active:brightness-95",
+              "h-11 flex-1 rounded-xl text-sm font-semibold text-white transition active:brightness-95 disabled:cursor-not-allowed disabled:opacity-60",
               confirmTone === "danger" ? "bg-danger" : "bg-primary",
             )}
           >

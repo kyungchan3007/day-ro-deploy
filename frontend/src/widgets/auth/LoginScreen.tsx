@@ -4,7 +4,7 @@ import { AppShell, LogoHorizontal } from "@/shared/ui";
 import { KakaoLoginButton } from "@/features/auth";
 import { getLoginErrorMessage } from "@/features/auth";
 import { authStatic } from "@/shared/static/auth";
-import imgIntro from "./assets/img-intro.png";
+import imgIntro from "./assets/img-intro.webp";
 
 /**
  * 로그인 화면 (widgets/auth).

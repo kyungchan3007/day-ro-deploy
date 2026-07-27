@@ -5,11 +5,10 @@ import {
   useEffect,
   useId,
   useRef,
-  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { cn } from "../lib";
+import { cn, useControllableState } from "../lib";
 import { MenuIcon, CloseIcon } from "../icon";
 
 /** hydration-safe 클라이언트 감지 (portal 은 클라 전용). */
@@ -24,6 +23,12 @@ export interface SideMenuProps {
   title?: string;
   /** 트리거 버튼 클래스 확장. */
   className?: string;
+  /** 열림 상태(제어형). 상위에서 닫기가 필요할 때 사용한다. */
+  open?: boolean;
+  /** 비제어 초기 열림 상태. 기본 false. */
+  defaultOpen?: boolean;
+  /** 열림 상태 변경 콜백(제어형). */
+  onOpenChange?: (open: boolean) => void;
 }
 
 /**
@@ -42,8 +47,15 @@ export function SideMenu({
   triggerLabel = "메뉴",
   title = "메뉴",
   className,
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
 }: SideMenuProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useControllableState({
+    value: openProp,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
@@ -82,7 +94,7 @@ export function SideMenu({
     document.addEventListener("keydown", onKey);
     closeRef.current?.focus();
     return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, setOpen]);
 
   const drawer = (
     <div

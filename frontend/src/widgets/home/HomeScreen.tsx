@@ -3,8 +3,8 @@ import { AppShell, NavBar, LogoHorizontal } from "@/shared/ui";
 import { HomeEntryCard } from "@/features/home";
 import { AccountMenu } from "@/features/auth";
 import { homeStatic } from "@/shared/static/home";
-import imgCreate from "./assets/img-create.png";
-import imgSaved from "./assets/img-saved.png";
+import imgCreate from "./assets/img-create.webp";
+import imgSaved from "./assets/img-saved.webp";
 
 /**
  * 홈(루트) 화면 (widgets/home).

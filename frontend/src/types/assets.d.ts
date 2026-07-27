@@ -1,4 +1,4 @@
-declare module "*.png" {
+declare module "*.webp" {
   import type { StaticImageData } from "next/image";
 
   const src: StaticImageData;

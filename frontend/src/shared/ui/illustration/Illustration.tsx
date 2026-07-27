@@ -1,11 +1,11 @@
 import Image from "next/image";
 
 import { cn } from "../lib";
-import datePlanning from "./assets/date-planning.png";
-import placeChecklist from "./assets/place-checklist.png";
-import mapPin from "./assets/map-pin.png";
-import chatHeart from "./assets/chat-heart.png";
-import intro from "./assets/intro.png";
+import datePlanning from "./assets/date-planning.webp";
+import placeChecklist from "./assets/place-checklist.webp";
+import mapPin from "./assets/map-pin.webp";
+import chatHeart from "./assets/chat-heart.webp";
+import intro from "./assets/intro.webp";
 
 /**
  * 데이로 스팟 일러스트(3D 보라 계열) 레지스트리.

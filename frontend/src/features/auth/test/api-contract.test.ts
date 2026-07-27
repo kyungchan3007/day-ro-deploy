@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   authOpenApi,
+  authSessionSchema,
   authResponseSchema,
   kakaoLoginRequestSchema,
   logoutResponseSchema,
@@ -9,7 +10,8 @@ import {
 
 describe("Auth API contracts", () => {
   it("keeps auth endpoint contracts in the shared openapi module", () => {
-    expect(authOpenApi.paths.kakaoCallback).toBe("/api/auth/kakao/callback");
+    expect(authOpenApi.paths.kakaoToken).toBe("/api/auth/kakao/token");
+    expect(authOpenApi.paths.me).toBe("/api/auth/me");
     expect(authOpenApi.paths.refresh).toBe("/api/auth/refresh");
     expect(authOpenApi.paths.logout).toBe("/api/auth/logout");
   });
@@ -17,10 +19,10 @@ describe("Auth API contracts", () => {
   it("parses auth login and refresh requests", () => {
     expect(
       kakaoLoginRequestSchema.parse({
-        accessToken: "kakao-access-token",
+        code: "kakao-authorization-code",
       }),
     ).toEqual({
-      accessToken: "kakao-access-token",
+      code: "kakao-authorization-code",
     });
 
     expect(
@@ -65,6 +67,34 @@ describe("Auth API contracts", () => {
       success: true,
       message: "로그아웃 되었습니다.",
       data: null,
+    });
+  });
+
+  it("parses the auth session response", () => {
+    expect(
+      authSessionSchema.parse({
+        authenticated: true,
+        user: {
+          provider: "KAKAO",
+          nickname: "dayro-user",
+          email: "user@example.com",
+          name: null,
+          profileImage: null,
+          birthday: "0727",
+          joinedAt: "2026-07-27T10:00:00",
+        },
+      }),
+    ).toEqual({
+      authenticated: true,
+      user: {
+        provider: "KAKAO",
+        nickname: "dayro-user",
+        email: "user@example.com",
+        name: null,
+        profileImage: null,
+        birthday: "0727",
+        joinedAt: "2026-07-27T10:00:00",
+      },
     });
   });
 });

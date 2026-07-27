@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { cn } from "../lib";
-import logoHorizontal from "./assets/logo-horizontal.png";
+import logoHorizontal from "./assets/logo-horizontal.webp";
 
 /** 원본 가로 로고 비율 (222 x 53). */
 const RATIO = 222 / 53;
@@ -17,7 +17,7 @@ export interface LogoHorizontalProps {
 /**
  * 데이로 가로형 로고 (심볼 + 워드마크 나란히). 헤더/NavBar 용.
  *
- * 공식 로고 원본이 벡터가 아닌 래스터라 PNG 에셋(assets/logo-horizontal.png)을 사용한다.
+ * 공식 로고 원본이 벡터가 아닌 래스터라 WebP 에셋(assets/logo-horizontal.webp)을 사용한다.
  * 벡터 SVG 수령 시 이 에셋과 컴포넌트를 교체한다.
  * 세로 적층형(로그인 등)은 <LogoFull /> 을 사용한다.
  */
