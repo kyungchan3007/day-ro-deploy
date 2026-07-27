@@ -40,7 +40,6 @@ logs/
 !.env.example
 
 ### Application local config ###
-application-loc.yml
 application-dev.yml
 application-prod.yml
 
