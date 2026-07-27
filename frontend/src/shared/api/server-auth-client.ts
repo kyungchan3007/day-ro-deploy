@@ -1,4 +1,8 @@
-import { authResponseSchema, logoutResponseSchema } from "./openapi/dayro.openapi";
+import {
+  authResponseSchema,
+  logoutResponseSchema,
+  sessionUserSchema,
+} from "./openapi/dayro.openapi";
 
 /** 인증 백엔드의 기본 URL을 반환한다. */
 function getBackendBaseUrl() {
@@ -95,6 +99,36 @@ export async function refreshBackendAuth(refreshToken: string) {
     },
     "유효하지 않은 토큰입니다.",
   );
+}
+
+/**
+ * 현재 access token 으로 백엔드 현재 사용자 정보를 조회한다.
+ * @param accessToken 현재 세션의 앱 access token.
+ */
+export async function fetchBackendCurrentUser(accessToken: string) {
+  const response = await fetch(new URL("/api/auth/me", getBackendBaseUrl()), {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    cache: "no-store",
+  });
+
+  const json = await parseJsonResponse(response);
+
+  if (!response.ok) {
+    throw new Error(getAuthErrorMessage(json, "회원 정보를 불러오지 못했습니다."));
+  }
+
+  if (
+    typeof json !== "object" ||
+    json === null ||
+    !("data" in json)
+  ) {
+    throw new Error("회원 정보를 불러오지 못했습니다.");
+  }
+
+  return sessionUserSchema.parse(json.data);
 }
 
 /**

@@ -24,6 +24,7 @@ export const authStatic = {
     profileName: "게스트님",
     avatarInitial: "G",
     myInfo: "내 정보",
+    login: "로그인",
     /** 로그아웃 확인 모달 문구. */
     logout: {
       title: "로그아웃 하시겠어요?",

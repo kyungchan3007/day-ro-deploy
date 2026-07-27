@@ -53,6 +53,7 @@ export const dayroOpenApi = {
   auth: {
     paths: {
       kakaoToken: BFF_ENDPOINTS.authKakaoToken,
+      me: BFF_ENDPOINTS.authMe,
       refresh: BFF_ENDPOINTS.authRefresh,
       logout: BFF_ENDPOINTS.authLogout,
     },
@@ -67,6 +68,29 @@ export const dayroOpenApi = {
         accessToken: z.string().min(1),
         refreshToken: z.string().min(1),
         isNewUser: z.boolean(),
+      }),
+      sessionUser: z.object({
+        provider: z.literal("KAKAO"),
+        nickname: z.string().nullable(),
+        email: z.string().nullable(),
+        name: z.string().nullable(),
+        profileImage: z.string().nullable(),
+        birthday: z.string().nullable(),
+        joinedAt: z.string().min(1),
+      }),
+      authSession: z.object({
+        authenticated: z.boolean(),
+        user: z
+          .object({
+            provider: z.literal("KAKAO"),
+            nickname: z.string().nullable(),
+            email: z.string().nullable(),
+            name: z.string().nullable(),
+            profileImage: z.string().nullable(),
+            birthday: z.string().nullable(),
+            joinedAt: z.string().min(1),
+          })
+          .nullable(),
       }),
       logoutResponse: apiVoidResponseSchema,
     },
@@ -99,6 +123,8 @@ export const kakaoLoginRequestSchema = authOpenApi.schemas.kakaoLoginRequest;
 export const refreshRequestSchema = authOpenApi.schemas.refreshRequest;
 export const authResponseDataSchema = authOpenApi.schemas.authResponseData;
 export const authResponseSchema = makeApiResponseSchema(authResponseDataSchema);
+export const sessionUserSchema = authOpenApi.schemas.sessionUser;
+export const authSessionSchema = authOpenApi.schemas.authSession;
 export const logoutResponseSchema = authOpenApi.schemas.logoutResponse;
 
 export const situationInputRequestSchema =
@@ -120,6 +146,8 @@ export type KakaoLoginRequest = z.infer<typeof kakaoLoginRequestSchema>;
 export type RefreshRequest = z.infer<typeof refreshRequestSchema>;
 export type AuthResponseData = z.infer<typeof authResponseDataSchema>;
 export type AuthResponse = z.infer<typeof authResponseSchema>;
+export type SessionUserResponseData = z.infer<typeof sessionUserSchema>;
+export type AuthSession = z.infer<typeof authSessionSchema>;
 export type LogoutResponse = z.infer<typeof logoutResponseSchema>;
 export type SituationPurpose = z.infer<typeof situationPurposeSchema>;
 export type SituationInputRequest = z.infer<typeof situationInputRequestSchema>;

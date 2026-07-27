@@ -12,7 +12,8 @@ import {
 } from "../../../shared/api/server-auth";
 import { POST as refreshRoute } from "../../../app/api/auth/refresh/route";
 import { DELETE as logoutRoute } from "../../../app/api/auth/logout/route";
-import { middleware } from "../../../middleware";
+import { GET as meRoute } from "../../../app/api/auth/me/route";
+import { proxy } from "../../../proxy";
 
 const authSuccessPayload = {
   success: true,
@@ -21,6 +22,20 @@ const authSuccessPayload = {
     accessToken: "new-access-token",
     refreshToken: "refresh-token",
     isNewUser: false,
+  },
+};
+
+const currentMemberPayload = {
+  success: true,
+  message: "요청이 성공했습니다.",
+  data: {
+    provider: "KAKAO",
+    nickname: "dayro-user",
+    email: "user@example.com",
+    name: null,
+    profileImage: null,
+    birthday: "0727",
+    joinedAt: "2026-07-27T10:00:00",
   },
 };
 
@@ -127,7 +142,79 @@ describe("Server auth", () => {
     });
   });
 
-  it("middleware renews the access token when only the refresh cookie remains", async () => {
+  it("me route returns guest session when no auth cookies exist", async () => {
+    const request = new NextRequest("http://localhost:3000/api/auth/me");
+
+    const response = await meRoute(request);
+    const body = await response.json();
+
+    expect(fetch).not.toHaveBeenCalled();
+    expect(response.status).toBe(200);
+    expect(body).toEqual({
+      authenticated: false,
+      user: null,
+    });
+  });
+
+  it("me route refreshes the session and returns the current member", async () => {
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(authSuccessPayload), {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(currentMemberPayload), {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }),
+      );
+
+    const request = new NextRequest("http://localhost:3000/api/auth/me", {
+      headers: {
+        cookie: `${REFRESH_TOKEN_COOKIE_NAME}=refresh-token`,
+      },
+    });
+
+    const response = await meRoute(request);
+    const body = await response.json();
+
+    expect(fetch).toHaveBeenNthCalledWith(
+      1,
+      new URL("/api/auth/refresh", "http://localhost:8080"),
+      expect.objectContaining({
+        method: "POST",
+        body: JSON.stringify({ refreshToken: "refresh-token" }),
+      }),
+    );
+    expect(fetch).toHaveBeenNthCalledWith(
+      2,
+      new URL("/api/auth/me", "http://localhost:8080"),
+      expect.objectContaining({
+        method: "GET",
+        headers: {
+          Authorization: "Bearer new-access-token",
+        },
+      }),
+    );
+    expect(response.cookies.get(ACCESS_TOKEN_COOKIE_NAME)?.value).toBe(
+      "new-access-token",
+    );
+    expect(response.cookies.get(REFRESH_TOKEN_COOKIE_NAME)?.value).toBe(
+      "refresh-token",
+    );
+    expect(body).toEqual({
+      authenticated: true,
+      user: currentMemberPayload.data,
+    });
+  });
+
+  it("proxy renews the access token on protected routes when only the refresh cookie remains", async () => {
     vi.mocked(fetch).mockResolvedValue(
       new Response(JSON.stringify(authSuccessPayload), {
         status: 200,
@@ -143,7 +230,7 @@ describe("Server auth", () => {
       },
     });
 
-    const response = await middleware(request);
+    const response = await proxy(request);
 
     expect(response.cookies.get(ACCESS_TOKEN_COOKIE_NAME)?.value).toBe(
       "new-access-token",
@@ -151,5 +238,24 @@ describe("Server auth", () => {
     expect(response.cookies.get(REFRESH_TOKEN_COOKIE_NAME)?.value).toBe(
       "refresh-token",
     );
+  });
+
+  it("proxy clears cookies and redirects to login when refresh fails", async () => {
+    vi.mocked(fetch).mockRejectedValue(new Error("network_error"));
+
+    const request = new NextRequest("http://localhost:3000/saved", {
+      headers: {
+        cookie: `${REFRESH_TOKEN_COOKIE_NAME}=refresh-token`,
+      },
+    });
+
+    const response = await proxy(request);
+
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe(
+      "http://localhost:3000/login?next=%2Fsaved",
+    );
+    expect(response.cookies.get(ACCESS_TOKEN_COOKIE_NAME)?.value).toBe("");
+    expect(response.cookies.get(REFRESH_TOKEN_COOKIE_NAME)?.value).toBe("");
   });
 });

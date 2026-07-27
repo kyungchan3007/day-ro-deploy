@@ -10,6 +10,11 @@ import {
 } from "@/shared/ui";
 import { authStatic } from "@/shared/static/auth";
 import { useLogout } from "../hooks/useLogout";
+import { useAuthSession } from "../hooks/useAuthSession";
+import {
+  getSessionUserDisplayName,
+  getSessionUserInitial,
+} from "../lib/session-user";
 
 /**
  * 계정 메뉴 (features/auth).
@@ -24,10 +29,17 @@ import { useLogout } from "../hooks/useLogout";
 export function AccountMenu() {
   const { menu } = authStatic;
   const { logout: logoutCopy } = menu;
+  const { authenticated, user } = useAuthSession();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { logout, pending, error, reset } = useLogout();
+  const profileName = authenticated
+    ? getSessionUserDisplayName(user)
+    : menu.profileName;
+  const avatarInitial = authenticated
+    ? getSessionUserInitial(user)
+    : menu.avatarInitial;
 
   const closeConfirm = () => {
     setConfirmOpen(false);
@@ -50,43 +62,55 @@ export function AccountMenu() {
     >
       <div className="flex items-center gap-3 px-1 pb-5">
         <span className="flex size-12 items-center justify-center rounded-full bg-primary-surface text-base font-bold text-primary">
-          {menu.avatarInitial}
+          {avatarInitial}
         </span>
-        <p className="text-base font-bold text-text-strong">{menu.profileName}</p>
+        <p className="text-base font-bold text-text-strong">{profileName}</p>
       </div>
 
       <div className="mb-2 h-px bg-border" />
 
       <nav aria-label="계정 메뉴 항목">
         <ul>
-          <li>
-            <MenuItem
-              href="/mypage"
-              icon={<UserIcon size={18} className="text-text-muted" />}
-              label={menu.myInfo}
-            />
-          </li>
+          {authenticated ? (
+            <li>
+              <MenuItem
+                href="/mypage"
+                icon={<UserIcon size={18} className="text-text-muted" />}
+                label={menu.myInfo}
+              />
+            </li>
+          ) : null}
         </ul>
       </nav>
 
       <div className="flex-1" />
 
-      <LogoutButton onClick={openLogoutConfirm} />
+      {authenticated ? (
+        <LogoutButton onClick={openLogoutConfirm} />
+      ) : (
+        <MenuItem
+          href="/login"
+          icon={<UserIcon size={18} className="text-text-muted" />}
+          label={menu.login}
+        />
+      )}
 
-      <ConfirmDialog
-        open={confirmOpen}
-        onClose={closeConfirm}
-        pending={pending}
-        title={logoutCopy.title}
-        body={
-          error ? (
-            <span className="text-danger">{logoutCopy.error}</span>
-          ) : undefined
-        }
-        cancelLabel={logoutCopy.cancel}
-        confirmLabel={pending ? logoutCopy.pending : logoutCopy.confirm}
-        onConfirm={logout}
-      />
+      {authenticated ? (
+        <ConfirmDialog
+          open={confirmOpen}
+          onClose={closeConfirm}
+          pending={pending}
+          title={logoutCopy.title}
+          body={
+            error ? (
+              <span className="text-danger">{logoutCopy.error}</span>
+            ) : undefined
+          }
+          cancelLabel={logoutCopy.cancel}
+          confirmLabel={pending ? logoutCopy.pending : logoutCopy.confirm}
+          onConfirm={logout}
+        />
+      ) : null}
     </SideMenu>
   );
 }

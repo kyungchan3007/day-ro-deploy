@@ -5,11 +5,6 @@
 export const profileStatic = {
   myInfo: {
     title: "내 정보",
-    rows: [
-      { label: "연동 계정", value: "카카오" },
-      { label: "이메일", value: "guest@example.com" },
-      { label: "가입일", value: "2026.06.01" },
-    ],
     withdrawLabel: "회원탈퇴",
   },
 } as const;
