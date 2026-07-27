@@ -23,6 +23,8 @@ const guestSession: AuthSession = {
  *
  * access token 이 없거나 만료됐더라도 refresh token 이 남아 있으면
  * 재발급 후 사용자 정보를 다시 조회하고, 새 쿠키를 응답에 기록한다.
+ * 단, 현재 사용자 조회(`/me`) 실패만으로 세션 쿠키를 바로 제거하지는 않는다.
+ * 프로필 조회 실패와 토큰 만료를 구분해, refresh 자체가 실패할 때만 쿠키를 정리한다.
  *
  * @param request 현재 Route Handler 요청.
  * @param response 세션 쿠키를 기록할 응답.
@@ -47,7 +49,6 @@ export async function resolveAuthSessionFromRequest(
       return await loadCurrentUser(accessToken);
     } catch {
       if (!refreshToken) {
-        clearAuthTokenCookies(request, response);
         return guestSession;
       }
     }
@@ -65,7 +66,11 @@ export async function resolveAuthSessionFromRequest(
       refreshToken: refreshedAuth.data.refreshToken,
     });
 
-    return await loadCurrentUser(refreshedAuth.data.accessToken);
+    try {
+      return await loadCurrentUser(refreshedAuth.data.accessToken);
+    } catch {
+      return guestSession;
+    }
   } catch {
     clearAuthTokenCookies(request, response);
     return guestSession;
