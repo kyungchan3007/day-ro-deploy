@@ -214,6 +214,54 @@ describe("Server auth", () => {
     });
   });
 
+  it("me route keeps refreshed cookies when current-member lookup fails", async () => {
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(authSuccessPayload), {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            success: false,
+            message: "회원 정보를 불러오지 못했습니다.",
+            data: null,
+          }),
+          {
+            status: 500,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        ),
+      );
+
+    const request = new NextRequest("http://localhost:3000/api/auth/me", {
+      headers: {
+        cookie: `${REFRESH_TOKEN_COOKIE_NAME}=refresh-token`,
+      },
+    });
+
+    const response = await meRoute(request);
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(response.cookies.get(ACCESS_TOKEN_COOKIE_NAME)?.value).toBe(
+      "new-access-token",
+    );
+    expect(response.cookies.get(REFRESH_TOKEN_COOKIE_NAME)?.value).toBe(
+      "refresh-token",
+    );
+    expect(body).toEqual({
+      authenticated: false,
+      user: null,
+    });
+  });
+
   it("proxy renews the access token on protected routes when only the refresh cookie remains", async () => {
     vi.mocked(fetch).mockResolvedValue(
       new Response(JSON.stringify(authSuccessPayload), {
