@@ -8,6 +8,7 @@ import com.dayro.auth.domain.RefreshToken;
 import com.dayro.auth.dto.KakaoServiceTerms;
 import com.dayro.auth.dto.KakaoUserInfo;
 import com.dayro.auth.dto.response.AuthResponse;
+import com.dayro.auth.dto.response.MemberResponse;
 import com.dayro.auth.repository.MemberRepository;
 import com.dayro.auth.repository.MemberServiceTermRepository;
 import com.dayro.auth.repository.RefreshTokenRepository;
@@ -135,5 +136,12 @@ public class AuthServiceImpl implements AuthService {
         Member member = memberRepository.findById(UUID.fromString(memberId))
                 .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
         refreshTokenRepository.deleteByMember(member);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResponse getMyInfo(String memberId) {
+        Member member = memberRepository.findById(UUID.fromString(memberId))
+                .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
+        return MemberResponse.from(member);
     }
 }
