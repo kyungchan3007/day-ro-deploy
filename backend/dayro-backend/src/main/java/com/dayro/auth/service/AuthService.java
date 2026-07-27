@@ -1,6 +1,7 @@
 package com.dayro.auth.service;
 
 import com.dayro.auth.dto.response.AuthResponse;
+import com.dayro.auth.dto.response.MemberResponse;
 
 public interface AuthService {
     /**
@@ -23,4 +24,11 @@ public interface AuthService {
      * @return void
      * */
     void logout(String memberId);
+
+    /**
+     * 로그인한 사용자 정보 조회
+     * @param memberId
+     * @return MemberResponse
+     * */
+    MemberResponse getMyInfo(String memberId);
 }

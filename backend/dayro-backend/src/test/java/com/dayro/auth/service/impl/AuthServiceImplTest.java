@@ -5,6 +5,7 @@ import com.dayro.auth.domain.Member;
 import com.dayro.auth.domain.RefreshToken;
 import com.dayro.auth.dto.KakaoUserInfo;
 import com.dayro.auth.dto.response.AuthResponse;
+import com.dayro.auth.dto.response.MemberResponse;
 import com.dayro.auth.repository.MemberRepository;
 import com.dayro.auth.repository.RefreshTokenRepository;
 import com.dayro.global.config.jwt.JwtProvider;
@@ -220,6 +221,40 @@ public class AuthServiceImplTest {
         given(memberRepository.findById(unknownId)).willReturn(Optional.empty());
 
         assertThatThrownBy(() -> authService.logout(unknownId.toString()))
+                .isInstanceOf(BusinessException.class)
+                .hasFieldOrPropertyWithValue("errorCode", ErrorCode.MEMBER_NOT_FOUND);
+    }
+
+    @Test
+    void getMyInfo_success() {
+        UUID memberId = UUID.randomUUID();
+        Member member = Member.builder()
+                .kakaoId("12345")
+                .email("xord7@naver.com")
+                .nickname("테스트유저")
+                .profileImage("https://test-image.com/profile.jpg")
+                .build();
+        ReflectionTestUtils.setField(member, "id", memberId);
+        ReflectionTestUtils.setField(member, "createdAt", LocalDateTime.of(2026, 7, 27, 10, 0));
+
+        given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
+
+        MemberResponse result = authService.getMyInfo(memberId.toString());
+
+        assertThat(result.provider()).isEqualTo("KAKAO");
+        assertThat(result.nickname()).isEqualTo("테스트유저");
+        assertThat(result.email()).isEqualTo("xord7@naver.com");
+        assertThat(result.name()).isNull();
+        assertThat(result.birthday()).isNull();
+        assertThat(result.joinedAt()).isEqualTo(LocalDateTime.of(2026, 7, 27, 10, 0));
+    }
+
+    @Test
+    void getMyInfo_memberNotFound() {
+        UUID unknownId = UUID.randomUUID();
+        given(memberRepository.findById(unknownId)).willReturn(Optional.empty());
+
+        assertThatThrownBy(() -> authService.getMyInfo(unknownId.toString()))
                 .isInstanceOf(BusinessException.class)
                 .hasFieldOrPropertyWithValue("errorCode", ErrorCode.MEMBER_NOT_FOUND);
     }
