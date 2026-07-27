@@ -22,7 +22,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/kakao/callback")
+    @PostMapping("/kakao/token")
     public ResponseEntity<ApiResponse<AuthResponse>> kakaoLogin(@RequestBody @Valid KakaoLoginRequest request) {
         return ResponseEntity.ok(ApiResponse.success(authService.kakaoLogin(request.code())));
     }
