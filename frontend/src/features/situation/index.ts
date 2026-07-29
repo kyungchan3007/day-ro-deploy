@@ -25,7 +25,8 @@ export { useTimeRangeStep } from "./hooks/useTimeRangeStep";
 export { useRegionStep } from "./hooks/useRegionStep";
 export { useTransportStep } from "./hooks/useTransportStep";
 export { usePurposeStep } from "./hooks/usePurposeStep";
-export { REGION_GROUPS, findRegionAreaLabel } from "./model/regions";
+export { requestCourseCandidates } from "./api/submit";
+export { buildRegionGroupsFromResponse } from "./model/region-groups";
 export {
   SITUATION_LOADING_STEP,
   SITUATION_STEPS,
@@ -37,6 +38,7 @@ export {
   getNextSituationStep,
   patchSituationAnswers,
 } from "./model/flow";
+export { buildSituationRequest } from "./model/request";
 export type {
   Time,
   TimeRange,
@@ -44,6 +46,7 @@ export type {
   Meridiem,
   RegionArea,
   RegionGroup,
+  SituationRegionValue,
   TransportChoice,
   TransportSelection,
   PurposeChoice,

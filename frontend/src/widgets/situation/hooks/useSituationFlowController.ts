@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   usePathname,
   useRouter,
@@ -9,19 +9,23 @@ import {
 } from "next/navigation";
 
 import {
+  buildSituationRequest,
   getNextSituationStep,
   getPreviousSituationStep,
   getSituationNextLabel,
   getSituationStepIndex,
   patchSituationAnswers,
+  requestCourseCandidates,
   resolveSituationStep,
   SITUATION_LOADING_STEP,
   TOTAL_SITUATION_STEPS,
   type PurposeChoice,
   type SituationAnswers,
+  type SituationRegionValue,
   type SituationStepKey,
   type TimeRange,
 } from "@/features/situation";
+import { saveLastGeneratedCourseCandidates } from "@/features/situation/lib/generated-course-storage";
 
 function updateStepParam(
   params: ReadonlyURLSearchParams,
@@ -38,12 +42,65 @@ export function useSituationFlowController() {
   const params = useSearchParams();
 
   const [answers, setAnswers] = useState<SituationAnswers>({});
+  const submittedKeyRef = useRef<string | null>(null);
   const currentStep = resolveSituationStep(params.get("step"));
 
   const goStep = (step: string) => {
     const next = updateStepParam(params, step);
     router.push(`${pathname}?${next.toString()}`);
   };
+
+  useEffect(() => {
+    if (currentStep !== SITUATION_LOADING_STEP) {
+      return;
+    }
+
+    if (!answers.time || !answers.region || !answers.purpose) {
+      goStep("time");
+      return;
+    }
+
+    const submissionKey = JSON.stringify({
+      time: answers.time,
+      region: answers.region,
+      purpose: answers.purpose,
+    });
+
+    if (submittedKeyRef.current === submissionKey) {
+      return;
+    }
+
+    submittedKeyRef.current = submissionKey;
+
+    let cancelled = false;
+
+    const submitSituation = async () => {
+      try {
+        const request = buildSituationRequest(answers);
+        const response = await requestCourseCandidates(request);
+
+        if (cancelled) {
+          return;
+        }
+
+        saveLastGeneratedCourseCandidates(response);
+      } catch (error) {
+        if (cancelled) {
+          return;
+        }
+
+        console.error("failed_to_submit_situation", error);
+        submittedKeyRef.current = null;
+        goStep("purpose");
+      }
+    };
+
+    void submitSituation();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [answers, currentStep, pathname, router]);
 
   if (currentStep === SITUATION_LOADING_STEP) {
     return {
@@ -73,7 +130,7 @@ export function useSituationFlowController() {
     }
   };
 
-  const setRegion = (region: string) => {
+  const setRegion = (region: SituationRegionValue) => {
     setAnswers((prev) => patchSituationAnswers(prev, { region }));
     if (nextStep) {
       goStep(nextStep);

@@ -1,5 +1,6 @@
 "use client";
 
+import type { RegionGroup } from "@/features/situation";
 import { SituationTimeScreen } from "./SituationTimeScreen";
 import { SituationRegionScreen } from "./SituationRegionScreen";
 import { SituationPurposeScreen } from "./SituationPurposeScreen";
@@ -10,7 +11,13 @@ import { useSituationFlowController } from "./hooks";
 /**
  * 상황입력 위저드 셸 (widgets/situation).
  */
-export function SituationFlow() {
+export interface SituationFlowProps {
+  initialRegionGroups?: RegionGroup[];
+}
+
+export function SituationFlow({
+  initialRegionGroups,
+}: SituationFlowProps) {
   const flow = useSituationFlowController();
 
   if (flow.kind === "loading") {
@@ -40,6 +47,7 @@ export function SituationFlow() {
     case "region":
       return (
         <SituationRegionScreen
+          groups={initialRegionGroups ?? []}
           stepNumber={flow.stepNumber}
           totalSteps={flow.totalSteps}
           value={flow.answers.region}

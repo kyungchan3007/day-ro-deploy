@@ -43,7 +43,10 @@ describe("Course domain", () => {
       },
     });
     const withRegion = patchSituationAnswers(withTime, {
-      region: "gangnam",
+      region: {
+        districtId: "3120210",
+        label: "강남",
+      },
     });
 
     expect(withRegion).toEqual({
@@ -51,7 +54,10 @@ describe("Course domain", () => {
         start: { meridiem: "오전", hour: 10, minute: 0 },
         end: { meridiem: "오후", hour: 1, minute: 0 },
       },
-      region: "gangnam",
+      region: {
+        districtId: "3120210",
+        label: "강남",
+      },
     });
   });
 

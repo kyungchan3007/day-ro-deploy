@@ -22,6 +22,8 @@ FeatureAgent는 다음 스킬을 사용한다.
 
 ## 작업 기준
 - 요구사항을 먼저 정리한다.
+- 서버 데이터/API 연동이 있으면 구현 전에 SSR 우선 여부를 먼저 판정한다.
+- 초기 렌더 데이터인지 상호작용 이후 데이터인지 애매하면 구현 전에 사용자에게 확인한다.
 - 마크업/UI/인터랙션 변경이면 `.agents/guides/accessibility.md`를 먼저 읽는다.
 - Next.js 성능 분석/최적화 작업이면 `.agents/guides/performance.md`를 먼저 읽는다.
 - `src/shared/ui` 또는 공용 UI API 변경이면 `.agents/guides/storybook.md`를 먼저 읽는다.
@@ -61,6 +63,8 @@ FeatureAgent는 다음 스킬을 사용한다.
 - 클라이언트 컴포넌트에서 외부 백엔드 API를 직접 호출하지 않는다.
 - 초기 화면 데이터는 가능한 한 SSR 또는 Server Component에서 준비한다.
 - 사용자 상호작용 이후 필요한 데이터만 클라이언트에서 요청한다.
+- 선택지 목록, 기준 데이터, 초기 상세 데이터는 기본적으로 SSR 후보로 먼저 본다.
+- SSR과 클라이언트 호출 중 어느 쪽이 맞는지 애매하면 구현보다 사용자 확인이 우선이다.
 - polling, websocket, subscription은 명시적 요구사항과 승인 없이 추가하지 않는다.
 - BFF 응답이 UI 요구사항과 다르면 `types` 또는 `model`에서 ViewModel로 정리한다.
 
