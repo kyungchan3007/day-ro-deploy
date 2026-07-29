@@ -11,25 +11,27 @@ import {
   StepProgress,
 } from "@/shared/ui";
 import {
-  REGION_GROUPS,
   RegionAreaChips,
   RegionGroupChips,
+  type RegionGroup,
+  type SituationRegionValue,
   useRegionStep,
 } from "@/features/situation";
 
 export interface SituationRegionScreenProps {
+  groups: readonly RegionGroup[];
   /** 진행 표시용. 기본 2. */
   stepNumber?: number;
   /** 전체 스텝 수. 기본 4(시안). */
   totalSteps?: number;
-  /** 이전에 선택한 지역 id(뒤로 왔을 때 복원). */
-  value?: string;
+  /** 이전에 선택한 지역 값(뒤로 왔을 때 복원). */
+  value?: SituationRegionValue;
   /** CTA 버튼 문구. 기본 "다음". */
   nextLabel?: string;
   /** 상단 누적 요약 칩 바 슬롯. */
   summary?: ReactNode;
   onBack?: () => void;
-  onNext?: (regionId: string) => void;
+  onNext?: (region: SituationRegionValue) => void;
 }
 
 /**
@@ -37,6 +39,7 @@ export interface SituationRegionScreenProps {
  * date-planning 일러스트 스팟 + 지역 아코디언 + 다음 CTA.
  */
 export function SituationRegionScreen({
+  groups,
   stepNumber = 2,
   totalSteps = 4,
   value,
@@ -52,7 +55,7 @@ export function SituationRegionScreen({
     setActiveGroup,
     activeAreas,
     isValid,
-  } = useRegionStep(value);
+  } = useRegionStep(groups, value);
 
   return (
     <AppShell
@@ -86,9 +89,9 @@ export function SituationRegionScreen({
         </h1>
         <RegionGroupChips
           className="mt-6 w-full"
-          groups={REGION_GROUPS}
+          groups={groups}
           activeGroup={activeGroup}
-          selected={selected}
+          selected={selected?.districtId}
           onSelectGroup={setActiveGroup}
         />
 
@@ -96,8 +99,18 @@ export function SituationRegionScreen({
         <div className="mt-4 min-h-0 w-full flex-1 overflow-y-auto pb-2">
           <RegionAreaChips
             areas={activeAreas}
-            selected={selected}
-            onSelectArea={(id) => setSelected(id)}
+            selected={selected?.districtId}
+            onSelectArea={(id) => {
+              const area = activeAreas.find((item) => item.id === id);
+              if (!area) {
+                return;
+              }
+
+              setSelected({
+                districtId: area.id,
+                label: area.label,
+              });
+            }}
           />
         </div>
       </Container>

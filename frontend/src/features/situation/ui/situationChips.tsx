@@ -2,11 +2,7 @@ import type { ComponentType } from "react";
 
 import { ClockIcon, PinIcon, type IconProps } from "@/shared/ui";
 
-import {
-  durationMinutes,
-  findRegionAreaLabel,
-  formatDuration,
-} from "../model";
+import { durationMinutes, formatDuration } from "../model";
 import type { SituationAnswers, SituationStepKey } from "../model";
 import { PURPOSE_META } from "./purposeMeta";
 
@@ -32,10 +28,7 @@ export function buildSituationChips(answers: SituationAnswers): SituationChip[] 
   }
 
   if (answers.region) {
-    const regionLabel = findRegionAreaLabel(answers.region);
-    if (regionLabel) {
-      chips.push({ step: "region", Icon: PinIcon, label: regionLabel });
-    }
+    chips.push({ step: "region", Icon: PinIcon, label: answers.region.label });
   }
 
   if (answers.purpose) {

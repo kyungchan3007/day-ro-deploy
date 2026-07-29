@@ -28,6 +28,11 @@ export interface RegionGroup {
   areas: readonly RegionArea[];
 }
 
+export interface SituationRegionValue {
+  districtId: string;
+  label: string;
+}
+
 /** 이동수단 선택지(자차·택시 / 도보 / 지하철 / 버스). */
 export type TransportChoice = "car" | "walk" | "subway" | "bus";
 
@@ -48,8 +53,7 @@ export interface TransportSelection {
  */
 export interface SituationAnswers {
   time?: TimeRange;
-  /** 선택한 세부 지역 id. */
-  region?: string;
+  region?: SituationRegionValue;
   transport?: TransportSelection;
   purpose?: PurposeChoice;
 }

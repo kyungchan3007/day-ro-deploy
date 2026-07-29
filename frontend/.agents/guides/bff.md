@@ -24,6 +24,9 @@
 - UI는 가능한 한 도메인 요구사항만 알고, 토큰 구조나 백엔드 에러 형식은 알지 않게 한다.
 - BFF는 단순 프록시가 아니라 프런트 요구사항을 반영하는 안정적인 계약 계층이다.
 - BFF 응답 형식은 `src/shared/api/openapi/dayro.openapi.ts` 기준으로 관리한다.
+- 서버 데이터 작업은 구현 전에 SSR 우선 여부를 먼저 판정한다.
+- 초기 렌더에 필요한 데이터는 클라이언트 fetch보다 Server Component 또는 page/layout 준비를 우선한다.
+- SSR 가능성과 클라이언트 상호작용 이후 호출의 경계가 애매하면 구현 전에 사용자에게 확인한다.
 
 ## 용어
 
@@ -67,13 +70,15 @@
 
 ## 기본 설계 순서
 1. 도메인 문서에서 action, state, route, out-of-scope를 확인한다.
-2. 이 요구사항이 BFF가 필요한지, Server Component 직접 읽기로 충분한지 판단한다.
-3. BFF가 필요하면 `src/shared/api/endpoints.ts`에 경로를 추가한다.
-4. `src/shared/api/openapi/dayro.openapi.ts`에 path와 schema를 추가한다.
-5. 공통 서버 로직이 필요하면 `src/shared/api/server-*.ts`에 둔다.
-6. Route Handler를 `src/app/api/**/route.ts`에 만든다.
-7. feature `api`가 필요하면 BFF endpoint만 호출하도록 작성한다.
-8. 테스트는 계약, 쿠키, 인증, 실패 케이스 중심으로 작성한다.
+2. 이 데이터가 초기 렌더 전에 필요한지, 사용자 상호작용 이후에만 필요한지 먼저 구분한다.
+3. 초기 렌더 데이터면 Server Component, page, layout 에서 먼저 준비할 수 있는지 본다.
+4. 위 판단이 애매하면 구현 전에 사용자에게 확인한다.
+5. BFF가 필요하면 `src/shared/api/endpoints.ts`에 경로를 추가한다.
+6. `src/shared/api/openapi/dayro.openapi.ts`에 path와 schema를 추가한다.
+7. 공통 서버 로직이 필요하면 `src/shared/api/server-*.ts`에 둔다.
+8. Route Handler를 `src/app/api/**/route.ts`에 만든다.
+9. feature `api`가 필요하면 BFF endpoint만 호출하도록 작성한다.
+10. 테스트는 계약, 쿠키, 인증, 실패 케이스 중심으로 작성한다.
 
 ## BFF가 필요한 경우
 - 브라우저에 노출되면 안 되는 인증 정보가 필요한 경우
@@ -125,6 +130,25 @@
 - 인증이 필요한 초기 데이터는 서버 계층에서 쿠키를 읽고 BFF 또는 외부 백엔드로 연결한다.
 - 요청 단위 상태를 모듈 전역 mutable 상태에 저장하지 않는다.
 
+## SSR 우선 판정 질문
+구현 전에 아래 질문을 순서대로 확인한다.
+
+- 이 데이터가 첫 화면 UI를 그리기 전에 이미 필요한가
+- 이 데이터 없이도 첫 화면을 안정적으로 렌더할 수 있는가
+- 이 데이터가 선택지/기준정보/초기 상세정보처럼 거의 변하지 않는가
+- 이 데이터 요청이 사용자 클릭, 입력, 제출 이전에도 발생하는가
+
+위 질문 중 앞의 세 개가 `yes`에 가깝고 마지막 질문도 `yes`이면 SSR 또는 Server Component 준비를 우선한다.
+
+반대로 아래에 가까우면 클라이언트 상호작용 이후 호출로 본다.
+
+- 제출 결과
+- 저장/삭제 결과
+- 검색/정렬/필터 변경 결과
+- 더보기/페이지 이동 결과
+
+판단이 애매하면 구현 전에 사용자에게 물어본다.
+
 ## 파일 배치 규칙
 
 ### 인증 공통
@@ -152,6 +176,9 @@
 - 서로 다른 도메인의 내부 BFF 유틸을 무분별하게 공유
 
 ## 체크리스트
+- 이 데이터는 초기 렌더 데이터인가, 상호작용 이후 데이터인가
+- 초기 렌더 데이터라면 SSR 또는 Server Component에서 먼저 준비했는가
+- 판단이 애매할 때 사용자 확인 없이 임의 결정하지 않았는가
 - 이 호출은 외부 백엔드인가, BFF인가
 - 클라이언트가 외부 백엔드를 직접 호출하고 있지 않은가
 - endpoint path가 `src/shared/api/endpoints.ts`에 있는가
