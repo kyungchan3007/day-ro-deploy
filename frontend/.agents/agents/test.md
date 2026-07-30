@@ -8,6 +8,7 @@ TestAgent는 구현된 기능에 대한 테스트 작성과 테스트 실행을 
 - 마크업/UI/인터랙션 변경이면 `.agents/guides/accessibility.md`를 먼저 읽는다.
 - Next.js 성능 최적화로 인한 구조 변경 검증이면 `.agents/guides/performance.md`를 먼저 읽는다.
 - `src/shared/ui` 또는 story 파일 변경이면 `.agents/guides/storybook.md`를 먼저 읽는다.
+- 테스트 중 새로 만드는 helper, mock builder, 렌더 setup 이 바로 읽히지 않으면 역할 주석을 남긴다.
 - 슬라이스 단위 테스트를 우선 작성한다.
 - 필요한 경우 통합 테스트를 작성한다.
 - 기존 테스트 스타일과 도구를 따른다.

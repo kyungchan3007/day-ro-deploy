@@ -13,7 +13,12 @@ test("course creation flow reaches purpose as step 3 of 3", async ({ page }) => 
 
   await expect(page.getByText("2/3")).toBeVisible();
   await expect(page).toHaveURL(/\/course\/new\/?\?step=region$/);
-  await page.getByRole("radio", { name: "연남동/홍대입구" }).click();
+  // 지역 목록은 백엔드 기준 데이터라 이름을 고정하지 않고, 실제 렌더된 첫 선택지를 사용한다.
+  const regionOptions = page
+    .getByRole("radiogroup", { name: "세부 지역 선택" })
+    .getByRole("radio");
+  await expect(regionOptions.first()).toBeVisible();
+  await regionOptions.first().click();
   await page.getByRole("button", { name: /다음은 어떤 만남인가요/ }).click();
 
   await expect(page.getByText("3/3")).toBeVisible();
