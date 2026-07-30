@@ -62,6 +62,9 @@
 ### `src/shared/api/server-*.ts`
 - 쿠키, 인증, 공통 fetch, 헤더 조합 등 서버 전용 로직 위치
 - 브라우저 번들에 섞이면 안 되는 코드를 여기에 둔다
+- 외부 백엔드 transport 와 프런트 서버 계약 계층을 분리한다
+- page/layout/Server Component/Route Handler 는 transport 를 직접 import하지 말고 프런트 서버 계약 계층만 사용한다
+- 서버 계층 함수에는 역할, 입력 인자, 반환 계약, 다음 호출 대상(backend transport 또는 BFF 계약)을 주석으로 남긴다
 
 ### `src/features/*/api`
 - feature 전용 BFF 호출 함수 위치
@@ -129,6 +132,9 @@
 - 클라이언트 상호작용 이후에만 필요한 데이터는 feature `api`에서 BFF를 호출한다.
 - 인증이 필요한 초기 데이터는 서버 계층에서 쿠키를 읽고 BFF 또는 외부 백엔드로 연결한다.
 - 요청 단위 상태를 모듈 전역 mutable 상태에 저장하지 않는다.
+- Server Component가 외부 백엔드 fetch 유틸을 직접 import해 Route Handler 와 다른 캐시/에러/계약 경로를 만들지 않는다.
+- Route Handler 와 Server Component 가 같은 데이터를 쓰면 같은 `server-*.ts` 서버 계약 함수를 공유한다.
+- 자기 자신의 `/api/**` 를 다시 fetch 하는 방식은 최후의 수단으로만 사용한다. 기본값은 공통 서버 계층 공유다.
 
 ## SSR 우선 판정 질문
 구현 전에 아래 질문을 순서대로 확인한다.
@@ -172,6 +178,7 @@
 - 클라이언트 코드에서 외부 백엔드 절대 URL fetch
 - feature/UI 파일에서 access token, refresh token 직접 조합
 - BFF 없이 브라우저에서 Authorization 헤더 직접 조합
+- page/layout/Server Component 에서 외부 백엔드 transport 파일 직접 import
 - schema 없이 임의 JSON 구조를 여기저기서 복제
 - 서로 다른 도메인의 내부 BFF 유틸을 무분별하게 공유
 
@@ -185,6 +192,7 @@
 - request/response schema가 `dayro.openapi.ts`에 있는가
 - 쿠키/토큰/헤더 조합이 서버 계층에 있는가
 - Route Handler가 과도하게 두꺼워지지 않았는가
+- Server Component, Route Handler, shared server 함수에 역할 설명 주석이 있는가
 - 실패 시 상태코드와 메시지가 일관적인가
 - 인증 만료/세션 정리 경로가 있는가
 - 테스트가 계약과 관찰 가능한 동작을 검증하는가

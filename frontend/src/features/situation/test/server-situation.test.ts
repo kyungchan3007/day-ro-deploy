@@ -61,6 +61,7 @@ describe("Situation BFF routes", () => {
       new URL("/api/regions", "http://localhost:8080"),
       expect.objectContaining({
         method: "GET",
+        cache: "force-cache",
       }),
     );
     expect(response.status).toBe(200);

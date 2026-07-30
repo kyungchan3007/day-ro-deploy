@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { situationInputRequestSchema } from "../../../shared/api/openapi/dayro.openapi";
-import { submitBackendSituation } from "../../../shared/api/server-situation-client";
+import { submitSituation } from "../../../shared/api/server-situation";
 
+/**
+ * 상황 제출 BFF endpoint.
+ * 브라우저 요청 body 를 `SituationInputRequest` 계약으로 검증한 뒤 공통 서버 계층으로 전달하고,
+ * 입력 오류와 backend 오류를 프런트에서 다루기 쉬운 상태코드로 정리한다.
+ */
 export async function POST(request: NextRequest) {
   try {
     const json = await request.json();
     const payload = situationInputRequestSchema.parse(json);
-    const result = await submitBackendSituation(payload);
+    const result = await submitSituation(payload);
     return NextResponse.json(result);
   } catch (error) {
     if (error instanceof ZodError) {
