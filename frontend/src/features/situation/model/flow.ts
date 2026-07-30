@@ -7,9 +7,12 @@ export const SITUATION_STEPS = [
 ] as const;
 
 export type SituationStepKey = (typeof SITUATION_STEPS)[number]["key"];
-export type SituationFlowStep = SituationStepKey | "loading";
+/** 위저드 스텝(time/region/purpose) + 후속 화면(loading/result). */
+export type SituationFlowStep = SituationStepKey | "loading" | "result";
 
 export const SITUATION_LOADING_STEP: SituationFlowStep = "loading";
+/** 코스 후보 결과(장소 선택) 화면. 진행바 카운트에는 포함하지 않는다. */
+export const SITUATION_RESULT_STEP: SituationFlowStep = "result";
 export const TOTAL_SITUATION_STEPS = SITUATION_STEPS.length;
 
 export function resolveSituationStep(
@@ -17,6 +20,9 @@ export function resolveSituationStep(
 ): SituationFlowStep {
   if (rawStep === SITUATION_LOADING_STEP) {
     return SITUATION_LOADING_STEP;
+  }
+  if (rawStep === SITUATION_RESULT_STEP) {
+    return SITUATION_RESULT_STEP;
   }
 
   return (

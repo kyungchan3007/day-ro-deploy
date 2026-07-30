@@ -5,6 +5,7 @@ import { SituationTimeScreen } from "./SituationTimeScreen";
 import { SituationRegionScreen } from "./SituationRegionScreen";
 import { SituationPurposeScreen } from "./SituationPurposeScreen";
 import { SituationLoadingScreen } from "./SituationLoadingScreen";
+import { SituationResultScreen } from "./SituationResultScreen";
 import { SituationSummary } from "@/features/situation";
 import { useSituationFlowController } from "./hooks";
 
@@ -22,6 +23,12 @@ export function SituationFlow({
 
   if (flow.kind === "loading") {
     return <SituationLoadingScreen answers={flow.answers} />;
+  }
+
+  if (flow.kind === "result") {
+    return (
+      <SituationResultScreen answers={flow.answers} onBack={flow.handleBack} />
+    );
   }
 
   switch (flow.currentStep) {

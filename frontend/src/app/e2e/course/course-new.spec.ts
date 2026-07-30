@@ -24,4 +24,20 @@ test("course creation flow reaches purpose as step 3 of 3", async ({ page }) => 
   await expect(page.getByText("3/3")).toBeVisible();
   await expect(page.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "3");
   await expect(page).toHaveURL(/\/course\/new\/?\?step=purpose$/);
+
+  await page.getByRole("radio", { name: "데이트" }).click();
+  await page.getByRole("button", { name: "추천받기!" }).click();
+
+  await expect(page).toHaveURL(/\/course\/new\/?\?step=result$/);
+  await expect(page.getByText("AI가 추천한 장소예요")).toBeVisible();
+  await expect(page.getByRole("button", { name: "선택완료" })).toBeDisabled();
+
+  const placeButtons = page.getByRole("listitem").getByRole("button");
+  await expect(placeButtons.nth(3)).toBeVisible();
+  await placeButtons.nth(0).click();
+  await placeButtons.nth(1).click();
+  await placeButtons.nth(2).click();
+  await placeButtons.nth(3).click();
+
+  await expect(page.getByRole("button", { name: "선택완료" })).toBeEnabled();
 });

@@ -25,10 +25,38 @@ export { useTimeRangeStep } from "./hooks/useTimeRangeStep";
 export { useRegionStep } from "./hooks/useRegionStep";
 export { useTransportStep } from "./hooks/useTransportStep";
 export { usePurposeStep } from "./hooks/usePurposeStep";
+export { useCourseSelection } from "./hooks/useCourseSelection";
+export { useCourseGeneration } from "./hooks/useCourseGeneration";
+export type { UseCourseGenerationResult } from "./hooks/useCourseGeneration";
 export { requestCourseCandidates } from "./api/submit";
+export {
+  MIN_REQUIRED_PLACES,
+  MAX_SELECTABLE_PLACES,
+  toggleSelection,
+  selectionOrderOf,
+  isSelectionValid,
+  isSelectionFull,
+  selectionHint,
+} from "./model/course-selection";
+export {
+  MIN_LOADING_MS,
+  resolveGenerationPhase,
+} from "./model/course-generation";
+export type {
+  GenerationApiStatus,
+  GenerationPhase,
+} from "./model/course-generation";
+export {
+  LAST_GENERATED_COURSE_STORAGE_KEY,
+  SELECTED_COURSE_STORAGE_KEY,
+  saveLastGeneratedCourseCandidates,
+  readLastGeneratedCourseCandidates,
+  saveSelectedCoursePlaces,
+} from "./lib/generated-course-storage";
 export { buildRegionGroupsFromResponse } from "./model/region-groups";
 export {
   SITUATION_LOADING_STEP,
+  SITUATION_RESULT_STEP,
   SITUATION_STEPS,
   TOTAL_SITUATION_STEPS,
   resolveSituationStep,

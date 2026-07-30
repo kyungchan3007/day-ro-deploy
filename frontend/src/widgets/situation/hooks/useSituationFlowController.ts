@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   usePathname,
   useRouter,
@@ -9,23 +9,22 @@ import {
 } from "next/navigation";
 
 import {
-  buildSituationRequest,
   getNextSituationStep,
   getPreviousSituationStep,
   getSituationNextLabel,
   getSituationStepIndex,
   patchSituationAnswers,
-  requestCourseCandidates,
   resolveSituationStep,
   SITUATION_LOADING_STEP,
+  SITUATION_RESULT_STEP,
   TOTAL_SITUATION_STEPS,
+  useCourseGeneration,
   type PurposeChoice,
   type SituationAnswers,
   type SituationRegionValue,
   type SituationStepKey,
   type TimeRange,
 } from "@/features/situation";
-import { saveLastGeneratedCourseCandidates } from "@/features/situation/lib/generated-course-storage";
 
 function updateStepParam(
   params: ReadonlyURLSearchParams,
@@ -36,76 +35,71 @@ function updateStepParam(
   return next;
 }
 
+/**
+ * 상황입력 위저드 컨트롤러 (widgets/situation).
+ *
+ * 책임 경계:
+ *   - 스텝 라우팅(?step=)과 각 스텝 답변 누적.
+ *   - loading 스텝의 "제출 + 최소 노출 시간 + 결과 전환"은 useCourseGeneration(도메인 훅)에 위임하고,
+ *     이 컨트롤러는 그 phase 를 받아 라우팅만 결정한다.
+ *   - result 스텝의 장소 선택은 결과 화면(위젯)에 위임한다.
+ *
+ * @returns kind 로 분기되는 뷰 상태(step | loading | result).
+ */
 export function useSituationFlowController() {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
 
   const [answers, setAnswers] = useState<SituationAnswers>({});
-  const submittedKeyRef = useRef<string | null>(null);
   const currentStep = resolveSituationStep(params.get("step"));
 
-  const goStep = (step: string) => {
-    const next = updateStepParam(params, step);
-    router.push(`${pathname}?${next.toString()}`);
-  };
+  const goStep = useCallback(
+    (step: string) => {
+      const next = updateStepParam(params, step);
+      router.push(`${pathname}?${next.toString()}`);
+    },
+    [params, pathname, router],
+  );
 
+  // loading 스텝일 때만 생성(제출 + 최소 노출 시간)을 활성화한다.
+  const generation = useCourseGeneration({
+    answers,
+    active: currentStep === SITUATION_LOADING_STEP,
+  });
+
+  // 로딩 전환 규칙:
+  //   - 답변 불완전 → 처음(time)으로
+  //   - phase ready(응답 완료 + 최소 시간 경과) → 결과 화면으로
+  //   - phase error(제출 실패) → 목적 스텝으로 되돌림
   useEffect(() => {
     if (currentStep !== SITUATION_LOADING_STEP) {
       return;
     }
-
     if (!answers.time || !answers.region || !answers.purpose) {
       goStep("time");
       return;
     }
-
-    const submissionKey = JSON.stringify({
-      time: answers.time,
-      region: answers.region,
-      purpose: answers.purpose,
-    });
-
-    if (submittedKeyRef.current === submissionKey) {
-      return;
+    if (generation.phase === "ready") {
+      goStep(SITUATION_RESULT_STEP);
+    } else if (generation.phase === "error") {
+      goStep("purpose");
     }
-
-    submittedKeyRef.current = submissionKey;
-
-    let cancelled = false;
-
-    const submitSituation = async () => {
-      try {
-        const request = buildSituationRequest(answers);
-        const response = await requestCourseCandidates(request);
-
-        if (cancelled) {
-          return;
-        }
-
-        saveLastGeneratedCourseCandidates(response);
-      } catch (error) {
-        if (cancelled) {
-          return;
-        }
-
-        console.error("failed_to_submit_situation", error);
-        submittedKeyRef.current = null;
-        goStep("purpose");
-      }
-    };
-
-    void submitSituation();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [answers, currentStep, pathname, router]);
+  }, [currentStep, answers, generation.phase, goStep]);
 
   if (currentStep === SITUATION_LOADING_STEP) {
     return {
       kind: "loading" as const,
       answers,
+    };
+  }
+
+  if (currentStep === SITUATION_RESULT_STEP) {
+    return {
+      kind: "result" as const,
+      answers,
+      // 결과 화면 뒤로가기 → 목적 스텝으로 돌아가 다시 추천받게 한다.
+      handleBack: () => goStep("purpose"),
     };
   }
 
