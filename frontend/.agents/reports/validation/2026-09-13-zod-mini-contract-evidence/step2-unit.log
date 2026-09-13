@@ -1,0 +1,13 @@
+
+> dayro-frontend@0.1.0 test:unit
+> vitest run src/features/auth/test src/features/situation/test src/features/course-map/test src/features/saved/test src/features/course-result/test
+
+
+ RUN  v4.1.10 /Users/chan/Documents/develop/dayro/frontend
+
+
+ Test Files  30 passed (30)
+      Tests  129 passed (129)
+   Start at  18:23:42
+   Duration  856ms (transform 1.04s, setup 0ms, import 2.48s, tests 264ms, environment 2ms)
+

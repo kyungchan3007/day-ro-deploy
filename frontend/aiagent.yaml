@@ -1,0 +1,606 @@
+version: 2
+
+metadata:
+  name: dayro-frontend-aiagent
+  description: AI agent ontology and operating policy reference for Codex and Claude.
+
+ontology:
+  concepts:
+    Intent:
+      description: Structured representation of what the task must accomplish.
+      types:
+        - IntentBrief
+        - SolutionNotes
+        - AcceptanceCriteria
+
+    Agent:
+      description: A role-specific AI worker guided by project rules.
+      types:
+        - ArchitectureAgent
+        - FeatureAgent
+        - TestAgent
+        - ValidationAgent
+
+    Task:
+      description: A unit of work assigned to an agent.
+      types:
+        - ArchitectureDesign
+        - FeatureImplementation
+        - TestCreation
+        - QualityValidation
+
+    Artifact:
+      description: A file, command output, or report produced during work.
+      types:
+        - IntentArtifact
+        - SourceCode
+        - TestCode
+        - BuildLog
+        - TestLog
+        - ValidationReport
+        - RunLog
+        - HandoffLog
+        - FeatureSlice
+        - CustomHook
+        - FeatureModel
+        - FeatureType
+        - FeatureUI
+
+    Loop:
+      description: Evidence-gated execution cycle for an agent task.
+      types:
+        - QuickLoop
+        - FullLoop
+
+    LoopStage:
+      description: A stage within the execution loop.
+      types:
+        - IntentCapture
+        - ContextLoad
+        - PlanAndBoundaryDecision
+        - Implement
+        - SelfCheck
+        - EvidenceRun
+        - Validate
+        - Report
+
+    Gate:
+      description: Condition that must pass before the next stage can begin.
+      types:
+        - IntentGate
+        - BoundaryGate
+        - EvidenceGate
+        - ReportGate
+
+    OrchestrationMode:
+      description: Operating mode for coordinating work across roles or sessions.
+      types:
+        - MCPConnectedDualRuntimeMultiAgentDAG
+        - SameThreadRoleSwitching
+        - SessionSplit
+        - SubagentExpansion
+        - WorktreeExpansion
+
+    Policy:
+      description: A project rule that guides agent behavior.
+      types:
+        - FileAccessPolicy
+        - CommandPolicy
+        - ApprovalPolicy
+        - CompletionPolicy
+        - ArchitecturePolicy
+
+    Evidence:
+      description: Proof used by the validation agent to accept or reject work.
+      types:
+        - PassingTest
+        - PassingBuild
+        - PassingLint
+        - RequirementChecklist
+        - ManualReviewNote
+
+    FailureReason:
+      description: Classified reason for a retry, rejection, or block.
+      types:
+        - IntentGap
+        - BoundaryConflict
+        - ImplementationBug
+        - TestFailure
+        - TypeError
+        - BuildFailure
+        - PerformanceRisk
+        - DocMismatch
+        - MissingEvidence
+        - ExternalBlocker
+
+    SummaryArtifact:
+      description: Aggregated observability artifact over multiple runs.
+      types:
+        - ObservabilitySummary
+
+  relationships:
+    - subject: Intent
+      predicate: guides
+      object: Task
+    - subject: Agent
+      predicate: performs
+      object: Task
+    - subject: Agent
+      predicate: produces
+      object: Artifact
+    - subject: Loop
+      predicate: contains
+      object: LoopStage
+    - subject: Gate
+      predicate: constrains
+      object: LoopStage
+    - subject: OrchestrationMode
+      predicate: coordinates
+      object: Agent
+    - subject: Policy
+      predicate: constrains
+      object: Agent
+    - subject: Evidence
+      predicate: supports
+      object: ValidationReport
+    - subject: FailureReason
+      predicate: explains
+      object: RunLog
+    - subject: RunLog
+      predicate: contributes_to
+      object: SummaryArtifact
+    - subject: FeatureSlice
+      predicate: contains
+      object: SourceCode
+    - subject: ArchitecturePolicy
+      predicate: constrains
+      object: FeatureSlice
+
+operating_policy:
+  default_mode: sequential
+  execution_model: evidence_gated_loop
+  design_work: disabled
+
+  intent_artifact_lifecycle:
+    purpose: Prevent PRD, SDD, and Execution Spec files from becoming unbounded session notes.
+    canonical_source: .agents/intent/README.md
+    default_policy: hot_active_cold_monthly_archive_with_git_backed_delete
+    active_artifacts:
+      description: Keep only currently useful or recently completed intent artifacts in active directories.
+      directories:
+        - .agents/intent/active
+      required_metadata:
+        - task_id
+        - date
+        - owner
+        - status
+        - supersedes
+        - superseded_by
+    inline_intent_allowed_for:
+      - small_task
+      - files_changed_lte_2
+      - clear_boundary
+      - no_next_session_expected
+      - no_ssr_bff_auth_session_shared_ui_performance_impact
+    dedicated_files_required_for:
+      - medium_task
+      - large_task
+      - files_changed_gte_3
+      - boundary_decision_required
+      - next_session_expected
+      - shared_ui_or_api_contract_change
+      - ssr_bff_auth_session_or_performance_impact
+    statuses:
+      - active
+      - completed
+      - superseded
+      - archived
+    archive_policy:
+      trigger:
+        - milestone_completed
+        - task_superseded_by_new_intent
+        - monthly_cleanup
+      destination_pattern: .agents/intent/archive/YYYY-MM.md
+      preserve_links:
+        - validation_report
+        - run_log
+        - handoff_log
+      rules:
+        - compress_completed_intent_into_monthly_archive_block
+        - delete_original_only_when_committed_and_explicitly_approved
+        - git_history_is_cold_storage_for_originals
+        - never_archive_active_or_blocked_tasks
+        - prefer_index_or_superseded_by_over_duplicate_sdd
+        - update_references_when_archiving
+    review_policy:
+      default_read_order:
+        - .agents/intent/active/index.md
+        - .agents/intent/active/current.md
+        - linked_dedicated_specs_only
+        - archive_only_when_historical_context_is_required
+      before_creating_new_sdd:
+        - search_existing_sdd_for_same_domain_or_task
+        - reuse_or_supersede_existing_sdd_when_possible
+        - create_new_sdd_only_when_boundary_decision_changes
+
+  architecture:
+    style: vertical_slice_architecture
+    principles:
+      - organize_by_feature_or_domain_flow
+      - keep_feature_changes_inside_relevant_slice
+      - expose_slice_public_api_through_index
+      - avoid_cross_slice_internal_imports
+      - promote_to_shared_only_after_real_reuse
+      - avoid_layer_first_foldering_for_feature_code
+    feature_internal_roles:
+      ui: feature_specific_components_and_rendering
+      types: feature_type_contracts
+      model: business_rules_state_model_and_state_transitions
+      hooks: feature_specific_custom_hooks
+      api: bff_communication_and_request_functions
+      lib: feature_internal_pure_utilities
+    dependency_direction:
+      - ui_may_use_hooks_and_types
+      - hooks_may_use_model_api_types_and_lib
+      - model_must_not_depend_on_react_dom_or_next_routing
+      - api_must_not_import_ui
+      - custom_hooks_belong_in_hooks
+      - non_hook_business_rules_belong_in_model
+    data_strategy:
+      api_boundary: bff
+      realtime_by_default: false
+      initial_data_loading: ssr_or_server_component_first
+      client_fetch_allowed_for:
+        - user_interaction_after_initial_render
+        - explicitly_client_only_state
+        - approved_exception
+      disallowed_by_default:
+        - direct_external_backend_api_call_from_client
+        - polling
+        - websocket
+        - subscription
+      sensitive_data_boundary:
+        - auth_tokens_stay_server_side
+        - cookies_and_headers_composed_in_bff_or_server_layer
+        - ui_must_not_own_external_api_auth_details
+
+  approval:
+    required_for:
+      - dependency_install
+      - destructive_file_operation
+      - production_config_change
+      - external_network_access
+      - broad_refactor
+
+  file_access:
+    default: read_only
+    writable_paths:
+      - src/**
+      - tests/**
+      - __tests__/**
+      - app/**
+      - components/**
+      - features/**
+      - hooks/**
+      - lib/**
+      - shared/**
+      - entities/**
+      - widgets/**
+      - utils/**
+      - public/**
+      - package.json
+      - package-lock.json
+      - pnpm-lock.yaml
+      - yarn.lock
+      - aiagent.yaml
+      - AGENTS.MD
+      - .agents/**
+
+  command_policy:
+    allow:
+      - npm test
+      - npm run test
+      - npm run lint
+      - npm run typecheck
+      - npm run build
+      - pnpm test
+      - pnpm lint
+      - pnpm typecheck
+      - pnpm build
+      - yarn test
+      - yarn lint
+      - yarn typecheck
+      - yarn build
+    require_approval:
+      - npm install
+      - pnpm install
+      - yarn install
+      - rm
+      - git reset
+      - git clean
+      - git push
+
+  loop_policy:
+    stages:
+      - intent_capture
+      - context_load
+      - plan_and_boundary_decision
+      - implement
+      - self_check
+      - evidence_run
+      - validate
+      - report
+    gates:
+      - intent_gate
+      - boundary_gate
+      - evidence_gate
+      - report_gate
+    loop_types:
+      - quick_loop
+      - full_loop
+    stage_exit_requirements:
+      intent_capture:
+        - execution_spec_exists
+      context_load:
+        - role_docs_selected
+        - guide_triggers_identified
+        - domain_docs_identified
+      plan_and_boundary_decision:
+        - vsa_location_defined
+        - boundary_decision_closed
+      implement:
+        - changes_applied
+      self_check:
+        - acceptance_gap_checked
+        - role_mixing_checked
+      evidence_run:
+        - minimum_evidence_collected
+      validate:
+        - final_decision_recorded
+      report:
+        - validation_report_recorded
+    minimum_evidence:
+      quick_loop:
+        - execution_spec
+        - self_check_note
+        - targeted_test_or_structure_review
+      full_loop:
+        - execution_spec
+        - sdd_or_prd_when_required
+        - self_check_note
+        - test_result
+        - typecheck_result
+        - build_result_or_reason
+        - validation_report
+    loop_back_rules:
+      - from: implement
+        on: boundary_conflict
+        to: plan_and_boundary_decision
+      - from: evidence_run
+        on: test_failure
+        to: implement
+      - from: validate
+        on: missing_evidence
+        to: evidence_run
+      - from: validate
+        on: intent_gap
+        to: intent_capture
+
+agents:
+  architecture:
+    type: ArchitectureAgent
+    mission: Design and review frontend vertical slice architecture.
+    responsibilities:
+      - validate_intent_against_domain_boundaries
+      - identify_domain_flows
+      - define_slice_boundaries
+      - review_module_coupling
+      - propose_architecture_options
+      - document_risks_and_tradeoffs
+    can_modify:
+      - .agents/agents/architecture.md
+      - .agents/domain/**
+      - aiagent.yaml
+      - AGENTS.MD
+    completion_criteria:
+      - slice_boundaries_are_documented
+      - public_api_boundaries_are_defined
+      - shared_usage_is_justified
+      - risks_and_alternatives_are_recorded
+
+  feature:
+    type: FeatureAgent
+    mission: Implement requested frontend functionality with minimal, focused changes.
+    responsibilities:
+      - analyze_requirements
+      - refine_solution_notes
+      - inspect_existing_code
+      - implement_feature
+      - perform_self_check
+      - preserve_existing_behavior
+      - handoff_to_test_agent
+    can_modify:
+      - src/**
+      - app/**
+      - components/**
+      - features/**
+      - hooks/**
+      - lib/**
+      - shared/**
+      - entities/**
+      - widgets/**
+      - utils/**
+      - public/**
+      - AGENTS.MD
+      - .agents/**
+    cannot_modify:
+      - design/**
+      - brand/**
+      - visual_identity/**
+    completion_criteria:
+      - implementation_matches_requirement
+      - no_unrelated_refactor
+      - changed_files_are_explained
+      - vertical_slice_boundary_is_preserved
+      - self_check_note_exists
+
+  test:
+    type: TestAgent
+    mission: Add and run tests that prove the feature works and prevent regressions.
+    responsibilities:
+      - identify_test_scope
+      - map_tests_to_acceptance_criteria
+      - add_unit_tests
+      - add_integration_tests_when_needed
+      - reproduce_failures
+      - report_test_results
+    can_modify:
+      - tests/**
+      - __tests__/**
+      - src/**/*.test.*
+      - src/**/*.spec.*
+      - app/**/*.test.*
+      - app/**/*.spec.*
+      - components/**/*.test.*
+      - components/**/*.spec.*
+      - features/**/*.test.*
+      - features/**/*.spec.*
+      - shared/**/*.test.*
+      - shared/**/*.spec.*
+      - .agents/reports/**
+    preferred_commands:
+      - npm test
+      - npm run test
+      - pnpm test
+      - yarn test
+    completion_criteria:
+      - relevant_tests_exist
+      - tests_pass_or_failures_are_explained
+      - edge_cases_are_covered
+      - tests_are_near_relevant_slice_when_possible
+
+  validation:
+    type: ValidationAgent
+    mission: Verify implementation quality, requirement coverage, and release readiness.
+    responsibilities:
+      - validate_acceptance_criteria
+      - verify_requirement_checklist
+      - run_quality_commands
+      - inspect_change_scope
+      - detect_regressions
+      - produce_validation_report
+      - classify_failure_reason
+    can_modify:
+      - .agents/reports/**
+    preferred_commands:
+      - npm run lint
+      - npm run typecheck
+      - npm run build
+      - npm test
+      - pnpm lint
+      - pnpm typecheck
+      - pnpm build
+      - pnpm test
+      - yarn lint
+      - yarn typecheck
+      - yarn build
+      - yarn test
+    completion_criteria:
+      - requirements_are_satisfied
+      - quality_commands_pass_or_failures_are_explained
+      - no_unauthorized_changes_detected
+      - vertical_slice_architecture_is_preserved
+      - final_decision_is_recorded
+
+workflow:
+  feature_delivery:
+    - step: intent_capture
+      owner: feature
+      output: intent_artifact
+    - step: context_load
+      owner: feature
+      output: context_selection
+    - step: architecture_review
+      owner: architecture
+      output: slice_boundary_decision
+    - step: domain_context
+      owner: architecture
+      output: domain_boundary_document
+    - step: implementation
+      owner: feature
+      output: code_changes
+    - step: self_check
+      owner: feature
+      output: self_check_note
+    - step: test_creation
+      owner: test
+      output: test_changes
+    - step: test_execution
+      owner: test
+      output: test_log
+    - step: validation
+      owner: validation
+      output: validation_report
+    - step: reporting
+      owner: validation
+      output: run_log
+  orchestration_defaults:
+    default_mode: mcp_connected_dual_runtime_multi_agent_dag
+    default_role_ownership:
+      claude:
+        - ui_ux_implementation
+        - ui_ux_revision
+        - design_system_design
+        - design_system_implementation
+      codex:
+        - business_logic_design
+        - business_logic_implementation
+        - code_review
+        - unit_tests
+        - validation
+    e2e_policy: user_directed_only
+    escalation_order:
+      - mcp_connected_dual_runtime_multi_agent_dag
+      - same_thread_role_switching
+      - session_split
+      - subagent_expansion
+      - worktree_expansion
+
+validation:
+  required_evidence:
+    - intent_artifact
+    - requirement_checklist
+    - changed_file_summary
+    - test_result
+    - architecture_check
+  optional_evidence:
+    - lint_result
+    - typecheck_result
+    - build_result
+    - manual_review_note
+    - self_check_note
+
+  decision_values:
+    - approved
+    - approved_with_notes
+    - rejected
+    - blocked
+
+reporting:
+  final_report_sections:
+    - intent
+    - summary
+    - changed_files
+    - loop_summary
+    - tests
+    - validation_result
+    - risks_or_followups
+  observability_summary_sections:
+    - period
+    - scope
+    - loop_distribution
+    - decision_distribution
+    - failure_distribution
+    - recurring_patterns
+    - followups
+    - harness_improvement_candidates

@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dayro
+    username: dayro
+    password: dayro
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  ai:
+    google:
+      genai:
+        api-key: ${SPRING_AI_GOOGLE_GENAI_API_KEY}
+        chat:
+          options:
+            model: gemini-3.6-flash
+
+seoul-open-api:
+  key: ${SEOUL_OPEN_API_KEY}
+
+google:
+  places:
+    api-key: ${GOOGLE_PLACES_API_KEY}
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY}
+
+kakao:
+  # dayro 실제 앱 - 박경찬님이 확인해준 등록된 redirect_uri: http://localhost:3000/api/auth/kakao/callback (프론트 포트)
+  rest-api-key: ${KAKAO_REST_API_KEY}
+  client-secret: ${KAKAO_CLIENT_SECRET}
+  redirect-uri: http://localhost:3000/api/auth/kakao/callback
+  admin-key: ${KAKAO_ADMIN_KEY}

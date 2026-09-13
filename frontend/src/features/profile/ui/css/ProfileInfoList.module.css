@@ -1,0 +1,11 @@
+.list {
+  padding-inline: 0.25rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+  padding-block: 1rem;
+}

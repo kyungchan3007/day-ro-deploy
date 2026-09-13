@@ -1,0 +1,13 @@
+
+> dayro-frontend@0.1.0 test:unit
+> vitest run --project !storybook src/shared/api/openapi/test/mini-locale.test.ts
+
+
+ RUN  v4.1.10 /Users/chan/Documents/develop/dayro/frontend
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  18:28:42
+   Duration  94ms (transform 20ms, setup 0ms, import 23ms, tests 18ms, environment 0ms)
+

@@ -1,0 +1,42 @@
+.card {
+  align-items: center;
+  display: flex;
+  gap: 0.875rem;
+  padding: 0.875rem;
+}
+
+.numberBadge {
+  align-items: center;
+  background: linear-gradient(
+    to bottom right,
+    var(--color-primary-200),
+    var(--color-primary-100)
+  );
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  min-width: 0;
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.desc {
+  margin-top: 0.125rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta {
+  margin-top: 0.375rem;
+}
+
+.date {
+  margin-top: 0.125rem;
+}

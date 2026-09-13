@@ -1,0 +1,14 @@
+.optionButton {
+  padding: 1rem 0.875rem;
+}
+
+.iconWrap {
+  background-color: color-mix(in srgb, var(--transport-accent) 12%, transparent);
+  color: var(--transport-accent);
+}
+
+@media (min-width: 640px) {
+  .optionButton {
+    padding: 1rem;
+  }
+}

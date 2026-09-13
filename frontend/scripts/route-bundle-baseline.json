@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "measurementStatus": "measured",
+  "reason": "2026-09-13: manually adopted the original session local production build using import * as z from zod/mini. Verified all 15 route totals against actual chunk files; course/new 913599 classic -> 895823 named-z -> 668043 namespace import. This measurement precedes the later auth/result hook lint fixes; it is a regression budget reference, not evidence of a successful final-source build. See validation report for provenance and missing final build evidence.",
+  "routes": {
+    "/": 629629,
+    "/_not-found": 514718,
+    "/course/new": 668043,
+    "/faq": 636437,
+    "/faq/contact": 636437,
+    "/login": 629063,
+    "/mypage": 629063,
+    "/mypage/withdraw": 629063,
+    "/privacy": 629063,
+    "/saved": 699011,
+    "/saved/[id]": 699011,
+    "/terms": 629063,
+    "/ui-preview": 577363,
+    "/ui-preview/colors": 518114,
+    "/ui-preview/layout-demo": 574112
+  }
+}

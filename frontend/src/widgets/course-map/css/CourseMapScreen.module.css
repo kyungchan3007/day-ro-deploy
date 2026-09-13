@@ -1,0 +1,66 @@
+/* 상황입력 · 확정 코스(지도 + 경로) 화면 스타일 (widgets/situation). 시안(HTML) 기준. */
+
+/* 지도 영역: 시안 220px 고정. bleed 본문 최상단에 붙는다. */
+.mapSection {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  flex-shrink: 0;
+}
+
+/* 장소 리스트 영역: 시안 좌우 여백(20px) + 상하 패딩. */
+.listSection {
+  padding: 20px var(--grid-margin, 20px) 24px;
+}
+
+/* 리스트 상단: 드래그 안내 + "원래 순서로" 리셋 버튼. */
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 32px;
+  margin-bottom: 10px;
+}
+
+.listHint {
+  font-size: 12px;
+  color: var(--color-text-muted, var(--color-neutral-500));
+}
+
+/* 하단 고정 액션바: 세로 배치 컨테이너만 담당. 버튼은 공용 <Button>(tonal/primary) 재사용. */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px var(--grid-margin, 20px);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface, #ffffff);
+}
+
+/* 빈 상태 */
+.emptyState {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  text-align: center;
+}
+
+.emptyText {
+  font-size: 14px;
+  color: var(--color-text-muted, var(--color-neutral-600));
+}
+
+/* 토스트: 하단 고정, 화면 중앙 정렬. */
+.toastWrap {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 96px;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}

@@ -1,0 +1,25 @@
+.navTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-strong);
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 1.25rem 1.5rem;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding-block: 2rem;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

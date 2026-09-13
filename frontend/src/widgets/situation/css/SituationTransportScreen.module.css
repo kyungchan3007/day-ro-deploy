@@ -1,0 +1,45 @@
+.footer {
+  border-top: 1px solid var(--color-border);
+  padding: 0.75rem 1rem;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding-top: 1.25rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  border-radius: 999px;
+  background: var(--color-primary-surface);
+  padding: 0.25rem 0.625rem;
+}
+
+.groupCaption {
+  margin-top: 0.5rem;
+}
+
+.groupTitle {
+  margin-top: 0.125rem;
+}
+
+.cardGroup {
+  margin-top: 0.75rem;
+}
+
+.section {
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .footer {
+    padding-inline: 1.5rem;
+  }
+}

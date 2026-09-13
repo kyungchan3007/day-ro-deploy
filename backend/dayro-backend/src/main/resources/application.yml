@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: dayro
+  profiles:
+    active: loc
+  autoconfigure:
+    exclude:
+      # pgvector 저장소는 아직 미사용(RAG 도입 전) - EmbeddingModel 빈이 없어 기동 실패하는 것을 방지
+      - org.springframework.ai.vectorstore.pgvector.autoconfigure.PgVectorStoreAutoConfiguration
+
+server:
+  port: 8080

@@ -1,0 +1,70 @@
+{
+  "$schema": "./schemas/e2e-impact-map.schema.json",
+  "serviceRoots": [
+    "frontend/src/",
+    "frontend/public/",
+    "frontend/package.json",
+    "frontend/package-lock.json",
+    "frontend/next.config.ts",
+    "frontend/playwright.config.ts",
+    "frontend/vitest.config.ts",
+    "frontend/e2e-impact-map.json"
+  ],
+  "defaultSpecs": [
+    "src/e2e/**/*.spec.ts"
+  ],
+  "mappings": [
+    {
+      "name": "course-new-situation-flow",
+      "changed": [
+        "frontend/src/app/course/new/",
+        "frontend/src/features/situation/",
+        "frontend/src/widgets/situation/"
+      ],
+      "specs": [
+        "src/e2e/course/course-new.spec.ts"
+      ]
+    },
+    {
+      "name": "course-map-route-guide",
+      "changed": [
+        "frontend/src/features/course-map/",
+        "frontend/src/widgets/course-map/"
+      ],
+      "specs": [
+        "src/e2e/course/course-map-route-guide.spec.ts"
+      ]
+    },
+    {
+      "name": "home",
+      "changed": [
+        "frontend/src/app/page.tsx",
+        "frontend/src/features/home/",
+        "frontend/src/widgets/home/",
+        "frontend/src/shared/static/home/"
+      ],
+      "specs": [
+        "src/e2e/home/home.spec.ts"
+      ]
+    },
+    {
+      "name": "auth-profile-menu",
+      "changed": [
+        "frontend/src/app/login/",
+        "frontend/src/app/mypage/",
+        "frontend/src/features/auth/",
+        "frontend/src/features/profile/",
+        "frontend/src/widgets/auth/",
+        "frontend/src/widgets/profile/",
+        "frontend/src/shared/static/auth/",
+        "frontend/src/shared/static/profile/",
+        "frontend/src/shared/ui/auth/",
+        "frontend/src/shared/ui/menu/",
+        "frontend/src/shared/ui/layout/SideMenu.tsx"
+      ],
+      "specs": [
+        "src/e2e/auth/auth-profile.spec.ts"
+      ]
+    }
+  ]
+}

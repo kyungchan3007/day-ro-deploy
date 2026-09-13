@@ -1,0 +1,64 @@
+#!/bin/sh
+# intent 존재 강제 훅.
+# 프론트 앱 코드(frontend/src)가 이 브랜치에서 변경됐는데, intent(sdd/tasks) 파일이
+# 브랜치에 함께 없으면 push를 막는다.
+#   - intent = 스펙/결정. 작업하며 작성하되 "커밋(=push) 전 완성"이 원칙.
+#   - reports(runs/validation) = 실행 로그(블랙박스), 별개 계층.
+# 우회(소규모 inline로 충분할 때): git push --no-verify
+#
+# 이 훅은 프론트엔드 전용이다. frontend/src 변경이 없으면(백엔드 등) 아무것도 막지 않는다.
+# 팀 셋업(1회): repo 루트에서  git config core.hooksPath frontend/.githooks
+# (frontend에서 npm install 하면 package.json prepare가 자동 설정)
+
+ZERO="0000000000000000000000000000000000000000"
+BASE_BRANCH="develop"
+fail=0
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  # 브랜치 삭제 push는 검사 대상 아님
+  [ "$local_sha" = "$ZERO" ] && continue
+
+  if [ "$remote_sha" = "$ZERO" ]; then
+    # 신규 브랜치: base(develop)와의 merge-base부터 검사
+    base=$(git merge-base "$local_sha" "origin/$BASE_BRANCH" 2>/dev/null \
+        || git merge-base "$local_sha" "$BASE_BRANCH" 2>/dev/null)
+    if [ -z "$base" ]; then
+      # base를 못 찾으면 오탐 방지를 위해 검사 생략
+      echo "[pre-push] base($BASE_BRANCH) 미확인 → intent 검사 생략 ($local_ref)"
+      continue
+    fi
+    range="$base..$local_sha"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+
+  changed=$(git diff --name-only "$range" 2>/dev/null)
+  [ -z "$changed" ] && continue
+
+  # 프론트 앱 코드 변경(테스트/스토리/e2e/mock 제외)
+  code_changed=$(printf '%s\n' "$changed" \
+    | grep -E '^frontend/src/' \
+    | grep -vE '\.(test|spec|stories)\.[jt]sx?$|/test/|/e2e/|/mocks/')
+  [ -z "$code_changed" ] && continue
+
+  # 이 브랜치 범위에 intent(sdd/tasks) 또는 그 압축본(archive) 변경이 함께 있는가.
+  # (같은 브랜치에서 intent를 만들고 archive로 압축하면 원본은 net-diff에서 사라지므로 archive도 인정)
+  intent_changed=$(printf '%s\n' "$changed" \
+    | grep -E '^frontend/\.agents/intent/(tasks|sdd|archive)/.*\.md$')
+
+  if [ -z "$intent_changed" ]; then
+    echo "✋ [pre-push] intent 누락 (ref: $local_ref)"
+    echo "   프론트 앱 코드가 변경됐지만 이 브랜치에 intent(sdd/tasks) 파일이 없습니다."
+    echo "   .agents/intent/tasks/<날짜>-<slug>.md (필요 시 sdd)를 작성·커밋한 뒤 다시 push 하세요."
+    echo "   변경된 앱 코드(일부):"
+    printf '%s\n' "$code_changed" | sed 's/^/     /' | head -5
+    fail=1
+  fi
+done
+
+if [ "$fail" -ne 0 ]; then
+  echo ""
+  echo "   (소규모라 inline Execution Spec으로 충분하면: git push --no-verify)"
+  exit 1
+fi
+exit 0

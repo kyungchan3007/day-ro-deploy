@@ -1,0 +1,52 @@
+.navTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-strong);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-block: 1.5rem;
+}
+
+.heading {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-text-strong);
+}
+
+/* FAQ 하단(시안 .faq-bottom): 구분선 + 안내 텍스트 + 문의하기 버튼. */
+.faqBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px calc(20px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--color-border);
+}
+
+.faqBottomText {
+  font-size: 13px;
+  color: var(--color-neutral-500);
+}
+
+.contactButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 0.12s ease, filter 0.15s ease;
+}
+
+.contactButton:active {
+  transform: scale(0.98);
+  filter: brightness(0.92);
+}
