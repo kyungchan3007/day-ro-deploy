@@ -313,9 +313,9 @@ docker compose up -d   # PostgreSQL + Redis
 
 | <img src="https://github.com/깃허브아이디.png" width="100"/> | <img src="https://github.com/깃허브아이디.png" width="100"/> | <img src="https://github.com/깃허브아이디.png" width="100"/> | <img src="https://github.com/깃허브아이디.png" width="100"/> |
 |:---:|:---:|:---:|:---:|
-| **박경찬** | **김동규** | **한혜민** | **박기웅** |
-| Frontend | Backend | Backend | Backend |
-| UI/UX · 성능 최적화 | 로그인 · 상황 입력 | AI 코스 생성 | 코스 저장·수정·공유 |
+| **박경찬** | **이원준** | **한혜민** | **박기웅** |
+| Frontend | Backend | 기획 | 마케팅 |
+| UI/UX · 성능 최적화 | API · AI 코스 생성 | 서비스 기획 | 마케팅 |
 
 <br/>
 
