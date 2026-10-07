@@ -1,0 +1,161 @@
+# 운영(EC2) 전용 compose.
+# 서버에서는 빌드하지 않는다 - GitHub Actions가 GHCR에 올린 이미지를 받아 띄우기만 한다.
+# 백엔드 배포(무중단)는 compose를 직접 부르지 말고 같은 디렉터리의 deploy.sh를 실행한다.
+#   ./deploy.sh
+#
+# 값은 같은 디렉터리의 .env에서 읽는다(.env.server.example 참고). .env는 절대 커밋하지 않는다.
+
+name: dayro
+
+# docker logs(stdout)가 쌓이는 json 파일은 기본값이 무제한이라 디스크를 조금씩 채운다.
+# 오래 보관할 애플리케이션 로그는 backend의 일 단위 파일 로그(backend-logs 볼륨)가 맡고, 여기서는 최근분만 둔다.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+# 백엔드 공통 설정 - backend-blue / backend-green이 함께 쓴다
+x-backend-env: &backend-env
+  SPRING_PROFILES_ACTIVE: prod
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+  SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+  SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+  SPRING_DATA_REDIS_HOST: redis
+  SPRING_DATA_REDIS_PORT: 6379
+  SPRING_AI_GOOGLE_GENAI_API_KEY: ${SPRING_AI_GOOGLE_GENAI_API_KEY}
+  GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY}
+  JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+  KAKAO_REST_API_KEY: ${KAKAO_REST_API_KEY}
+  KAKAO_CLIENT_SECRET: ${KAKAO_CLIENT_SECRET}
+  KAKAO_REDIRECT_URI: ${KAKAO_REDIRECT_URI}
+  KAKAO_ADMIN_KEY: ${KAKAO_ADMIN_KEY}
+  QUOTA_PLACES_DAILY_LIMIT: ${QUOTA_PLACES_DAILY_LIMIT:-350}
+  QUOTA_PLACES_PHOTO_DAILY_LIMIT: ${QUOTA_PLACES_PHOTO_DAILY_LIMIT:-300}
+  QUOTA_PLACES_PHOTO_PER_IP_LIMIT: ${QUOTA_PLACES_PHOTO_PER_IP_LIMIT:-60}
+  # 서버 .env에 없으면 빈 값 -> Sentry 비활성화(기동은 정상)
+  SENTRY_DSN: ${SENTRY_DSN:-}
+  SENTRY_ENVIRONMENT: production
+
+x-backend: &backend
+  image: ${BACKEND_IMAGE}
+  logging: *default-logging
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  # 8080도 호스트로 열지 않는다 - 외부 트래픽은 전부 caddy를 거친다
+  healthcheck:
+    test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health || exit 1"]
+    interval: 15s
+    timeout: 5s
+    retries: 5
+    start_period: 90s
+    # 기동 구간(start_period)에는 5초마다 확인해서, 배포 때 healthy 판정을 15초 단위로 기다리지 않게 한다
+    start_interval: 5s
+  # 종료 신호 후 강제 종료까지의 대기. Spring Boot graceful shutdown(최대 30초)이 처리 중인 요청을 끝낼 시간을 준다.
+  # 기본값 10초면 10초 넘게 걸리는 코스 생성 요청이 전환 중에 잘린다
+  stop_grace_period: 35s
+  volumes:
+    # application-prod.yml의 일 단위 롤링 파일 로그(최근 7일, 최대 1GB) - 색상별로 파일명이 다르다
+    - backend-logs:/app/logs
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: dayro-postgres
+    logging: *default-logging
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    # 호스트 루프백에만 연다 - DBeaver 등은 SSH 터널로만 접근하고,
+    # 0.0.0.0으로 열면 보안 그룹 설정 실수 하나로 DB가 인터넷에 노출된다
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: dayro-redis
+    logging: *default-logging
+    # appendonly: 일일 호출 예산/레이트 리밋 카운터가 여기 있어서, 재시작으로 날아가면 한도가 초기화된다.
+    # noeviction: 메모리가 차도 카운터를 함부로 버리지 않는다. 캐시가 실패하는 편이 과금 한도가 풀리는 것보다 안전하다.
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --maxmemory
+      - 256mb
+      - --maxmemory-policy
+      - noeviction
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # 무중단(블루-그린) 배포를 위해 백엔드를 색상별 두 서비스로 둔다. 평소에는 한 색상만 떠 있다.
+  # profiles로 묶어 두어서 인자 없는 `docker compose up -d`가 두 색상을 동시에 띄우지 않게 한다
+  # (2GiB 서버에서 JVM 두 개가 상시로 떠 있으면 메모리가 모자란다).
+  # 색상 전환은 deploy/deploy.sh가 맡는다 - 새 색상 기동 → healthy 확인 → caddy 전환 → 이전 색상 종료.
+  backend-blue:
+    <<: *backend
+    container_name: dayro-backend-blue
+    profiles: ["blue"]
+    environment:
+      <<: *backend-env
+      # 두 색상이 같은 볼륨에 같은 파일명으로 쓰면 전환 중 로그가 서로 덮어써진다
+      LOGGING_FILE_NAME: /app/logs/dayro-blue.log
+      LOGGING_LOGBACK_ROLLINGPOLICY_FILE_NAME_PATTERN: /app/logs/dayro-blue.%d{yyyy-MM-dd}.%i.log.gz
+
+  backend-green:
+    <<: *backend
+    container_name: dayro-backend-green
+    profiles: ["green"]
+    environment:
+      <<: *backend-env
+      LOGGING_FILE_NAME: /app/logs/dayro-green.log
+      LOGGING_LOGBACK_ROLLINGPOLICY_FILE_NAME_PATTERN: /app/logs/dayro-green.%d{yyyy-MM-dd}.%i.log.gz
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: dayro-caddy
+    logging: *default-logging
+    # 특정 백엔드 색상에 depends_on을 걸지 않는다 - 어느 색상이 떠 있을지는 배포 시점마다 다르다.
+    # 백엔드가 아직 없으면 caddy는 502를 돌려줄 뿐 기동은 된다.
+    environment:
+      # 도메인 연결 전에는 ":80", 도메인이 생기면 "api.example.com"으로 바꾼다(그때 인증서가 자동 발급된다)
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # 활성 색상을 가리키는 reverse_proxy 한 줄(active.caddy)이 들어 있는 디렉터리 - deploy.sh가 바꿔 쓴다.
+      # 파일이 아니라 디렉터리를 마운트한다: 파일 단위 bind mount는 원본이 새 파일로 교체되면 컨테이너가 옛 내용을 계속 본다
+      - ./caddy-upstream:/etc/caddy/upstream:ro
+      # 발급받은 인증서가 재시작마다 날아가면 Let's Encrypt 발급 한도에 걸린다
+      - caddy-data:/data
+      - caddy-config:/config
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  redis-data:
+  caddy-data:
+  caddy-config:
+  backend-logs:

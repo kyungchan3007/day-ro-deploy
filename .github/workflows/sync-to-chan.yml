@@ -1,0 +1,34 @@
+name: Sync Develop to Chan
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Mirror current snapshot to chan main
+        env:
+          CHAN_PUSH_TOKEN: ${{ secrets.CHAN_PUSH_TOKEN }}
+        run: |
+          git remote add chan-sync https://x-access-token:${CHAN_PUSH_TOKEN}@github.com/kyungchan3007/day-ro-deploy.git
+          # 과거 히스토리(시크릿 포함)를 제외하고 현재 코드 상태만 단일 스냅샷 커밋으로 미러한다.
+          git checkout --orphan snapshot
+          git add -A
+          git commit -m "sync snapshot: $(date +%F) (${GITHUB_SHA:0:7})"
+          git push chan-sync snapshot:main --force

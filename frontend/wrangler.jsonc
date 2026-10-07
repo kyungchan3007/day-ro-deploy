@@ -1,0 +1,31 @@
+/**
+ * Cloudflare Workers 배포 설정 (OpenNext, issue #146).
+ * - `opennextjs-cloudflare build`가 `.open-next/`에 Worker·정적 자산을 만들고, 이 파일 기준으로 배포한다.
+ * - 환경변수 값은 여기에 두지 않는다. 빌드 변수·런타임 변수(시크릿)는 Cloudflare 대시보드에서 넣는다
+ *   (목록: `.agents/guides/bff.md` "서버 환경변수", Notion 09 인프라·배포 "배포 환경변수·발급 정보").
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Cloudflare 대시보드의 Worker 이름과 같아야 Workers Builds 가 이 설정으로 배포한다.
+  "name": "dayro-frontend",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-01",
+  // nodejs_compat: Next 서버 런타임이 쓰는 Node API
+  // global_fetch_strictly_public: 같은 zone 주소로의 fetch 도 공개 인터넷 경로로 보냄(OpenNext 권장값)
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      // OpenNext 가 캐시 재검증 등에서 자기 Worker 를 다시 호출할 때 쓰는 바인딩
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "dayro-frontend"
+    }
+  ],
+  // Workers 로그(대시보드 › Worker › 로그). CSP 위반·BFF 오류 로그 확인용
+  "observability": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,21 @@
+# zod/mini contract 실행 기록
+
+- task_id: 2026-09-13-zod-mini-contract
+- date: 2026-09-13
+- task_type: 공용 계약 리팩터링 / 단위 테스트 / 검증 / 성능 가드
+- owners: Codex implementation/test/validation (사용자 직접 지정, Claude 재호출 금지)
+- intent_source: `.agents/intent/{prd,sdd,tasks}/2026-09-13-zod-mini-contract.md`
+- documents_loaded: [validation report](../validation/2026-09-13-zod-mini-contract.md)의 문서 적용 항목 참조
+- loop_type: Full Loop
+- current_stage: Report
+- stages_visited: Intent Capture → Context Load → Plan and Boundary Decision → Implement → Self Check → Evidence Run → Validate → Report
+- iterations: 초기 구현 + 테스트 type predicate 수정 + Storybook project 제외 + lint 생성물 제외/기존 실패 분리
+- evidence_bundle: BFF Bundle + Validation Bundle
+- evidence_commands: [validation report 단계별 명령](../validation/2026-09-13-zod-mini-contract.md#evidence-plan-단계별-실행), 동명 evidence 디렉터리
+- decision: rejected
+- failure_stage: Evidence Gate
+- failure_reason: production compile 정체/중단(exit 130), stats 및 실측 mini baseline 부재, 전체 lint 기존 17 errors/3 warnings, Storybook listener EPERM, 서버 금지에 따른 E2E 미실행
+- successful_evidence: Node 41파일/500건, classic 기대값 312건, 공개 타입 34개 동일, locale 독립/mutation, 품질 가드 30건, tsc/변경 파일 lint 통과
+- followup_action: 허용 환경 production 실측과 locale 초기화 검증 → baseline 수동 확정 → 현재 빌드 예산 통과; 기존 lint 해결; 사용자 E2E/Coverage/Lighthouse; branch protection 확인
+- guardrail_flags: network_restricted, build_skipped_with_reason, validation_not_independent
+- guardrail_notes: 서버 성공 기동 없음. 전체 unit 실행 중 Storybook의 listener 시도는 EPERM으로 차단되었고 Node project만 별도 실행. dev/start/E2E 직접 기동 없음. 의존성 설치/commit/push/intent 결정 변경/후속 task 구현 없음.

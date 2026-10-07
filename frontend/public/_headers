@@ -1,0 +1,4 @@
+# Cloudflare Workers 정적 자산 응답 헤더 (issue #146).
+# _next/static 파일은 이름에 해시가 붙어 내용이 바뀌면 주소도 바뀌므로 1년 캐시한다.
+/_next/static/*
+  Cache-Control: public,max-age=31536000,immutable

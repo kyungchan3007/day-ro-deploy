@@ -1,0 +1,20 @@
+.summary {
+  margin-bottom: 1.25rem;
+}
+
+.stepGuide {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+  z-index: 30;
+  transform: translateX(-50%);
+}
+
+/* 단계 화면 공용 토스트(생성 결과 확인 불가 안내 등). 결과 화면 토스트와 같은 위치를 쓴다. */
+.toastWrap {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+  z-index: 30;
+  transform: translateX(-50%);
+}

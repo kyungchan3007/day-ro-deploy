@@ -1,0 +1,190 @@
+TAP version 13
+# Subtest: accepts measured totals and counts shared chunks once per route
+ok 1 - accepts measured totals and counts shared chunks once per route
+  ---
+  duration_ms: 3.170417
+  type: 'test'
+  ...
+# Subtest: rejects budget exceeded
+ok 2 - rejects budget exceeded
+  ---
+  duration_ms: 3.08925
+  type: 'test'
+  ...
+# Subtest: rejects route missing
+ok 3 - rejects route missing
+  ---
+  duration_ms: 1.379417
+  type: 'test'
+  ...
+# Subtest: rejects extra route
+ok 4 - rejects extra route
+  ---
+  duration_ms: 1.256792
+  type: 'test'
+  ...
+# Subtest: rejects duplicate route
+ok 5 - rejects duplicate route
+  ---
+  duration_ms: 3.285334
+  type: 'test'
+  ...
+# Subtest: rejects chunk missing
+ok 6 - rejects chunk missing
+  ---
+  duration_ms: 2.02875
+  type: 'test'
+  ...
+# Subtest: rejects total mismatch
+ok 7 - rejects total mismatch
+  ---
+  duration_ms: 2.505875
+  type: 'test'
+  ...
+# Subtest: rejects duplicate chunk
+ok 8 - rejects duplicate chunk
+  ---
+  duration_ms: 1.601959
+  type: 'test'
+  ...
+# Subtest: rejects empty chunk list
+ok 9 - rejects empty chunk list
+  ---
+  duration_ms: 1.429958
+  type: 'test'
+  ...
+# Subtest: rejects invalid byte count
+ok 10 - rejects invalid byte count
+  ---
+  duration_ms: 3.131917
+  type: 'test'
+  ...
+# Subtest: rejects path traversal
+ok 11 - rejects path traversal
+  ---
+  duration_ms: 1.416792
+  type: 'test'
+  ...
+# Subtest: rejects pending measurement
+ok 12 - rejects pending measurement
+  ---
+  duration_ms: 1.203042
+  type: 'test'
+  ...
+# Subtest: rejects missing stats
+ok 13 - rejects missing stats
+  ---
+  duration_ms: 2.15425
+  type: 'test'
+  ...
+# Subtest: rejects unsupported stats format
+ok 14 - rejects unsupported stats format
+  ---
+  duration_ms: 1.485459
+  type: 'test'
+  ...
+# Subtest: accepts exact allowance and rejects one byte over (baseline 100)
+ok 15 - accepts exact allowance and rejects one byte over (baseline 100)
+  ---
+  duration_ms: 2.639625
+  type: 'test'
+  ...
+# Subtest: accepts exact allowance and rejects one byte over (baseline 1000000)
+ok 16 - accepts exact allowance and rejects one byte over (baseline 1000000)
+  ---
+  duration_ms: 2.489583
+  type: 'test'
+  ...
+# Subtest: blocks zod imports and re-exports
+ok 17 - blocks zod imports and re-exports
+  ---
+  duration_ms: 726.295334
+  type: 'test'
+  ...
+# Subtest: blocks zod/v3 imports and re-exports
+ok 18 - blocks zod/v3 imports and re-exports
+  ---
+  duration_ms: 8.737042
+  type: 'test'
+  ...
+# Subtest: blocks zod/v3/index.js imports and re-exports
+ok 19 - blocks zod/v3/index.js imports and re-exports
+  ---
+  duration_ms: 5.782666
+  type: 'test'
+  ...
+# Subtest: blocks zod/v4 imports and re-exports
+ok 20 - blocks zod/v4 imports and re-exports
+  ---
+  duration_ms: 7.4985
+  type: 'test'
+  ...
+# Subtest: blocks zod/v4/classic imports and re-exports
+ok 21 - blocks zod/v4/classic imports and re-exports
+  ---
+  duration_ms: 6.308291
+  type: 'test'
+  ...
+# Subtest: blocks zod/v4/classic/external.js imports and re-exports
+ok 22 - blocks zod/v4/classic/external.js imports and re-exports
+  ---
+  duration_ms: 5.213709
+  type: 'test'
+  ...
+# Subtest: blocks zod/v4-mini imports and re-exports
+ok 23 - blocks zod/v4-mini imports and re-exports
+  ---
+  duration_ms: 3.557
+  type: 'test'
+  ...
+# Subtest: blocks zod/v4/mini imports and re-exports
+ok 24 - blocks zod/v4/mini imports and re-exports
+  ---
+  duration_ms: 3.875125
+  type: 'test'
+  ...
+# Subtest: blocks zod/locales imports and re-exports
+ok 25 - blocks zod/locales imports and re-exports
+  ---
+  duration_ms: 3.154375
+  type: 'test'
+  ...
+# Subtest: blocks zod/v4/locales imports and re-exports
+ok 26 - blocks zod/v4/locales imports and re-exports
+  ---
+  duration_ms: 3.599958
+  type: 'test'
+  ...
+# Subtest: blocks zod/v4/locales/ko.js imports and re-exports
+ok 27 - blocks zod/v4/locales/ko.js imports and re-exports
+  ---
+  duration_ms: 2.346417
+  type: 'test'
+  ...
+# Subtest: allows zod/mini
+ok 28 - allows zod/mini
+  ---
+  duration_ms: 2.354417
+  type: 'test'
+  ...
+# Subtest: allows zod/v4/core
+ok 29 - allows zod/v4/core
+  ---
+  duration_ms: 3.724208
+  type: 'test'
+  ...
+# Subtest: allows zod/v4/locales/en.js
+ok 30 - allows zod/v4/locales/en.js
+  ---
+  duration_ms: 1.52225
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 916.357166

@@ -1,0 +1,157 @@
+name: Backend Deploy
+
+# develop에 백엔드 변경이 들어오면 ARM 이미지를 빌드해 GHCR에 올리고, EC2에 무중단(블루-그린)으로 배포한다.
+# 서버는 2GiB라 Gradle 빌드를 감당하지 못하므로 빌드는 여기서만 한다.
+# 배포는 SSH가 아니라 SSM으로 보낸다 - EC2의 SSH는 특정 IP로만 열려 있고, 러너 IP는 매번 바뀐다.
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'backend/dayro-backend/**'
+      - '.github/workflows/backend-deploy.yml'
+  workflow_dispatch:
+
+# 배포가 겹치면 두 색상이 동시에 뜨거나 caddy 전환이 꼬인다 - 한 번에 하나씩, 진행 중인 배포는 취소하지 않는다
+concurrency:
+  group: backend-deploy
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: ap-northeast-2
+  # ARN과 인스턴스 ID는 비밀이 아니다. 역할의 신뢰 정책이 이 저장소의 develop 브랜치로만 제한되어 있다
+  DEPLOY_ROLE_ARN: arn:aws:iam::314944603088:role/dayro-github-deploy
+  INSTANCE_ID: i-0723ed899092d3fd8
+
+jobs:
+  build-and-push:
+    # EC2가 t4g(Graviton, arm64)라 러너도 ARM으로 맞춘다 - 에뮬레이션 없이 네이티브로 빌드된다
+    runs-on: ubuntu-24.04-arm
+
+    permissions:
+      contents: read
+      packages: write
+
+    outputs:
+      image: ${{ steps.image.outputs.name }}:${{ github.sha }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # GHCR은 이미지 경로에 대문자를 허용하지 않는데 조직명이 Dayro-dev라 변환이 필요하다
+      - name: 이미지 이름 결정
+        id: image
+        run: |
+          owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "name=ghcr.io/${owner}/dayro-backend" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 빌드 및 푸시
+        uses: docker/build-push-action@v6
+        with:
+          context: backend/dayro-backend
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ${{ steps.image.outputs.name }}:latest
+            ${{ steps.image.outputs.name }}:${{ github.sha }}
+          # Gradle 의존성 레이어를 재사용해 매번 전체를 다시 받지 않게 한다
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      # GitHub OIDC 토큰으로 AWS 역할을 맡는다 - 저장소에 AWS 액세스 키를 두지 않는다
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # 서버는 git 저장소가 아니라 파일만 놓여 있다. 배포 설정(compose/Caddyfile/deploy.sh)도 매번 이 커밋 기준으로 덮어쓴다.
+      # 파일 내용은 base64로 실어 보내서 따옴표·특수문자 이스케이프 문제를 피한다.
+      - name: 서버 실행 스크립트 생성
+        env:
+          IMAGE: ${{ needs.build-and-push.outputs.image }}
+        run: |
+          src=backend/dayro-backend
+          b64() { base64 -w0 "$1"; }
+          {
+            echo 'set -euo pipefail'
+            echo 'cd "$HOME/dayro"'
+            echo 'backup_dir="deploy-backup/$(date +%Y%m%d-%H%M%S)"'
+            echo 'mkdir -p "$backup_dir"'
+            # 새 파일로 바꿔치기(mv)하지 않고 기존 파일에 덮어쓴다 - caddy는 Caddyfile을 파일 단위로 마운트해서,
+            # inode가 바뀌면 컨테이너가 옛 내용을 계속 본다
+            echo 'put() { if [ -f "$1" ]; then cp -p "$1" "$backup_dir/"; fi; printf "%s" "$2" | base64 -d > "$1.new"; cat "$1.new" > "$1"; rm -f "$1.new"; }'
+            echo "put compose.prod.yaml '$(b64 "$src/compose.prod.yaml")'"
+            echo "put Caddyfile '$(b64 "$src/Caddyfile")'"
+            echo "put deploy.sh '$(b64 "$src/deploy/deploy.sh")'"
+            echo 'chmod +x deploy.sh'
+            # 배포 전 설정 백업은 최근 10개만 남긴다
+            echo 'ls -1dt deploy-backup/*/ 2>/dev/null | tail -n +11 | xargs -r rm -rf --'
+            # .env의 BACKEND_IMAGE(latest) 대신 이번 커밋 이미지로 고정한다 - 어떤 버전이 떠 있는지 명확해지고 되돌리기도 쉽다
+            echo "BACKEND_IMAGE='$IMAGE' ./deploy.sh"
+          } > remote.sh
+          bash -n remote.sh
+          echo "스크립트 크기: $(wc -c < remote.sh) bytes"
+
+          # SSM의 RunShellScript는 root로 실행된다. GHCR 로그인 정보(~/.docker/config.json)와 ~/dayro 파일 소유권이
+          # ec2-user 기준이라 ec2-user로 바꿔 실행한다. 설정 파일 주석이 많아 gzip으로 SSM 요청 크기를 줄인다
+          jq -n --arg script "$(gzip -9 -c remote.sh | base64 -w0)" \
+            '{commands: ["echo \($script) | base64 -d | gunzip | sudo -u ec2-user -H bash"], executionTimeout: ["900"]}' \
+            > params.json
+          echo "SSM 명령 크기: $(jq -r '.commands[0]' params.json | wc -c) bytes"
+
+      - name: SSM으로 배포 실행
+        run: |
+          command_id=$(aws ssm send-command \
+            --instance-ids "$INSTANCE_ID" \
+            --document-name AWS-RunShellScript \
+            --comment "backend deploy ${GITHUB_SHA::7}" \
+            --parameters file://params.json \
+            --query 'Command.CommandId' --output text)
+          echo "SSM Command ID: $command_id"
+
+          # 배포 스크립트는 healthy 대기(최대 180초) + 이전 색상 종료(최대 35초)까지 해서 보통 1~3분 걸린다
+          deadline=$((SECONDS + 900))
+          status=Pending
+          while [ "$SECONDS" -lt "$deadline" ]; do
+            sleep 10
+            # 보낸 직후에는 호출 기록이 아직 없을 수 있다(InvocationDoesNotExist) - 다음 주기에 다시 조회한다
+            status=$(aws ssm get-command-invocation --command-id "$command_id" --instance-id "$INSTANCE_ID" \
+              --query Status --output text 2>/dev/null || echo Pending)
+            echo "상태: $status"
+            case "$status" in
+              Pending|InProgress|Delayed) ;;
+              *) break ;;
+            esac
+          done
+
+          echo "::group::서버 출력"
+          aws ssm get-command-invocation --command-id "$command_id" --instance-id "$INSTANCE_ID" \
+            --query StandardOutputContent --output text || true
+          echo "::endgroup::"
+          echo "::group::서버 오류 출력"
+          aws ssm get-command-invocation --command-id "$command_id" --instance-id "$INSTANCE_ID" \
+            --query StandardErrorContent --output text || true
+          echo "::endgroup::"
+
+          if [ "$status" != "Success" ]; then
+            echo "::error::배포 실패 (SSM 상태: $status). 실패하면 deploy.sh가 새 색상만 치우고 기존 버전을 유지한다"
+            exit 1
+          fi

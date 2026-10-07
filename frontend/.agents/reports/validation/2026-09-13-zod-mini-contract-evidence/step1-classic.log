@@ -1,0 +1,13 @@
+
+> dayro-frontend@0.1.0 test:unit
+> vitest run src/shared/api/openapi/test/contract-equivalence.test.ts
+
+
+ RUN  v4.1.10 /Users/chan/Documents/develop/dayro/frontend
+
+
+ Test Files  1 passed (1)
+      Tests  312 passed (312)
+   Start at  18:21:38
+   Duration  223ms (transform 47ms, setup 0ms, import 109ms, tests 23ms, environment 0ms)
+

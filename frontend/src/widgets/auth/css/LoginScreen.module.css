@@ -1,0 +1,46 @@
+.shell {
+  align-items: center;
+  background: var(--color-frame);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logoWrap {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.card {
+  width: 100%;
+}
+
+.copyBlock {
+  text-align: center;
+}
+
+.introImageWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.terms {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.termsLink {
+  transition: color 0.2s ease;
+}
+
+.termsLink:hover {
+  color: var(--color-text-secondary);
+}
+
+.submitForm {
+  margin-top: 1.25rem;
+  width: 100%;
+}

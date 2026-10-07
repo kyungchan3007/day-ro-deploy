@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: dayro-postgres
+    environment:
+      POSTGRES_DB: dayro
+      POSTGRES_USER: dayro
+      POSTGRES_PASSWORD: dayro
+    ports:
+      - "5432:5432"
+    volumes:
+      - dayro-postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: dayro-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  dayro-postgres-data:

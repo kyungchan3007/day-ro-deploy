@@ -1,0 +1,13 @@
+
+> dayro-frontend@0.1.0 test:unit
+> vitest run --project !storybook
+
+
+ RUN  v4.1.10 /Users/chan/Documents/develop/dayro/frontend
+
+
+ Test Files  41 passed (41)
+      Tests  500 passed (500)
+   Start at  18:29:38
+   Duration  969ms (transform 1.69s, setup 0ms, import 2.66s, tests 1.03s, environment 2ms)
+

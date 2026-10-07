@@ -1,0 +1,59 @@
+.footer {
+  border-top: 1px solid var(--color-border);
+  padding: 0.75rem 1rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1.25rem;
+}
+
+.heading {
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+/* 구 드롭다운 + 행정동 검색 블록: 본문 중앙정렬 안에서 좌측정렬 전체폭 컬럼. */
+.fields {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 0.5rem;
+  text-align: left;
+}
+
+.fieldBlock {
+  width: 100%;
+}
+
+.stepLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--color-neutral-600);
+}
+
+.stepBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .footer {
+    padding-inline: 1.5rem;
+  }
+}

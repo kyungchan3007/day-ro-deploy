@@ -1,0 +1,80 @@
+
+> dayro-frontend@0.1.0 lint
+> eslint
+
+
+/Users/chan/Documents/develop/dayro/frontend/.claude/skills/brand/scripts/extract-colors.cjs
+  21:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  22:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/chan/Documents/develop/dayro/frontend/.claude/skills/brand/scripts/inject-brand-context.cjs
+  15:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  16:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/chan/Documents/develop/dayro/frontend/.claude/skills/brand/scripts/sync-brand-to-tokens.cjs
+  12:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  13:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  14:26  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/chan/Documents/develop/dayro/frontend/.claude/skills/brand/scripts/validate-asset.cjs
+  16:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  17:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/chan/Documents/develop/dayro/frontend/.claude/skills/design-system/scripts/embed-tokens.cjs
+  13:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  14:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/chan/Documents/develop/dayro/frontend/.claude/skills/design-system/scripts/generate-tokens.cjs
+   10:12  error    A `require()` style import is forbidden     @typescript-eslint/no-require-imports
+   11:14  error    A `require()` style import is forbidden     @typescript-eslint/no-require-imports
+  148:20  warning  'value' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/chan/Documents/develop/dayro/frontend/.claude/skills/design-system/scripts/validate-tokens.cjs
+  11:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  12:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/chan/Documents/develop/dayro/frontend/public/mockServiceWorker.js
+  1:1  warning  Unused eslint-disable directive (no problems were reported)
+
+/Users/chan/Documents/develop/dayro/frontend/src/features/auth/hooks/useAuthSession.ts
+  36:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/chan/Documents/develop/dayro/frontend/src/features/auth/hooks/useAuthSession.ts:36:7
+  34 |   useEffect(() => {
+  35 |     if (!enabled) {
+> 36 |       setLoading(false);
+     |       ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  37 |       return;
+  38 |     }
+  39 |  react-hooks/set-state-in-effect
+
+/Users/chan/Documents/develop/dayro/frontend/src/features/situation/hooks/useWheelColumn.ts
+  6:3  warning  'useMemo' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/chan/Documents/develop/dayro/frontend/src/widgets/situation/hooks/useSituationFlowController.ts
+  148:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/chan/Documents/develop/dayro/frontend/src/widgets/situation/hooks/useSituationFlowController.ts:148:7
+  146 |   useEffect(() => {
+  147 |     if (step !== SITUATION_RESULT_STEP) {
+> 148 |       setResultCandidates(candidates);
+      |       ^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  149 |       setResultRequestId(candidateRequestId);
+  150 |       setResultRemainingRetries(remainingRetries);
+  151 |       return;  react-hooks/set-state-in-effect
+
+✖ 20 problems (17 errors, 3 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

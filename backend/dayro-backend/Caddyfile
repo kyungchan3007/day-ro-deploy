@@ -1,0 +1,20 @@
+# SITE_ADDRESS가 도메인이면 Let's Encrypt 인증서를 자동 발급하고 HTTPS로 서비스한다.
+# ":80"이면 인증서 없이 HTTP로만 받는다(도메인 연결 전 임시 상태).
+{$SITE_ADDRESS} {
+	encode gzip zstd
+
+	# Caddy가 X-Forwarded-For를 자동으로 붙이고, 백엔드는 prod 프로필의
+	# server.forward-headers-strategy=framework로 이를 읽어 실제 클라이언트 IP를 복원한다.
+	# 이게 맞물려야 /api/places/photo의 IP 단위 레이트 리밋이 의미를 가진다.
+	#
+	# 현재 활성 색상(blue/green)으로 보내는 reverse_proxy 한 줄이 들어 있다 - deploy.sh가 바꿔 쓰고 caddy reload 한다.
+	# 두 색상을 모두 upstream으로 두고 헬스체크에 맡기는 방식은 쓰지 않는다: 종료 중인 이전 색상이 헬스체크 주기 사이에
+	# 새 요청을 받을 수 있다. 명시적으로 전환하면 reload 이후의 새 요청은 전부 새 색상으로 가고,
+	# reload는 graceful이라 이미 이전 색상으로 가던 요청은 끝까지 처리된다.
+	import /etc/caddy/upstream/active.caddy
+
+	log {
+		output stdout
+		format console
+	}
+}

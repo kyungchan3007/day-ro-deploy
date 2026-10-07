@@ -1,0 +1,93 @@
+import Link from "next/link";
+import { AppShell } from "@/shared/ui/layout";
+import { LogoHorizontal } from "@/shared/ui/logo";
+import { HomeEntryCard } from "@/features/home";
+import { AccountNavBar } from "@/features/auth";
+import { homeStatic } from "@/shared/static/home";
+import imgCreate from "./assets/img-create.webp";
+import imgSaved from "./assets/img-saved.webp";
+import { WebVitalsLogger } from "@/shared/observability";
+import styles from "./css/HomeScreen.module.css";
+
+/**
+ * 홈(루트) 화면 (widgets/home).
+ *
+ * 여러 조각을 하나의 진입 화면으로 조합한다.
+ *   - 헤더(NavBar, 뒤로가기 없음) + 보라 그라데이션 본문 + 미색 푸터(로고 + 정책 링크 + 저작권).
+ *   - 본문 중앙에 진입 카드 2개(features/home).
+ *   - 정적 문구는 shared/static/home, 일러스트는 위젯 에셋을 카드에 주입.
+ *   - server component 로 SSR 렌더.
+ */
+export function HomeScreen() {
+  const { create, saved } = homeStatic.cards;
+  const { links, copyright } = homeStatic.footer;
+
+  return (
+    <AppShell
+      bleed
+      nav={<AccountNavBar showBack={false} />}
+      footer={
+        <footer
+          className={`border-t border-border bg-surface-subtle ${styles.footer}`}
+        >
+          <div className={styles.footerRow}>
+            <LogoHorizontal height={18} className="shrink-0" />
+            <nav
+              aria-label="정책 및 고객지원"
+              className={`${styles.footerNav} text-[13px] font-semibold text-text-muted`}
+            >
+              {links.map((link, index) => (
+                <span key={link.href} className={styles.footerItem}>
+                  {index > 0 && (
+                    <span aria-hidden className="text-border-strong">
+                      ·
+                    </span>
+                  )}
+                  <Link
+                    href={link.href}
+                    className="rounded transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 active:opacity-60"
+                  >
+                    {link.label}
+                  </Link>
+                </span>
+              ))}
+            </nav>
+          </div>
+          <p className="text-center text-[13px] text-text-disabled">
+            {copyright}
+          </p>
+        </footer>
+      }
+      className={styles.screen}
+    >
+      {process.env.NODE_ENV === "development" ? (
+        <WebVitalsLogger route="home" />
+      ) : null}
+      <h1 className="sr-only">Dayro 홈</h1>
+      <section aria-labelledby="home-entry-heading" className="w-full">
+        <h2 id="home-entry-heading" className="sr-only">
+          주요 서비스 진입
+        </h2>
+        <ul className={styles.entryList}>
+          <li>
+            <HomeEntryCard
+              image={imgCreate}
+              imagePriority
+              title={create.title}
+              subtitle={create.subtitle}
+              href={create.href}
+            />
+          </li>
+          <li>
+            <HomeEntryCard
+              image={imgSaved}
+              title={saved.title}
+              subtitle={saved.subtitle}
+              href={saved.href}
+            />
+          </li>
+        </ul>
+      </section>
+    </AppShell>
+  );
+}
