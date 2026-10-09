@@ -133,7 +133,7 @@ dayro/
 > **한 줄 요약** — 브라우저는 Cloudflare 엣지의 Next.js(BFF)와만 통신하고, BFF가 토큰을 쿠키에서 꺼내 백엔드 API를 대신 호출합니다. 백엔드는 Google Places와 Gemini로 코스를 만들어 돌려줍니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
     U["👤 브라우저"]
     subgraph CF["☁️ Cloudflare"]
         W["🖥️ Next.js Worker<br/>SSR · BFF(/api/*)"]
