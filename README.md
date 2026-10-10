@@ -109,6 +109,13 @@ dayro/
 
 > **레이어 규칙** — `app → widgets → features → entities → shared` 방향으로만 import합니다. feature끼리 내부 파일을 직접 import하지 않고, 공개 API(`index.ts`)만 사용합니다.
 
+```mermaid
+flowchart LR
+    APP["app<br/>라우트 · BFF"] --> WID["widgets<br/>화면 조합"] --> FEA["features<br/>기능 슬라이스"] --> ENT["entities<br/>도메인 모델"] --> SHA["shared<br/>공용 UI · 유틸"]
+    classDef layer fill:#E8F1FF,stroke:#3178C6,color:#000
+    class APP,WID,FEA,ENT,SHA layer
+```
+
 ---
 
 ## 🧱 기술 스택
@@ -130,88 +137,132 @@ dayro/
 
 ## 🏗️ 시스템 아키텍처
 
-> **한 줄 요약** — 브라우저는 Cloudflare 엣지의 Next.js(BFF)와만 통신하고, BFF가 토큰을 쿠키에서 꺼내 백엔드 API를 대신 호출합니다. 백엔드는 Google Places와 Gemini로 코스를 만들어 돌려줍니다.
+> **한 줄 요약** — 사용자는 Cloudflare 위의 Next.js와만 이야기합니다. Next.js(BFF)가 쿠키 속 토큰을 꺼내 AWS의 Spring Boot를 대신 호출하고, Spring Boot는 Google Places와 Gemini로 코스를 만들어 돌려줍니다.
 
 ```mermaid
 flowchart TD
-    U["👤 브라우저"]
-    subgraph CF["☁️ Cloudflare"]
-        W["🖥️ Next.js Worker<br/>SSR · BFF(/api/*)"]
-    end
-    subgraph AWS["🟧 AWS EC2"]
-        C["🔒 Caddy<br/>HTTPS"]
-        B["🛡️ Spring Boot<br/>blue / green"]
-        P[("🐘 PostgreSQL")]
-        R[("⚡ Redis")]
-    end
-    G["🔍 Google Places"]
-    AI["✨ Gemini"]
-    K["💬 Kakao OAuth"]
-    M["🗺️ Kakao Maps"]
+    U["👤 사용자 브라우저"]
 
-    U -->|"① 페이지 · /api 요청"| W
-    W -->|"② 토큰 첨부 후 API 호출"| C
+    subgraph CF["☁️ Cloudflare · day-ro.com"]
+        W["🖥️ Next.js<br/>화면(SSR) + BFF(/api/*)"]
+    end
+
+    subgraph AWS["🟧 AWS EC2 · api.day-ro.com"]
+        C["🔒 Caddy<br/>HTTPS · 트래픽 전환"]
+        B["🛡️ Spring Boot<br/>blue / green"]
+        P[("🐘 PostgreSQL<br/>회원 · 저장 코스")]
+        R[("⚡ Redis<br/>캐시 · 재추천 세션")]
+    end
+
+    subgraph EXT["🌐 외부 서비스"]
+        K["💬 Kakao 로그인"]
+        G["🔍 Google Places"]
+        AI["✨ Gemini"]
+        M["🗺️ Kakao Maps"]
+    end
+
+    U -->|"① 화면 · /api 요청"| W
+    W -->|"② 토큰 첨부해 API 호출"| C
     C --> B
-    B --> P
-    B --> R
-    B -->|"③ 장소 후보"| G
-    B -->|"④ 선별 · 정렬"| AI
+    B -->|"③ 저장 · 조회"| P
+    B -->|"④ 캐시 · 세션"| R
+    B -->|"⑤ 장소 후보 검색"| G
+    B -->|"⑥ 코스 선별 · 정렬"| AI
     B -.->|"로그인 토큰 교환"| K
-    U -.->|"지도 SDK"| M
+    U -.->|"지도 표시 (브라우저 SDK)"| M
+
+    classDef user fill:#FFF4E5,stroke:#F5A623,color:#000
+    classDef fe fill:#E8F1FF,stroke:#3178C6,color:#000
+    classDef be fill:#EAF7EA,stroke:#6DB33F,color:#000
+    classDef data fill:#F3EEFF,stroke:#7B61FF,color:#000
+    classDef ext fill:#F5F5F5,stroke:#8A8A8A,color:#000
+    class U user
+    class W fe
+    class C,B be
+    class P,R data
+    class K,G,AI,M ext
 ```
+
+**동작 순서 (그림의 번호와 동일)**
+
+1. **브라우저 → Next.js** — 화면과 데이터 요청은 모두 `day-ro.com`(Cloudflare)으로 갑니다. 브라우저는 백엔드 주소를 모릅니다.
+2. **Next.js → Spring Boot** — BFF가 httpOnly 쿠키의 토큰을 꺼내 `api.day-ro.com`을 호출합니다. *(토큰은 브라우저 자바스크립트에 노출되지 않음)*
+3. **PostgreSQL** — 회원 · 저장한 코스를 보관합니다.
+4. **Redis** — 외부 API 결과 캐시와 "다른 코스 보기" 세션(24시간)을 보관합니다.
+5. **Google Places** — 지역 · 목적에 맞는 장소 후보를 가져옵니다.
+6. **Gemini** — 후보 중에서 상황에 맞는 장소를 골라 순서대로 정렬합니다.
+
+> 📌 **왜 BFF를 두었나** — ① 토큰을 서버에만 두어 XSS로부터 보호 ② 백엔드 응답을 zod로 검증한 뒤 화면에 전달 ③ 백엔드 주소 · 키를 브라우저에 노출하지 않음
 
 ---
 
 ## 🔄 코스 생성 흐름
 
-> **한 줄 요약** — 상황을 입력하면 BFF가 백엔드에 코스를 요청하고, 백엔드는 장소 후보를 모아 Gemini에게 고르게 한 뒤 코스를 돌려줍니다. "다른 코스 보기"는 같은 흐름을 최대 5회 반복합니다.
+> **한 줄 요약** — 장소 후보를 모으고 → 영업 중인 곳만 남기고 → Gemini가 고르고 → 서버가 한 번 더 검증한 뒤 코스를 돌려줍니다. 결과는 Redis 세션에 기록해 "다른 코스 보기" 때 이미 본 장소를 피합니다.
 
 ```mermaid
-sequenceDiagram
-    actor User as 사용자
-    participant FE as Next.js (브라우저)
-    participant BFF as Next.js BFF
-    participant API as Spring Boot
-    participant Places as Google Places
-    participant Gemini as Gemini
+flowchart TD
+    A["🧭 사용자 입력<br/>시간 · 지역 · 목적"]
+    B["🔍 ① 장소 후보 수집<br/>Google Places"]
+    C["🕒 ② 영업시간 필터<br/>입력한 시간에 문 연 곳만"]
+    D["✨ ③ Gemini 선별 · 정렬<br/>실패 시 폴백 모델로 재시도"]
+    E["✅ ④ 서버 검증<br/>후보에 없는 장소 제거<br/>같은 카테고리 연속 배치 피하기"]
+    F[("⚡ ⑤ Redis 세션 저장<br/>보여준 장소 · 재추천 횟수 · 24h")]
+    G["🗺️ 코스 카드 · 지도 표시"]
+    H{"🔁 다른 코스 보기?<br/>최대 5회"}
+    X["🚫 한도 안내<br/>기존 결과 유지"]
+    RC[("⚡ Redis 캐시")]
 
-    User->>FE: 시간 · 지역 · 목적 선택
-    FE->>BFF: 코스 생성 요청
-    BFF->>API: 로그인 토큰 첨부 후 요청
-    API->>Places: 지역 · 목적 기반 장소 후보 조회
-    Places-->>API: 후보 장소 목록
-    API->>Gemini: 후보 + 상황 전달
-    Gemini-->>API: 선별 · 정렬된 코스
-    API-->>BFF: 코스 응답
-    BFF-->>FE: 검증(zod)된 코스
-    FE->>User: 코스 카드 · 지도 표시
-    User->>FE: 다른 코스 보기 (최대 5회)
-    FE->>BFF: 재추천 요청
-    Note over BFF,API: 실패해도 기존 결과 · 남은 횟수 유지
+    A --> B --> C --> D --> E --> F --> G --> H
+    H -->|"예 · 이미 본 장소 제외"| C
+    H -->|"5회 초과"| X
+    B -.->|"같은 검색은 캐시 재사용"| RC
+    D -.->|"첫 생성만 캐시 · 재추천은 새로 호출"| RC
+
+    classDef step fill:#E8F1FF,stroke:#3178C6,color:#000
+    classDef ai fill:#FFF4E5,stroke:#F5A623,color:#000
+    classDef store fill:#F3EEFF,stroke:#7B61FF,color:#000
+    classDef stop fill:#FDECEC,stroke:#E5484D,color:#000
+    class A,B,C,E,G,H step
+    class D ai
+    class F,RC store
+    class X stop
 ```
+
+**포인트**
+
+- **비용 · 속도** — 같은 지역 검색은 Places 결과를 Redis 캐시로 재사용합니다. 재추천 때 Gemini는 캐시를 건너뛰어 매번 다른 결과를 받습니다.
+- **AI 결과를 그대로 믿지 않음** — Gemini가 후보 목록에 없는 장소 ID를 돌려주면(할루시네이션) 서버에서 제외합니다.
+- **장애 대응** — 기본 Gemini 모델이 실패하면 폴백 모델로 한 번 더 시도합니다.
+- **로그인 없이도 재추천** — `requestId`로 Redis 세션을 찾기 때문에 비로그인 사용자도 "다른 코스 보기"를 쓸 수 있습니다.
+- **FE 실패 처리** — 재추천이 실패해도 화면의 기존 코스와 남은 횟수는 그대로 유지합니다.
 
 ---
 
 ## 🔐 로그인 흐름
 
-> **한 줄 요약** — 카카오 인가코드를 BFF가 받아 백엔드에서 토큰으로 바꾸고, 토큰은 **httpOnly 쿠키**로만 보관합니다. 브라우저 자바스크립트는 토큰에 접근할 수 없습니다.
+> **한 줄 요약** — 카카오가 돌려준 인가코드를 BFF가 받아 백엔드에서 토큰으로 바꾸고, 토큰은 **httpOnly 쿠키**로만 보관합니다.
 
 ```mermaid
 sequenceDiagram
+    autonumber
     actor User as 사용자
     participant BFF as Next.js BFF
     participant Kakao as Kakao
     participant API as Spring Boot
 
     User->>BFF: 카카오 로그인 클릭
-    BFF->>Kakao: 인가 요청 (redirect_uri = day-ro.com)
-    Kakao-->>BFF: 인가코드 (/api/auth/kakao/callback)
-    BFF->>API: 인가코드 → 토큰 교환
-    API->>Kakao: 토큰 · 사용자 정보 조회
-    API-->>BFF: access · refresh 토큰
-    BFF-->>User: httpOnly 쿠키 저장 후 원래 화면(next)으로 이동
-    Note over BFF: access 만료 시 /api/auth/restore 에서 재발급 후 복귀
+    BFF->>Kakao: 인가 요청으로 이동
+    Kakao-->>BFF: 인가코드 전달 (/api/auth/kakao/callback)
+    BFF->>API: 인가코드로 로그인 요청
+    API->>Kakao: 토큰 교환 · 사용자 정보 조회
+    API-->>BFF: access · refresh 토큰 (JWT)
+    BFF-->>User: httpOnly 쿠키 저장 → 원래 보던 화면으로 이동
+    Note over User,BFF: access 토큰 만료 시 /api/auth/restore 가<br/>refresh 토큰으로 재발급 후 원래 화면으로 복귀
 ```
+
+- **③ 콜백을 FE가 받는 이유** — 토큰이 브라우저 주소창 · 자바스크립트를 거치지 않고 서버에서 바로 쿠키로 저장됩니다.
+- **⑦ 원래 화면 복귀** — 로그인 전 보던 경로(`next`)를 검증해 외부 주소로의 이동(open redirect)을 막습니다.
 
 ---
 
@@ -256,6 +307,29 @@ sequenceDiagram
 ---
 
 ## ☁️ 인프라 · 배포
+
+```mermaid
+flowchart TD
+    DEV["👩‍💻 작업 브랜치"] -->|"PR"| DEVELOP["develop"]
+    DEVELOP -->|"PR"| MAIN["main"]
+
+    DEVELOP -->|"push · 백엔드 변경 시"| GA["⚙️ GitHub Actions<br/>ARM 이미지 빌드"]
+    GA --> GHCR["📦 GHCR 이미지 저장"]
+    GHCR -->|"SSM 명령"| EC2["🟧 EC2 블루-그린<br/>새 색 기동 → healthy 확인 → Caddy 전환 → 이전 색 종료"]
+
+    MAIN -->|"머지"| CFB["☁️ Cloudflare Workers Builds<br/>OpenNext 빌드"]
+    CFB --> CFW["🖥️ day-ro.com 배포"]
+
+    classDef br fill:#F5F5F5,stroke:#8A8A8A,color:#000
+    classDef be fill:#EAF7EA,stroke:#6DB33F,color:#000
+    classDef fe fill:#E8F1FF,stroke:#3178C6,color:#000
+    class DEV,DEVELOP,MAIN br
+    class GA,GHCR,EC2 be
+    class CFB,CFW fe
+```
+
+- **BE** — 새 버전을 반대 색 컨테이너로 띄우고, healthy 확인 후 Caddy가 트래픽을 넘깁니다. 새 버전이 실패하면 이전 색이 그대로 서비스합니다. *(무중단)*
+- **FE** — `develop → main` PR 머지가 곧 운영 배포입니다.
 
 | 구성 | 위치 | 배포 방식 |
 | --- | --- | --- |
