@@ -1,0 +1,26 @@
+flowchart TD
+    A["🧭 사용자 입력<br/>시간 · 지역 · 목적"]
+    B["🔍 ① 장소 후보 수집<br/>Google Places"]
+    C["🕒 ② 영업시간 필터<br/>입력한 시간에 문 연 곳만"]
+    D["✨ ③ Gemini 선별 · 정렬<br/>실패 시 폴백 모델로 재시도"]
+    E["✅ ④ 서버 검증<br/>후보에 없는 장소 제거<br/>같은 카테고리 연속 배치 피하기"]
+    F[("⚡ ⑤ Redis 세션 저장<br/>보여준 장소 · 재추천 횟수 · 24h")]
+    G["🗺️ 코스 카드 · 지도 표시"]
+    H{"🔁 다른 코스 보기?<br/>최대 5회"}
+    X["🚫 한도 안내<br/>기존 결과 유지"]
+    RC[("⚡ Redis 캐시")]
+
+    A --> B --> C --> D --> E --> F --> G --> H
+    H -->|"예 · 이미 본 장소 제외"| C
+    H -->|"5회 초과"| X
+    B -.->|"같은 검색은 캐시 재사용"| RC
+    D -.->|"첫 생성만 캐시 · 재추천은 새로 호출"| RC
+
+    classDef step fill:#E8F1FF,stroke:#3178C6,color:#000
+    classDef ai fill:#FFF4E5,stroke:#F5A623,color:#000
+    classDef store fill:#F3EEFF,stroke:#7B61FF,color:#000
+    classDef stop fill:#FDECEC,stroke:#E5484D,color:#000
+    class A,B,C,E,G,H step
+    class D ai
+    class F,RC store
+    class X stop

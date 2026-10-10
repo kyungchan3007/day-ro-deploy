@@ -1,0 +1,15 @@
+sequenceDiagram
+    autonumber
+    actor User as 사용자
+    participant BFF as Next.js BFF
+    participant Kakao as Kakao
+    participant API as Spring Boot
+
+    User->>BFF: 카카오 로그인 클릭
+    BFF->>Kakao: 인가 요청으로 이동
+    Kakao-->>BFF: 인가코드 전달 (/api/auth/kakao/callback)
+    BFF->>API: 인가코드로 로그인 요청
+    API->>Kakao: 토큰 교환 · 사용자 정보 조회
+    API-->>BFF: access · refresh 토큰 (JWT)
+    BFF-->>User: httpOnly 쿠키 저장 → 원래 보던 화면으로 이동
+    Note over User,BFF: access 토큰 만료 시 /api/auth/restore 가<br/>refresh 토큰으로 재발급 후 원래 화면으로 복귀

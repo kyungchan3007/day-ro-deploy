@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 45 1220 470" width="1220" height="470" font-family="Pretendard, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4B5563"/>
+    </marker>
+  </defs>
+  <rect y="0" width="1220" height="540" fill="#FFFFFF"/>
+
+  <!-- 영역 박스 -->
+  <rect x="230" y="150" width="230" height="230" rx="14" fill="#F3F8FF" stroke="#3178C6" stroke-dasharray="6 4"/>
+  <text x="345" y="178" text-anchor="middle" font-size="15" font-weight="700" fill="#1F4E8C">☁️ Cloudflare · day-ro.com</text>
+
+  <rect x="510" y="60" width="420" height="440" rx="14" fill="#F4FBF2" stroke="#6DB33F" stroke-dasharray="6 4"/>
+  <text x="720" y="88" text-anchor="middle" font-size="15" font-weight="700" fill="#2F6B1A">🟧 AWS EC2 · api.day-ro.com</text>
+
+  <rect x="975" y="110" width="215" height="350" rx="14" fill="#F7F7F7" stroke="#8A8A8A" stroke-dasharray="6 4"/>
+  <text x="1082" y="138" text-anchor="middle" font-size="15" font-weight="700" fill="#4B5563">🌐 외부 API</text>
+
+  <!-- 노드 -->
+  <g font-size="15" text-anchor="middle">
+    <rect x="30" y="228" width="160" height="68" rx="10" fill="#FFF4E5" stroke="#F5A623" stroke-width="1.5"/>
+    <text x="110" y="267" font-weight="700" fill="#111">👤 사용자 브라우저</text>
+
+    <rect x="30" y="392" width="160" height="58" rx="10" fill="#F5F5F5" stroke="#8A8A8A" stroke-width="1.5"/>
+    <text x="110" y="426" fill="#111">🗺️ Kakao Maps SDK</text>
+
+    <rect x="250" y="215" width="190" height="94" rx="10" fill="#E8F1FF" stroke="#3178C6" stroke-width="1.5"/>
+    <text x="345" y="252" font-weight="700" fill="#111">🖥️ Next.js</text>
+    <text x="345" y="276" font-size="13" fill="#333">화면(SSR) + BFF(/api/*)</text>
+    <text x="345" y="296" font-size="12" fill="#555">토큰은 httpOnly 쿠키에만</text>
+
+    <rect x="535" y="215" width="160" height="94" rx="10" fill="#EAF7EA" stroke="#6DB33F" stroke-width="1.5"/>
+    <text x="615" y="252" font-weight="700" fill="#111">🔒 Caddy</text>
+    <text x="615" y="276" font-size="13" fill="#333">HTTPS 자동 발급</text>
+    <text x="615" y="296" font-size="12" fill="#555">blue ↔ green 트래픽 전환</text>
+
+    <rect x="745" y="215" width="160" height="94" rx="10" fill="#EAF7EA" stroke="#6DB33F" stroke-width="1.5"/>
+    <text x="825" y="252" font-weight="700" fill="#111">🛡️ Spring Boot</text>
+    <text x="825" y="276" font-size="13" fill="#333">인증 · 코스 · 저장 API</text>
+    <text x="825" y="296" font-size="12" fill="#555">blue / green 컨테이너</text>
+
+    <!-- 실린더: PostgreSQL -->
+    <path d="M555,392 v62 a65,12 0 0 0 130,0 v-62" fill="#F3EEFF" stroke="#7B61FF" stroke-width="1.5"/>
+    <ellipse cx="620" cy="392" rx="65" ry="12" fill="#F3EEFF" stroke="#7B61FF" stroke-width="1.5"/>
+    <text x="620" y="428" font-weight="700" fill="#111">🐘 PostgreSQL</text>
+    <text x="620" y="450" font-size="13" fill="#333">회원 · 저장 코스</text>
+
+    <!-- 실린더: Redis -->
+    <path d="M760,392 v62 a65,12 0 0 0 130,0 v-62" fill="#F3EEFF" stroke="#7B61FF" stroke-width="1.5"/>
+    <ellipse cx="825" cy="392" rx="65" ry="12" fill="#F3EEFF" stroke="#7B61FF" stroke-width="1.5"/>
+    <text x="825" y="428" font-weight="700" fill="#111">⚡ Redis</text>
+    <text x="825" y="450" font-size="13" fill="#333">캐시 · 재추천 세션</text>
+
+    <rect x="995" y="158" width="175" height="74" rx="10" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5"/>
+    <text x="1082" y="190" font-weight="700" fill="#111">🔍 Google Places</text>
+    <text x="1082" y="213" font-size="13" fill="#333">장소 후보 검색</text>
+
+    <rect x="995" y="258" width="175" height="74" rx="10" fill="#FFF4E5" stroke="#F5A623" stroke-width="1.5"/>
+    <text x="1082" y="290" font-weight="700" fill="#111">✨ Gemini</text>
+    <text x="1082" y="313" font-size="13" fill="#333">코스 선별 · 정렬</text>
+
+    <rect x="995" y="358" width="175" height="74" rx="10" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5"/>
+    <text x="1082" y="390" font-weight="700" fill="#111">💬 Kakao 로그인</text>
+    <text x="1082" y="413" font-size="13" fill="#333">인가코드 → 토큰 교환</text>
+  </g>
+
+  <!-- 화살표 -->
+  <g stroke="#4B5563" stroke-width="1.8" fill="none">
+    <path d="M190,262 H248" marker-end="url(#a)"/>
+    <path d="M440,262 H533" marker-end="url(#a)"/>
+    <path d="M695,262 H743" marker-end="url(#a)"/>
+    <path d="M790,309 C790,345 640,345 625,378" marker-end="url(#a)"/>
+    <path d="M825,309 V378" marker-end="url(#a)"/>
+    <path d="M905,240 C950,240 950,195 993,195" marker-end="url(#a)"/>
+    <path d="M905,265 C950,265 950,295 993,295" marker-end="url(#a)"/>
+    <path d="M905,290 C950,290 950,395 993,395" stroke-dasharray="5 4" marker-end="url(#a)"/>
+    <path d="M110,296 V390" stroke-dasharray="5 4" marker-end="url(#a)"/>
+  </g>
+
+  <!-- 번호 라벨 -->
+  <g font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+    <circle cx="210" cy="243" r="12" fill="#F5A623"/><text x="210" y="248">1</text>
+    <circle cx="487" cy="243" r="12" fill="#3178C6"/><text x="487" y="248">2</text>
+    <circle cx="700" cy="346" r="12" fill="#7B61FF"/><text x="700" y="351">3</text>
+    <circle cx="843" cy="350" r="12" fill="#7B61FF"/><text x="843" y="355">4</text>
+    <circle cx="950" cy="205" r="12" fill="#6DB33F"/><text x="950" y="210">5</text>
+    <circle cx="950" cy="282" r="12" fill="#F5A623"/><text x="950" y="287">6</text>
+  </g>
+  <g font-size="12" fill="#374151" text-anchor="middle">
+    <text x="210" y="225">요청</text>
+    <text x="475" y="295">토큰 첨부</text>
+    <text x="150" y="350" text-anchor="start">지도 표시</text>
+    <text x="952" y="440">로그인</text>
+  </g>
+</svg>

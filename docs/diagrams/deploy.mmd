@@ -1,0 +1,17 @@
+flowchart TD
+    DEV["👩‍💻 작업 브랜치"] -->|"PR"| DEVELOP["develop"]
+    DEVELOP -->|"PR"| MAIN["main"]
+
+    DEVELOP -->|"push · 백엔드 변경 시"| GA["⚙️ GitHub Actions<br/>ARM 이미지 빌드"]
+    GA --> GHCR["📦 GHCR 이미지 저장"]
+    GHCR -->|"SSM 명령"| EC2["🟧 EC2 블루-그린<br/>새 색 기동 → healthy 확인 → Caddy 전환 → 이전 색 종료"]
+
+    MAIN -->|"머지"| CFB["☁️ Cloudflare Workers Builds<br/>OpenNext 빌드"]
+    CFB --> CFW["🖥️ day-ro.com 배포"]
+
+    classDef br fill:#F5F5F5,stroke:#8A8A8A,color:#000
+    classDef be fill:#EAF7EA,stroke:#6DB33F,color:#000
+    classDef fe fill:#E8F1FF,stroke:#3178C6,color:#000
+    class DEV,DEVELOP,MAIN br
+    class GA,GHCR,EC2 be
+    class CFB,CFW fe
