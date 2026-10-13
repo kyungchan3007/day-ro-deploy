@@ -33,7 +33,7 @@ Google Places로 주변 장소 후보를 모으고 Gemini가 상황에 맞게 �
 
 ## 📑 목차
 
-[프로젝트 현황](#-프로젝트-현황) · [핵심 기능](#-핵심-기능) · [저장소 구조](#️-저장소-구조) · [기술 스택](#-기술-스택) · [시스템 아키텍처](#️-시스템-아키텍처) · [코스 생성 흐름](#-코스-생성-흐름) · [로그인 흐름](#-로그인-흐름) · [프론트엔드 설계 원칙](#-프론트엔드-설계-원칙) · [기술적 도전](#-기술적-도전) · [인프라 · 배포](#️-인프라--배포) · [실행 방법](#️-실행-방법) · [남은 작업](#️-남은-작업)
+[프로젝트 현황](#-프로젝트-현황) · [핵심 기능](#-핵심-기능) · [대표 성과](#-대표-성과) · [시스템 구조](#️-시스템-구조) · [기록 문서](#-기록-문서) · [기술 스택](#-기술-스택) · [실행 방법](#️-실행-방법) · [남은 작업](#️-남은-작업)
 
 ---
 
@@ -85,34 +85,47 @@ Google Places로 주변 장소 후보를 모으고 Gemini가 상황에 맞게 �
 
 ---
 
-## 🗂️ 저장소 구조
+## 🏆 대표 성과
 
-FE와 BE를 한 저장소에서 관리하며, 브라우저는 백엔드를 직접 호출하지 않고 **Next.js BFF(`/api/*`)를 거칩니다.**
+| 주제 | 결과 | 기록 |
+| --- | --- | --- |
+| Cloudflare Workers 이전 | Node 미들웨어 제거로 Worker gzip 3,004KiB → 1,737KiB (-42%) | [06 인프라 · 배포](docs/records/06-infra-deploy.md) |
+| 번들 감량 | zod/mini 전환 · 폰트 정리로 라우트 첫 로드 JS 약 -245KB, CI 번들 예산으로 고정 | [04 성능 최적화](docs/records/04-performance.md) |
+| 홈 성능 | 개발 환경 LCP 448ms → 124ms, 로딩 화면 CLS(0.159) 제거 | [04 성능 최적화](docs/records/04-performance.md) |
+| BE 무중단 배포 | 블루-그린 전환으로 배포 중 502(20~40초) 제거, 전환 중 요청 실패 0건 | [06 인프라 · 배포](docs/records/06-infra-deploy.md) |
+| 배포 전 보안 점검 | 토큰 응답 노출 · 경로 조작 · 취약 버전 등 P1~P3 조치 | [05 보안](docs/records/05-security.md) |
+| QA 1차 대응 | QA 시트 FE 12건 수정, 항목마다 e2e 시나리오 · 수정 전 실패 확인 | [08 QA 대응](docs/records/08-qa-log.md) |
 
-```
-dayro/
-├─ frontend/                  # 🖥️ Next.js 16 — 화면 + BFF
-│  └─ src/
-│     ├─ app/                 # 라우트 · Route Handler(BFF) · 레이아웃
-│     ├─ widgets/             # 여러 feature를 조합한 화면 블록
-│     ├─ features/            # 기능 슬라이스 (auth · situation · course-result · course-map · saved · faq …)
-│     ├─ entities/            # 공유 도메인 모델
-│     └─ shared/              # 공용 UI · API 클라이언트 · 분석 · 유틸
-├─ backend/dayro-backend/     # 🛡️ Spring Boot API
-│  ├─ src/main/java/com/dayro/
-│  │  ├─ auth/                # 카카오 로그인 · JWT
-│  │  ├─ situation/           # 지역 · 상황 마스터
-│  │  ├─ course/              # 코스 생성 · 재추천 · 저장
-│  │  ├─ activity/
-│  │  └─ global/              # 보안 설정 · 예외 · 공통 응답
-│  ├─ compose.yaml            # 로컬 PostgreSQL(pgvector) · Redis
-│  └─ compose.prod.yaml       # 운영 Caddy · backend-blue/green · DB · Redis
-└─ .github/workflows/         # ✅ PR 품질 검사 · 백엔드 자동 배포
-```
+---
 
-> **레이어 규칙** — `app → widgets → features → entities → shared` 방향으로만 import, feature 간에는 공개 API(`index.ts`)만 사용
+## 🏗️ 시스템 구조
 
-<p align="center"><img src="docs/diagrams/layers.png" alt="프론트엔드 레이어 import 방향" width="100%"></p>
+> 브라우저는 Next.js(BFF)만 호출하고, BFF가 쿠키 속 토큰으로 Spring Boot를 대신 호출합니다.
+
+<p align="center"><img src="docs/diagrams/architecture.png" alt="Dayro 시스템 아키텍처" width="100%"></p>
+
+- **FE** — Next.js 16 App Router + BFF Route Handler, Cloudflare Workers(OpenNext) 엣지 SSR
+- **BE** — Spring Boot 3.5 · Spring AI(Gemini) · Google Places, AWS EC2 블루-그린 배포
+- **데이터** — PostgreSQL(회원 · 저장 코스) · Redis(외부 API 캐시 · 재추천 세션)
+- 자세한 구조 · 레이어 규칙 · 설계 원칙은 [01 아키텍처](docs/records/01-architecture.md)
+
+---
+
+## 📚 기록 문서
+
+> 기능 · 설계 · 개선 작업을 **배경 → 문제 → 해결 → 결과 → 근거** 순서로 남긴 기록입니다. ([문서 안내](docs/records/README.md))
+
+| # | 문서 | 이런 내용을 볼 수 있습니다 |
+| --- | --- | --- |
+| 01 | [아키텍처](docs/records/01-architecture.md) | 저장소 구조 · 레이어 규칙 · BFF를 둔 이유 · 설계 원칙 |
+| 02 | [코스 생성](docs/records/02-course-generation.md) | 후보 수집 → Gemini 선별 → 서버 검증 흐름 · 재추천 · 실패 처리 |
+| 03 | [인증 · 로그인](docs/records/03-auth.md) | 인가코드 로그인 · 토큰 보관 · 세션 복구 · 이전 화면 복귀 |
+| 04 | [성능 최적화](docs/records/04-performance.md) | 측정 → 개선 → 재측정 기록과 수치 |
+| 05 | [보안](docs/records/05-security.md) | 배포 전 점검 P1~P3 · CSP 수집 · 엣지 보안 설정 |
+| 06 | [인프라 · 배포](docs/records/06-infra-deploy.md) | Cloudflare Workers 이전 · 블루-그린 배포 · CI 품질 검사 |
+| 07 | [구조 개선](docs/records/07-refactoring.md) | 상태 URL 분리 · 컴포넌트 · 훅 역할 분리 |
+| 08 | [QA 대응](docs/records/08-qa-log.md) | QA 항목별 원인 · 수정 · 검증 · 결정 기록 |
+| 09 | [릴리스 이력](docs/records/09-releases.md) | 운영 반영 이력과 버전 |
 
 ---
 
@@ -130,119 +143,6 @@ dayro/
 | 데이터 | PostgreSQL 16 + pgvector · Redis 7 | 사용자 · 코스 저장 · 캐시 |
 | FE 배포 | Cloudflare Workers · OpenNext | 엣지 SSR · `main` 머지 시 자동 배포 |
 | BE 배포 | AWS EC2 · Docker Compose · Caddy · GHCR · SSM | 블루-그린 무중단 배포 · HTTPS 자동 발급 |
-
----
-
-## 🏗️ 시스템 아키텍처
-
-> **한 줄 요약** — 브라우저는 Next.js(BFF)만 호출하고, BFF가 쿠키 속 토큰으로 Spring Boot를 대신 호출합니다.
-
-<p align="center"><img src="docs/diagrams/architecture.png" alt="Dayro 시스템 아키텍처" width="100%"></p>
-
-**동작 순서 (그림의 번호와 동일)**
-
-1. **브라우저 → Next.js** — 모든 요청을 `day-ro.com`(Cloudflare)으로 전송, 백엔드 주소는 브라우저에 비노출
-2. **Next.js → Spring Boot** — BFF가 httpOnly 쿠키의 토큰으로 `api.day-ro.com` 호출, 토큰은 자바스크립트에 비노출
-3. **PostgreSQL** — 회원 · 저장 코스 보관
-4. **Redis** — 외부 API 응답 캐시 · "다른 코스 보기" 세션(24시간) 보관
-5. **Google Places** — 지역 · 목적에 맞는 장소 후보 조회
-6. **Gemini** — 후보 중 상황에 맞는 장소 선별 · 방문 순서 정렬
-
-**BFF를 둔 이유**
-
-- **토큰 보호** — 토큰을 서버에만 두어 XSS로 인한 탈취 방지
-- **응답 검증** — 백엔드 응답을 zod로 검증한 뒤 화면에 전달
-- **내부 정보 은닉** — 백엔드 주소 · API 키를 브라우저에 노출하지 않음
-
----
-
-## 🔄 코스 생성 흐름
-
-> **한 줄 요약** — 후보 수집 → 영업 중 필터 → Gemini 선별 → 서버 재검증 순으로 코스를 만들고, 결과는 Redis 세션에 기록합니다.
-
-<p align="center"><img src="docs/diagrams/course-flow.png" alt="코스 생성 흐름" width="560"></p>
-
-**포인트**
-
-- **비용 · 속도** — 같은 지역 Places 결과는 Redis 캐시 재사용, 재추천은 Gemini 캐시를 우회해 매번 새 결과
-- **할루시네이션 차단** — 후보 목록에 없는 장소 ID는 서버에서 제외
-- **장애 대응** — 기본 Gemini 모델 실패 시 폴백 모델로 재시도
-- **비로그인 재추천** — `requestId`로 Redis 세션을 조회해 로그인 없이도 "다른 코스 보기" 지원
-- **재추천 실패 처리** — 실패해도 화면의 기존 코스와 남은 횟수 유지
-
----
-
-## 🔐 로그인 흐름
-
-> **한 줄 요약** — 카카오 인가코드를 BFF가 받아 백엔드에서 토큰으로 교환하고, 토큰은 **httpOnly 쿠키**로만 보관합니다.
-
-<p align="center"><img src="docs/diagrams/login-flow.png" alt="카카오 로그인 흐름" width="100%"></p>
-
-- **③ BFF가 콜백을 받는 이유** — 토큰을 주소창 · 자바스크립트에 노출하지 않고 서버에서 바로 쿠키로 저장하기 위함
-- **⑦ 이전 화면 복귀 · open redirect 차단** — 로그인 전 경로(`next`)가 내부 경로인지 검증한 뒤에만 복귀
-
----
-
-## 🧭 프론트엔드 설계 원칙
-
-| 원칙 | 내용 |
-| --- | --- |
-| BFF 경유 | 브라우저의 백엔드 직접 호출 금지, 토큰은 BFF에서만 처리 |
-| 런타임 검증 | 백엔드 응답을 zod 스키마로 검증한 뒤 화면에 전달 |
-| 서버 상태 우선 | 서버 데이터를 기준으로, 클라이언트는 입력 흐름 · 화면 상태만 관리 |
-| 보안 헤더 | CSP(report-only 수집) · HSTS(6개월) · 보호 라우트 세션 검사 |
-| 성능 예산 | 라우트별 번들 크기를 CI에서 검사해 회귀 차단 |
-| 접근성 | 시맨틱 마크업 · 포커스 · 대비 기준 문서화 |
-
----
-
-## 💪 기술적 도전
-
-### ☁️ Cloudflare Workers 이전 — Worker 번들 42% 감량
-
-- **문제** — OpenNext 빌드 시 Node 미들웨어(`proxy.ts`)가 번들에 포함돼 Worker 크기가 무료 한도의 98% 도달
-- **해결** — 미들웨어 제거, 세션 복구를 Route Handler(`/api/auth/restore`) · 서버 컴포넌트 가드로 이전
-- **결과** — Worker gzip **3,004KiB → 1,737KiB (-42%)** (#146)
-
-### ⚡ 성능 최적화
-
-- 코스 추천 **중복 요청 제거** · 홈 초기 렌더 비용 정리 (#97)
-- **Web Vitals 계측** 도입 · 홈 이미지 전송 · TTFB 개선 (#99)
-- 로딩 CTA 삽입으로 인한 **CLS 제거** · `next/dynamic` 코드 분할 (#115)
-- 미사용 폰트 제거 · **번들 회귀 가드** 도입 (#119)
-
-### 🛡️ 배포 전 보안 점검
-
-- 토큰 노출 · 경로 조작 · Next.js 취약 버전 · 보안 헤더 · BFF 오류 응답 점검 및 조치 (#139)
-- CSP 위반 리포트 수집(`/api/csp-report`) · 보안 헤더 회귀 테스트 (#141)
-- 엣지 접근 차단 — `workers.dev` · 미리보기 주소 비활성화를 코드로 고정 (PR#159)
-- 엣지 보안 설정 — `www` → `day-ro.com` 301 · HSTS 6개월 · 코스 생성 API WAF 요청 빈도 제한
-
-### 🧩 상태 구조 개선
-
-- 코스 만들기 상태를 URL에서 분리해 흐름 store로 이전 (#129)
-- 컴포넌트 · 컨트롤러 역할 분리 · 커스텀 훅 모듈화 (#133)
-
----
-
-## ☁️ 인프라 · 배포
-
-<p align="center"><img src="docs/diagrams/deploy.png" alt="배포 파이프라인" width="560"></p>
-
-- **BE 블루-그린 배포** — 반대 색 컨테이너 기동 · healthy 확인 후 Caddy 전환, 실패 시 기존 색 유지
-- **FE 배포** — `develop → main` PR 머지 시 운영 자동 배포
-
-| 구성 | 위치 | 배포 방식 |
-| --- | --- | --- |
-| Frontend (Next.js) | Cloudflare Workers · `day-ro.com` | `main` 머지 → Workers Builds 자동 빌드·배포 |
-| Backend (Spring Boot) | AWS EC2 · `api.day-ro.com` | `develop` push → GitHub Actions → GHCR → SSM → 블루-그린 전환 |
-| HTTPS | Caddy (BE) · Cloudflare (FE) | Let's Encrypt 자동 발급 · 엣지 TLS |
-| PostgreSQL · Redis | EC2 Docker Compose | 컨테이너 운영 |
-
-**PR 품질 검사**
-
-- `frontend-quality` — lint · build · 라우트 번들 예산 · tsc · e2e · Chromatic
-- `backend-quality` — `./gradlew build` (Testcontainers 테스트 포함)
 
 ---
 
@@ -287,7 +187,7 @@ npm run dev               # http://localhost:3000
 
 ---
 
-<sub>📐 다이어그램 원본: <code>docs/diagrams/</code> (mermaid <code>.mmd</code> · 아키텍처 <code>.svg</code>)</sub>
+<sub>📐 다이어그램 원본: <code>docs/diagrams/</code> (mermaid <code>.mmd</code> · 아키텍처 <code>.svg</code>) · 📚 기록 문서: <code>docs/records/</code></sub>
 
 <div align="center">
 <sub>🤖 프론트엔드는 Claude Code · Codex 두 AI가 동일한 규칙(<code>frontend/AGENTS.MD</code>)으로 역할을 나눠 협업하는 <b>에이전틱 엔지니어링</b> 방식으로 개발했습니다.</sub>
