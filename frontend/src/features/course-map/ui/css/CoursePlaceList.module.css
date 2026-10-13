@@ -1,0 +1,140 @@
+/* course-place-list : 확정 코스 장소 리스트 스타일 (features/situation). 시안(HTML) 기준. */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  background: var(--color-surface, #ffffff);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(180, 190, 201, 0.4);
+}
+
+/* 드래그 중인 행: 살짝 띄우고 위로 겹치게. */
+.rowDragging {
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 6px 16px rgba(120, 0, 233, 0.22);
+  opacity: 0.95;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 60px;
+  padding: 0 14px 0 8px;
+}
+
+/* 드래그 핸들: 여기서만 드래그 시작. 터치 스크롤과 충돌 안 나게 touch-action none. */
+.handle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 44px;
+  border: none;
+  background: none;
+  color: var(--color-neutral-300);
+  cursor: grab;
+  touch-action: none;
+}
+
+.handle:active {
+  cursor: grabbing;
+  color: var(--color-neutral-500);
+}
+
+.handle:focus-visible {
+  outline: none;
+  color: var(--color-primary);
+}
+
+.badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2.4px 1.2px rgba(171, 190, 209, 0.4);
+}
+
+/* 출발지(1번): 흰 배경 + 보라 테두리 (지도 start 마커와 동일 규칙). */
+.badgeStart {
+  background: #ffffff;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-strong, #000000);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--color-neutral-800);
+}
+
+.expandBtn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: var(--color-neutral-400);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.expandBtn:active {
+  transform: scale(0.9);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 14px 14px 48px;
+}
+
+.detailRow {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-text-secondary, var(--color-neutral-700));
+}
+
+.detailRow dt {
+  flex-shrink: 0;
+  color: var(--color-neutral-500);
+}
+
+.detailRow dd {
+  min-width: 0;
+}

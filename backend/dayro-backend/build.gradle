@@ -1,0 +1,105 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.16'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.dayro'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springAiVersion', "1.1.8")
+	set('testcontainersVersion', "2.0.5")
+
+	// Spring Boot 3.5.16이 관리하는 버전에 아직 남아 있는 공개 취약점(OSV 기준, 2026-10-06 확인)을 막기 위한 개별 지정.
+	// Boot 패치 버전을 올릴 때 Boot 관리 버전이 이보다 높아졌으면 해당 줄을 지운다.
+	set('tomcat.version', "10.1.60")          // 10.1.58 미만: 접근 제어/인증 우회 CVE
+	set('jackson-bom.version', "2.21.7")      // 2.21.7 미만: 파싱 DoS, 다형성 검증 우회 CVE
+	set('postgresql.version', "42.7.13")      // 42.7.12 미만: 채널 바인딩 다운그레이드 CVE
+	set('netty.version', "4.1.138.Final")     // 4.1.137 미만: SNI/TLS 처리 CVE
+	set('commons-lang3.version', "3.21.0")    // 3.18 미만: 긴 입력 재귀 DoS CVE
+	set('log4j2.version', "2.25.5")           // 2.25.5 미만: MapMessage 인코딩 CVE
+}
+
+dependencies {
+	// Spring Web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// API 문서화 (Swagger UI)
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6'
+
+	// JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// PostgreSQL
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// Spring AI
+	implementation 'org.springframework.ai:spring-ai-starter-model-google-genai'
+	implementation 'org.springframework.ai:spring-ai-starter-vector-store-pgvector'
+	implementation 'org.springframework.ai:spring-ai-advisors-vector-store'
+
+	// Redis - API 응답 캐싱용
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// Dev
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+
+	// .env 로컬 시크릿 로딩 (Spring Boot 3 자동 연동판) - bootRun/test에서만 필요, 배포용 bootJar에는 포함 안 됨
+	developmentOnly 'me.paulschwarz:springboot3-dotenv:5.1.0'
+	testImplementation 'me.paulschwarz:springboot3-dotenv:5.1.0'
+
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// 에러 모니터링 - SENTRY_DSN이 없으면(로컬/CI) 아무것도 전송하지 않는다
+	implementation 'io.sentry:sentry-spring-boot-starter-jakarta:8.59.0'
+
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+	// Testcontainers
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.testcontainers:postgresql'
+
+	// Fixture Monkey
+	testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:1.1.21'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

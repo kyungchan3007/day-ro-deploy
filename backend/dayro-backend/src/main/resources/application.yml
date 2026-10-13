@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: dayro
+  profiles:
+    active: loc
+  autoconfigure:
+    exclude:
+      # pgvector 저장소는 아직 미사용(RAG 도입 전) - EmbeddingModel 빈이 없어 기동 실패하는 것을 방지
+      - org.springframework.ai.vectorstore.pgvector.autoconfigure.PgVectorStoreAutoConfiguration
+  ai:
+    retry:
+      # Spring AI 쪽 재시도도 끈다. SDK 재시도는 GeminiClientConfig에서 끄므로, 둘 중 어디서도 요청이 길게 붙잡히지 않게 한다
+      max-attempts: 1
+
+ai:
+  gemini:
+    # 기본 모델 실패 시 폴백까지 2번 호출해도 기획안 "AI 응답 최대 30초" 안에 끝나도록 호출당 상한을 둔다
+    timeout-ms: 12000
+    # 기본 모델(spring.ai.google.genai.chat.options.model)과 다른 모델이어야 한쪽 과부하를 피할 수 있다.
+    # 3.5-flash는 3.6-flash와 같이 503이 나는 걸 확인해서(10-06) 세대가 다른 lite 모델을 쓴다
+    fallback-model: gemini-3.1-flash-lite
+
+server:
+  port: 8080
+
+sentry:
+  # 비어 있으면 Sentry가 비활성화된다 - 로컬/CI에서는 넣지 않는다
+  dsn: ${SENTRY_DSN:}
+  environment: ${SENTRY_ENVIRONMENT:local}
+  # 기본값이지만 명시 - 요청 헤더(Authorization, Cookie)와 사용자 IP를 보내지 않는다
+  send-default-pii: false
+  # 성능 추적(트랜잭션)은 무료 한도를 빨리 소진하므로 끄고 에러만 수집한다
+  traces-sample-rate: 0.0

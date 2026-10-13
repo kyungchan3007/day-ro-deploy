@@ -1,0 +1,31 @@
+/* course-map : 확정 코스 지도 영역 스타일 (features/situation). */
+
+.wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-neutral-100);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 로딩/에러/좌표없음 상태의 중앙 대체 뷰. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-neutral-100);
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--color-text-muted, var(--color-neutral-600));
+}

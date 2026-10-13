@@ -1,0 +1,127 @@
+/* region-area-search : 행정동 검색 + 결과 리스트 스타일 (features/situation). */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.caption {
+  margin: 14px 2px 4px;
+  font-size: 11px;
+  color: var(--color-neutral-400);
+}
+
+.popular {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 14px;
+}
+
+.popularLabel {
+  margin: 0 2px;
+  font-size: 11px;
+  color: var(--color-neutral-400);
+}
+
+.popularChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.popularChip {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-subtle);
+  color: var(--color-text-secondary);
+  border-radius: 999px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  transition:
+    border-color 0.12s ease,
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.popularChip:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-surface);
+  color: var(--color-primary);
+}
+
+.popularChip:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  background: var(--color-primary-surface);
+  color: var(--color-primary);
+}
+
+.empty {
+  padding: 28px 2px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text-muted, var(--color-neutral-600));
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 6px;
+  border: none;
+  border-top: 1px solid var(--color-border);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.row:first-child {
+  border-top: none;
+}
+
+.row:hover {
+  background: var(--color-surface-subtle);
+}
+
+.row:focus-visible {
+  outline: none;
+  background: var(--color-primary-surface);
+}
+
+/* 선택된 행: primary 강조. */
+.rowActive {
+  background: var(--color-primary-surface);
+}
+
+.name {
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-strong);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowActive .name {
+  color: var(--color-primary);
+}
+
+.region {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--color-neutral-400);
+}

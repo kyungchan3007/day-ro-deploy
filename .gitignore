@@ -1,0 +1,4 @@
+# Claude Code / IDE 로컬 설정
+# .claude/ 는 공유(서브에이전트·스킬·launch 설정). 단 개인 permission 파일만 제외.
+.claude/settings.local.json
+.idea/

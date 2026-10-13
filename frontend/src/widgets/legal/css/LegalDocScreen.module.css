@@ -1,0 +1,36 @@
+.navTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-strong);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-block: 1.5rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notice {
+  border-radius: 0.375rem;
+  background: var(--color-surface-subtle);
+  padding: 0.5rem 0.75rem;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
