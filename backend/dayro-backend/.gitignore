@@ -1,0 +1,53 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
+### VS Code ###
+.vscode/
+
+### Mac ###
+.DS_Store
+
+### Windows ###
+Thumbs.db
+
+### Logs ###
+logs/
+*.log
+
+### Environment variables ###
+.env
+.env.*
+!.env.example
+!.env.server.example
+
+### Application local config ###
+# application-prod.yml은 시크릿을 담지 않고 환경변수 참조(${...})만 하므로 커밋 대상이다.
+# 실제 값은 서버의 .env로 주입한다
+application-dev.yml
+
+### Secret files ###
+*.pem
+*.key
+*.p12
+*.jks
+secrets/

@@ -1,0 +1,29 @@
+.card {
+  width: 250px;
+}
+
+.imageWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  margin-top: 1rem;
+  display: block;
+}
+
+.subtitleLine {
+  display: block;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 1024px) {
+  .card {
+    width: 334px;
+  }
+
+  .subtitleLine {
+    font-size: 1rem;
+  }
+}
