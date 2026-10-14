@@ -134,6 +134,7 @@ Google Places로 주변 장소 후보를 모으고 Gemini가 상황에 맞게 �
 | 구분 | 기술 | 역할 |
 | --- | --- | --- |
 | 프론트엔드 | Next.js 16 (App Router) · React 19 · TypeScript | SSR 화면 + BFF Route Handler |
+| 스타일 | Tailwind CSS 4 · CSS Modules | `@theme` 디자인 토큰 + 도메인별 CSS Module |
 | 검증 | Zod (zod/mini) | BFF ↔ 백엔드 응답 런타임 검증 |
 | 지도 | Kakao Maps JavaScript SDK | 코스 동선 표시 |
 | 테스트 | Vitest · Playwright · Storybook · Chromatic | 단위 · e2e · UI 카탈로그 · 시각 회귀 |
@@ -158,7 +159,8 @@ Google Places로 주변 장소 후보를 모으고 Gemini가 상황에 맞게 �
 | `@opennextjs/cloudflare` · `wrangler` | 1 · 4 | Next.js 빌드를 Cloudflare Workers로 배포 |
 | `web-vitals` | 6 | LCP · CLS 등 Web Vitals 계측 |
 | `server-only` | — | 서버 전용 모듈의 클라이언트 import 차단 |
-| `tailwindcss` | 4 | 디자인 토큰 · 스타일 |
+| `tailwindcss` · `@tailwindcss/postcss` | 4 | `globals.css` `@theme` 디자인 토큰(색 · 반경 등) · 유틸리티 클래스 |
+| CSS Modules (Next.js 내장) | — | 도메인별 스타일 (`features` · `widgets` · `shared/ui` 아래 `*.module.css` 32개) |
 | `vitest` · `@vitest/browser-playwright` | 4 | 단위 테스트 · 브라우저 모드 테스트 |
 | `@playwright/test` | 1.61 | e2e 테스트 |
 | `msw` | 2 | API 목 (테스트 · Storybook) |
