@@ -147,22 +147,23 @@ Google Places로 주변 장소 후보를 모으고 Gemini가 상황에 맞게 �
 
 ### 📦 프론트엔드 주요 라이브러리
 
-| 라이브러리 | 버전 | 쓰는 곳 |
-| --- | --- | --- |
-| `next` · `react` · `react-dom` | 16.3 · 19.2 | App Router SSR 화면 · BFF Route Handler |
-| `typescript` | 5 | 전체 타입 |
-| `zod` (`zod/mini`) | 4 | BFF ↔ 백엔드 요청·응답 계약 검증 |
-| `@dnd-kit/core` · `sortable` · `modifiers` | 6 · 10 · 9 | 확정 코스 장소 순서 드래그 정렬 |
-| `@opennextjs/cloudflare` · `wrangler` | 1 · 4 | Next.js 빌드를 Cloudflare Workers로 배포 |
-| `web-vitals` | 6 | LCP · CLS 등 Web Vitals 계측 |
-| `server-only` | — | 서버 전용 모듈의 클라이언트 import 차단 |
-| `tailwindcss` · `@tailwindcss/postcss` | 4 | `globals.css` `@theme` 디자인 토큰(색 · 반경 등) · 유틸리티 클래스 |
-| CSS Modules (Next.js 내장) | — | 도메인별 스타일 (`features` · `widgets` · `shared/ui` 아래 `*.module.css` 32개) |
-| `vitest` · `@vitest/browser-playwright` | 4 | 단위 테스트 · 브라우저 모드 테스트 |
-| `@playwright/test` | 1.61 | e2e 테스트 |
-| `msw` | 2 | API 목 (테스트 · Storybook) |
-| `storybook` · `@storybook/addon-a11y` · `chromatic` | 10 · 10 · 18 | 공용 UI 카탈로그 · 접근성 검사 · 시각 회귀 |
-| `eslint` · `eslint-config-next` | 9 | 정적 검사 |
+**런타임**
+- `next` 16.3 · `react` / `react-dom` 19.2 — App Router SSR 화면 · BFF Route Handler
+- `typescript` 5 — 전체 타입
+- `zod` 4 (`zod/mini`) — BFF ↔ 백엔드 요청·응답 계약 검증
+- `@dnd-kit/core` 6 · `@dnd-kit/sortable` 10 · `@dnd-kit/modifiers` 9 — 확정 코스 장소 순서 드래그 정렬
+- `@opennextjs/cloudflare` 1 · `wrangler` 4 — Next.js 빌드를 Cloudflare Workers로 배포
+- `web-vitals` 6 — LCP · CLS 등 Web Vitals 계측
+- `server-only` — 서버 전용 모듈의 클라이언트 import 차단
+- `tailwindcss` 4 · `@tailwindcss/postcss` 4 — `globals.css` `@theme` 디자인 토큰(색 · 반경 등) · 유틸리티 클래스
+- CSS Modules (Next.js 내장) — 도메인별 스타일 (`features` · `widgets` · `shared/ui` 아래 `*.module.css` 32개)
+
+**테스트 · 도구**
+- `vitest` 4 · `@vitest/browser-playwright` 4 — 단위 테스트 · 브라우저 모드 테스트
+- `@playwright/test` 1.61 — e2e 테스트
+- `msw` 2 — API 목 (테스트 · Storybook)
+- `storybook` 10 · `@storybook/addon-a11y` 10 · `chromatic` 18 — 공용 UI 카탈로그 · 접근성 검사 · 시각 회귀
+- `eslint` 9 · `eslint-config-next` — 정적 검사
 
 ---
 
