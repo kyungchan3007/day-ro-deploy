@@ -144,6 +144,29 @@ Google Places로 주변 장소 후보를 모으고 Gemini가 상황에 맞게 �
 | FE 배포 | Cloudflare Workers · OpenNext | 엣지 SSR · `main` 머지 시 자동 배포 |
 | BE 배포 | AWS EC2 · Docker Compose · Caddy · GHCR · SSM | 블루-그린 무중단 배포 · HTTPS 자동 발급 |
 
+### 📦 프론트엔드 주요 라이브러리
+
+<details>
+<summary><b>펼쳐 보기</b></summary>
+
+| 라이브러리 | 버전 | 쓰는 곳 |
+| --- | --- | --- |
+| `next` · `react` · `react-dom` | 16.3 · 19.2 | App Router SSR 화면 · BFF Route Handler |
+| `typescript` | 5 | 전체 타입 |
+| `zod` (`zod/mini`) | 4 | BFF ↔ 백엔드 요청·응답 계약 검증 |
+| `@dnd-kit/core` · `sortable` · `modifiers` | 6 · 10 · 9 | 확정 코스 장소 순서 드래그 정렬 |
+| `@opennextjs/cloudflare` · `wrangler` | 1 · 4 | Next.js 빌드를 Cloudflare Workers로 배포 |
+| `web-vitals` | 6 | LCP · CLS 등 Web Vitals 계측 |
+| `server-only` | — | 서버 전용 모듈의 클라이언트 import 차단 |
+| `tailwindcss` | 4 | 디자인 토큰 · 스타일 |
+| `vitest` · `@vitest/browser-playwright` | 4 | 단위 테스트 · 브라우저 모드 테스트 |
+| `@playwright/test` | 1.61 | e2e 테스트 |
+| `msw` | 2 | API 목 (테스트 · Storybook) |
+| `storybook` · `@storybook/addon-a11y` · `chromatic` | 10 · 10 · 18 | 공용 UI 카탈로그 · 접근성 검사 · 시각 회귀 |
+| `eslint` · `eslint-config-next` | 9 | 정적 검사 |
+
+</details>
+
 ---
 
 ## ▶️ 실행 방법
