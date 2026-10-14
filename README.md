@@ -147,9 +147,6 @@ Google Places로 주변 장소 후보를 모으고 Gemini가 상황에 맞게 �
 
 ### 📦 프론트엔드 주요 라이브러리
 
-<details>
-<summary><b>펼쳐 보기</b></summary>
-
 | 라이브러리 | 버전 | 쓰는 곳 |
 | --- | --- | --- |
 | `next` · `react` · `react-dom` | 16.3 · 19.2 | App Router SSR 화면 · BFF Route Handler |
@@ -166,8 +163,6 @@ Google Places로 주변 장소 후보를 모으고 Gemini가 상황에 맞게 �
 | `msw` | 2 | API 목 (테스트 · Storybook) |
 | `storybook` · `@storybook/addon-a11y` · `chromatic` | 10 · 10 · 18 | 공용 UI 카탈로그 · 접근성 검사 · 시각 회귀 |
 | `eslint` · `eslint-config-next` | 9 | 정적 검사 |
-
-</details>
 
 ---
 
