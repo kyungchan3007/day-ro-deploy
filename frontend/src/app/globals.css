@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+/*
+ * 데이로 디자인 토큰
+ * 출처: Figma 컬러 시스템 보드(figma_htmlgenerator export) 픽셀 추출값 + 컴포넌트 시트(node 77:8713).
+ * 구성:
+ *   1) Palette ramp  : 원본 스케일 (primary / neutral / orange / teal)
+ *   2) Semantic      : 컴포넌트가 실제로 소비하는 의미 토큰 (ramp 를 참조)
+ * 헤드리스 UI + 향후 packages/ui 분리를 전제로, 컴포넌트는 semantic 토큰만 사용한다.
+ * (Neutral 은 원본 라벨이 불규칙/일부 누락이라 light→dark 50~950 으로 정규화함)
+ */
+@theme {
+  /* ── Palette: Primary (브랜드 보라) 100~1000 ───────────────────── */
+  --color-primary-100: #faf5ff;
+  --color-primary-200: #f4eafd;
+  --color-primary-300: #ddc2f5;
+  --color-primary-400: #cba4ef;
+  --color-primary-500: #b37de6;
+  --color-primary-600: #954ed8;
+  --color-primary-700: #7800e9; /* Base */
+  --color-primary-800: #3e0078;
+  --color-primary-900: #250048;
+  --color-primary-1000: #130026;
+
+  /* ── Palette: Neutral 50~950 ──────────────────────────────────── */
+  --color-neutral-50: #f6f6f6;
+  --color-neutral-100: #f0f0f0;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #c9c9c9;
+  --color-neutral-400: #a8a8a8;
+  --color-neutral-500: #8f8f8f;
+  --color-neutral-600: #797979;
+  --color-neutral-700: #5b5b5b;
+  --color-neutral-800: #383838;
+  --color-neutral-900: #1e1e1e;
+  --color-neutral-950: #111111;
+
+  /* ── Palette: Secondary Orange 100~600 ────────────────────────── */
+  --color-orange-100: #ffefe4;
+  --color-orange-200: #ffd5b4;
+  --color-orange-300: #ffaa57;
+  --color-orange-400: #ea8c30;
+  --color-orange-500: #ff6a04;
+  --color-orange-600: #c74c00;
+
+  /* ── Palette: Secondary Teal 100~600 ──────────────────────────── */
+  --color-teal-100: #e9fdfb;
+  --color-teal-200: #befaf5;
+  --color-teal-300: #6dede2;
+  --color-teal-400: #08ead8;
+  --color-teal-500: #00b2a4;
+  --color-teal-600: #00978b;
+
+  /* ── Semantic: Brand ──────────────────────────────────────────── */
+  --color-primary: var(--color-primary-700);
+  --color-primary-weak: var(--color-primary-600);
+  --color-primary-pressed: var(--color-primary-800);
+  --color-primary-surface: var(--color-primary-100);
+
+  --color-on-primary: #ffffff; /* 채운 배경(primary · 진한 면) 위 글자 · 아이콘 */
+  --color-primary-gradient-end: #4b4ee0; /* 브랜드 그라데이션 끝색 (primary → 이 색) */
+  --color-primary-tint: #f7f0fe; /* 연보라 칩 바탕 */
+  --color-primary-deep: #5202b2; /* 연보라 칩 글자 */
+
+  /* ── Semantic: Status ─────────────────────────────────────────── */
+  --color-success: #00b52d;
+  --color-danger: #e5484d; /* 검증/에러 문구 */
+  --color-danger-surface: oklch(97.1% 0.013 17.38); /* 에러 박스 배경 */
+  --color-danger-border: oklch(88.5% 0.062 18.334); /* 에러 박스 테두리 */
+  --color-danger-strong: oklch(50.5% 0.213 27.518); /* 에러 박스 글자 */
+
+  /* ── Semantic: Text ───────────────────────────────────────────── */
+  --color-text-strong: var(--color-neutral-950); /* Title/Body */
+  --color-text: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-800); /* SubTitle */
+  --color-text-tertiary: var(--color-neutral-700);
+  --color-text-muted: var(--color-neutral-600);
+  --color-text-subtle: #767676; /* 온보딩 · 시작 화면 설명 · 건너뛰기 (시안 #8a8a8a → 흰 바탕 대비 4.5:1 맞춤) */
+  --color-text-disabled: var(--color-neutral-400); /* Disabled */
+
+  /* ── Semantic: Surface & Border ───────────────────────────────── */
+  --color-surface: #ffffff;
+  --color-surface-subtle: var(--color-neutral-50);
+  --color-surface-muted: #f9f9fb; /* 온보딩 그림 카드 바탕 · 보조 버튼 누름 */
+  --color-surface-chip: #f0f0f5; /* 회색 보조 버튼(온보딩 이전) */
+  --color-frame: var(--color-neutral-50); /* AppShell 좌우 여백(gutter) = 미색 */
+  --color-border: var(--color-neutral-200);
+  --color-border-strong: var(--color-neutral-300);
+  --color-border-soft: #efeff3; /* 그림 카드 안 흰 카드 테두리 */
+  --color-indicator-idle: #e0e0e6; /* 진행 점(현재 아님) */
+
+  /* ── Semantic: Feedback (toast · 오버레이) ────────────────────── */
+  --color-toast-bg: var(--color-neutral-900);
+  --color-overlay: rgb(0 0 0 / 0.45); /* 바텀시트 · 사이드메뉴 뒤 딤 */
+  --color-overlay-strong: rgb(0 0 0 / 0.5); /* 확인 모달 뒤 딤 */
+
+  /* ── Semantic: 이동수단 팔레트 (badge/route 스텝) ──────────────── */
+  --color-transport-start: var(--color-primary-700);
+  --color-transport-walk: var(--color-primary-600);
+  --color-transport-subway: var(--color-success); /* type3(green) */
+  --color-transport-subway-alt: var(--color-teal-500); /* type2(teal) */
+  --color-transport-bus: var(--color-orange-400);
+  --color-transport-car: #2699ec; /* NOTE: 공식 팔레트 외 값(SVG 뱃지 전용). 확정 필요 */
+  --color-transport-arrive: var(--color-primary-800);
+
+  /* ── Semantic: 목적 팔레트 (카드 아이콘 accent) ────────────────── */
+  --color-purpose-date: #d4537e; /* pink */
+  --color-purpose-blind: #378add; /* blue */
+  --color-purpose-friends: #ef9f27; /* amber */
+  --color-purpose-anniversary: #d85a30; /* coral */
+
+  /* ── Radius ───────────────────────────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+  --radius-base: 8px; /* 목록 행 · 사진 · 입력칸 */
+  --radius-card: 12px; /* 패널 · 안내 박스 · 큰 버튼 */
+  --radius-tile: 16px; /* 온보딩 장소 카드 */
+  --radius-sheet: 24px; /* 바텀시트 윗모서리 */
+
+  /* ── Typography: 글자 크기 단계 ──────────────────────────────────
+   * 화면이 실제 쓰는 크기만 단계로 둔다. 행간은 지정하지 않아(부모 행간 상속) 기존 임의값(text-[13px])과 계산값이 같다.
+   * Tailwind 기본(text-xs~lg)은 행간까지 바꾸므로 Dayro 화면은 아래 단계를 쓴다. */
+  --text-micro: 0.625rem; /* 10px 보조 숫자 · 뱃지 */
+  --text-caption: 0.6875rem; /* 11px 캡션 · 메타 */
+  --text-meta: 0.75rem; /* 12px 보조 정보 */
+  --text-label: 0.8125rem; /* 13px 라벨 · 설명 */
+  --text-control: 0.875rem; /* 14px 입력칸 · 작은 버튼 */
+  --text-body: 0.9375rem; /* 15px 본문 · 항목 제목 */
+  --text-body-lg: 1rem; /* 16px 시트 제목 · 폼 라벨 */
+  --text-title-sm: 1.0625rem; /* 17px 작은 제목 */
+  --text-title: 1.125rem; /* 18px 화면 제목(내비 바) */
+  --text-headline: 1.375rem; /* 22px 큰 숫자 · 아바타 이니셜 · 시작 화면 문구 */
+  --text-display: 1.5rem; /* 24px 온보딩 제목 */
+
+  /* ── Elevation: 그림자 ───────────────────────────────────────── */
+  --shadow-card: 0 2px 8px rgba(180, 190, 201, 0.4); /* 장소 카드 */
+  --shadow-card-active: 0 6px 16px rgba(120, 0, 233, 0.22); /* 끌어 옮기는 카드 */
+  --shadow-badge: 0 2.4px 1.2px rgba(171, 190, 209, 0.4); /* 번호 뱃지 */
+  --shadow-popover: 0 8px 24px rgb(0 0 0 / 0.06); /* 드롭다운 목록 */
+  --shadow-marker: 0 2px 4px rgba(0, 0, 0, 0.3); /* 지도 마커 */
+  --shadow-brand: 0 10px 24px rgba(120, 0, 233, 0.28); /* 브랜드 그라데이션 강조 칸 */
+}
+
+/*
+ * 모션 · 레이어 토큰. Tailwind 유틸을 만들 필요가 없어 :root 변수로 둔다.
+ * Tailwind 에서는 z-(--z-modal) · duration-(--duration-base) 처럼 쓴다.
+ */
+:root {
+  --duration-press: 0.12s; /* 누름 피드백 */
+  --duration-fast: 0.15s; /* 색 · 테두리 전환 */
+  --duration-base: 0.2s; /* 열고 닫기 · 회전 */
+  --duration-slow: 0.3s; /* 시트 · 패널 이동 */
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1); /* 바텀시트 올라옴 */
+  --duration-slide: 0.4s; /* 온보딩 장 넘김 */
+  --ease-slide: cubic-bezier(0.2, 0.8, 0.2, 1); /* 온보딩 장 넘김 */
+  --duration-rise: 0.6s; /* 시작 화면 등장 */
+
+  --z-raised: 2; /* 같은 목록 안에서 위로 (끄는 카드) */
+  --z-dropdown: 30; /* 선택 목록 */
+  --z-sheet: 40; /* 바텀시트 */
+  --z-modal: 50; /* 확인 모달 · 사이드메뉴 */
+  --z-toast: 60; /* 토스트 (모달 위) */
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #111111;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+}
+
+/*
+ * 아이폰 · 아이패드(iOS WebKit) 전용: 글자 16px 미만 입력칸에 포커스하면 사파리가 화면을 확대하고
+ * 입력이 끝나도 확대된 채로 남는다 → 다음 화면(예: 코스 생성 로딩)까지 확대돼 보였다(issue #214).
+ * -webkit-touch-callout 은 iOS WebKit 만 지원하므로, 다른 기기의 입력칸 디자인은 그대로 둔다.
+ */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1em) !important;
+  }
+}

@@ -1,0 +1,14 @@
+/* 시작 화면 (issue #230). 소개가 남는 공간을 채우고 버튼은 아래에 붙는다. */
+
+.screen {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 20px 24px;
+}
