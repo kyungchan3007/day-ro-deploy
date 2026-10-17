@@ -1,0 +1,98 @@
+{
+  "url": "https://day-ro.com/",
+  "name": "home",
+  "env": "prod",
+  "date": "2026-10-15",
+  "settings": {
+    "lighthouseVersion": "13.5.0",
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "width": 412,
+    "height": 823,
+    "fetchTime": "2026-10-15T10:27:47.169Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+    "benchmarkIndex": 4160,
+    "hostUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "cookie": "dayro_guest_browse=1"
+  },
+  "representative": 1,
+  "median": {
+    "score": 84,
+    "fcp": 2239.495,
+    "lcp": 4073.8785,
+    "tbt": 14,
+    "cls": 0,
+    "si": 3206.013599997955,
+    "ttfb": 203,
+    "totalBytes": 347842,
+    "scriptBytes": 243555,
+    "unusedJsBytes": 27837
+  },
+  "runs": [
+    {
+      "score": 84,
+      "fcp": 2098.1115,
+      "lcp": 4077.376,
+      "tbt": 18,
+      "cls": 0,
+      "si": 3343.0595920133946,
+      "ttfb": 192,
+      "totalBytes": 347966,
+      "scriptBytes": 243710,
+      "unusedJsBytes": 27867,
+      "lcpElement": "<img alt=\"\" fetchpriority=\"high\" loading=\"eager\" width=\"150\" height=\"104\" decoding=\"sync\" data-nimg=\"1\" style=\"color:transparent\" src=\"/_next/static/media/img-create.088mfrsn4mxqj.webp\">"
+    },
+    {
+      "score": 84,
+      "fcp": 2386.2219999999998,
+      "lcp": 3998.091,
+      "tbt": 5,
+      "cls": 0.00007569956896798242,
+      "si": 3206.013599997955,
+      "ttfb": 960,
+      "totalBytes": 347815,
+      "scriptBytes": 243555,
+      "unusedJsBytes": 27836,
+      "lcpElement": "<img alt=\"\" fetchpriority=\"high\" loading=\"eager\" width=\"150\" height=\"104\" decoding=\"sync\" data-nimg=\"1\" style=\"color:transparent\" src=\"/_next/static/media/img-create.088mfrsn4mxqj.webp\">"
+    },
+    {
+      "score": 83,
+      "fcp": 2239.495,
+      "lcp": 4073.8785,
+      "tbt": 6,
+      "cls": 0.00007569956896798242,
+      "si": 3525.563656014383,
+      "ttfb": 1109,
+      "totalBytes": 347875,
+      "scriptBytes": 243538,
+      "unusedJsBytes": 27836,
+      "lcpElement": "<img alt=\"\" fetchpriority=\"high\" loading=\"eager\" width=\"150\" height=\"104\" decoding=\"sync\" data-nimg=\"1\" style=\"color:transparent\" src=\"/_next/static/media/img-create.088mfrsn4mxqj.webp\">"
+    },
+    {
+      "score": 81,
+      "fcp": 2463.2520000000004,
+      "lcp": 4330.962000000001,
+      "tbt": 17.5,
+      "cls": 0,
+      "si": 3153.942002003807,
+      "ttfb": 203,
+      "totalBytes": 347842,
+      "scriptBytes": 243581,
+      "unusedJsBytes": 27840,
+      "lcpElement": "<img alt=\"\" fetchpriority=\"high\" loading=\"eager\" width=\"150\" height=\"104\" decoding=\"sync\" data-nimg=\"1\" style=\"color:transparent\" src=\"/_next/static/media/img-create.088mfrsn4mxqj.webp\">"
+    },
+    {
+      "score": 84,
+      "fcp": 2149.011,
+      "lcp": 4055.101,
+      "tbt": 14,
+      "cls": 0,
+      "si": 3042.628067987615,
+      "ttfb": 164,
+      "totalBytes": 347779,
+      "scriptBytes": 243476,
+      "unusedJsBytes": 27837,
+      "lcpElement": "<img alt=\"\" fetchpriority=\"high\" loading=\"eager\" width=\"150\" height=\"104\" decoding=\"sync\" data-nimg=\"1\" style=\"color:transparent\" src=\"/_next/static/media/img-create.088mfrsn4mxqj.webp\">"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+# 운영(EC2 + docker compose) 프로필.
+# 시크릿은 이 파일에 적지 않는다 - 서버의 .env가 compose를 통해 환경변수로 주입되고 여기서는 참조만 한다.
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      # Flyway 미도입 상태라 loc과 동일하게 update 사용. 운영 데이터가 쌓이기 전에 마이그레이션 도구 도입 필요
+      ddl-auto: update
+    show-sql: false
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+  docker:
+    compose:
+      # 서버에서는 compose가 이미 컨테이너를 띄운 상태라 애플리케이션이 compose를 다시 기동하면 안 된다
+      enabled: false
+  ai:
+    google:
+      genai:
+        api-key: ${SPRING_AI_GOOGLE_GENAI_API_KEY}
+        chat:
+          options:
+            # 3.6-flash는 high demand 503이 잦고 응답도 8초 안팎이라 교체 - 장소 선별은 lite로 충분(~1초)
+            model: gemini-3.5-flash-lite
+
+server:
+  # Spring Boot 3.4+ 기본값이지만 명시해 둔다 - 블루-그린 전환 때 이전 색상이 처리 중인 요청을 끝내고 내려가야 한다.
+  # 대기 상한은 spring.lifecycle.timeout-per-shutdown-phase(기본 30초)이고, compose의 stop_grace_period(35초)가 이보다 길어야 한다
+  shutdown: graceful
+  # 리버스 프록시 뒤에 있어서 이게 없으면 모든 요청의 remoteAddr이 프록시 IP로 보이고, IP 단위 레이트 리밋이 무력화된다
+  forward-headers-strategy: framework
+
+google:
+  places:
+    api-key: ${GOOGLE_PLACES_API_KEY}
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY}
+
+kakao:
+  rest-api-key: ${KAKAO_REST_API_KEY}
+  client-secret: ${KAKAO_CLIENT_SECRET}
+  # 카카오 개발자 콘솔에 등록된 운영 도메인 콜백 URL과 정확히 일치해야 한다
+  redirect-uri: ${KAKAO_REDIRECT_URI}
+  admin-key: ${KAKAO_ADMIN_KEY}
+
+# 외부 유료 API 일일 하드 캡 - 운영에서는 값을 낮게 유지하고 실사용량을 보며 올린다
+quota:
+  places:
+    daily-limit: ${QUOTA_PLACES_DAILY_LIMIT:350}
+    photo-daily-limit: ${QUOTA_PLACES_PHOTO_DAILY_LIMIT:300}
+    photo-per-ip-limit: ${QUOTA_PLACES_PHOTO_PER_IP_LIMIT:60}
+
+logging:
+  level:
+    root: info
+    com.dayro: info
+  # 콘솔(docker logs)과 별도로 파일에도 남긴다. /app/logs는 compose의 backend-logs 볼륨이라 컨테이너를 재생성해도 유지된다.
+  # 롤링 경로는 ${LOG_FILE}을 쓰지 않고 직접 적는다 - yml에서는 Spring이 그 자리표시자를 먼저 풀려다 기동이 실패한다.
+  file:
+    name: /app/logs/dayro.log
+  logback:
+    rollingpolicy:
+      # %d{yyyy-MM-dd}: 하루 단위로 파일을 넘기고 gzip 압축한다. 하루 안에서도 100MB를 넘으면 %i로 쪼갠다
+      file-name-pattern: /app/logs/dayro.%d{yyyy-MM-dd}.%i.log.gz
+      max-file-size: 100MB
+      # 일 단위 패턴이라 7 = 최근 7일치 보관(그 이전 압축 파일은 자동 삭제)
+      max-history: 7
+      # 주기와 상관없이 전체 보관 용량 상한 - 30GiB 디스크를 로그가 채우지 않게 한다
+      total-size-cap: 1GB
+
+# 운영에서는 API 문서를 공개하지 않는다 - 전체 엔드포인트/요청 형식이 그대로 노출된다
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

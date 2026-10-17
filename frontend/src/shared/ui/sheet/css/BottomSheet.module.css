@@ -1,0 +1,40 @@
+/* bottom-sheet : 공용 바텀시트 껍데기 (issue #227). 코스 저장 시트 시안(HTML) 기준. */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-sheet);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: var(--color-overlay);
+}
+
+.sheet {
+  width: 100%;
+  max-width: var(--container-app); /* app-shell 컬럼 폭과 정렬. */
+  background: var(--color-surface);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  padding: 10px 20px calc(20px + env(safe-area-inset-bottom));
+}
+
+/* 안에 포커스 가능 요소가 없을 때만 시트 자체가 포커스를 받는다(프로그램 포커스) → 테두리는 그리지 않는다. */
+.sheet:focus {
+  outline: none;
+}
+
+.handle {
+  width: 48px;
+  height: 4px;
+  margin: 0 auto 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-200);
+}
+
+.title {
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+  color: var(--color-text-strong);
+}

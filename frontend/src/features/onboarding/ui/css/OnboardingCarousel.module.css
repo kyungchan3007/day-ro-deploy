@@ -1,0 +1,150 @@
+/* onboarding-carousel : 온보딩 3장 (issue #230, 시안 dayro_prototype 온보딩). */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 위: 진행 점 + 건너뛰기 */
+.top {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 20px;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dots i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-indicator-idle);
+  transition:
+    width var(--duration-slow) ease,
+    background-color var(--duration-slow) ease;
+}
+
+.dots i.dotOn {
+  width: 20px;
+  background: var(--color-primary);
+}
+
+.skip {
+  padding: 8px 0;
+  border: none;
+  background: none;
+  color: var(--color-text-subtle);
+  font-family: inherit;
+  font-size: var(--text-control);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* 가운데: 장 */
+.viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  outline: none;
+}
+
+.viewport:focus-visible {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+.track {
+  display: flex;
+  height: 100%;
+  transition: transform var(--duration-slide) var(--ease-slide);
+}
+
+.slide {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 8px 20px 0;
+  overflow-y: auto;
+}
+
+.step {
+  color: var(--color-primary);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.title {
+  margin-top: 10px;
+  color: var(--color-text-strong);
+  font-size: var(--text-display);
+  font-weight: 700;
+  line-height: 1.42;
+  letter-spacing: -0.5px;
+}
+
+.desc {
+  margin-top: 12px;
+  color: var(--color-text-subtle);
+  font-size: var(--text-body);
+  line-height: 1.55;
+}
+
+/* 아래: 이전 · 다음 */
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+  padding: 16px 20px calc(34px + env(safe-area-inset-bottom));
+}
+
+.button {
+  height: 52px;
+  border: none;
+  border-radius: var(--radius-card);
+  font-family: inherit;
+  font-size: var(--text-body-lg);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform var(--duration-press) ease,
+    opacity var(--duration-base) ease;
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.prev {
+  flex: 0 0 108px;
+  background: var(--color-surface-chip);
+  color: var(--color-text-tertiary);
+}
+
+.next {
+  flex: 1;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .dots i {
+    transition: none;
+  }
+}

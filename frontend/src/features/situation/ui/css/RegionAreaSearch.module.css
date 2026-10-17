@@ -1,0 +1,163 @@
+/* region-area-search : 동네 검색형 드롭다운 스타일 (features/situation, QA #2 · issue #208). */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 드롭다운이 열려 있으면 칸 테두리를 primary 로 유지(포커스가 패널로 옮겨가도). */
+.fieldOpen {
+  border-color: var(--color-primary);
+}
+
+.chevronButton {
+  display: grid;
+  place-items: center;
+  /* 터치 영역 40px, 칸 높이(48px) 안에서 오른쪽 여백만큼 겹쳐 둔다. */
+  width: 40px;
+  height: 40px;
+  margin-right: -10px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.chevronButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+.chevron {
+  transition: transform var(--duration-fast) ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/*
+ * 드롭다운 패널: 칸 바로 아래 흐름 안에 펼친다(겹쳐 띄우지 않음).
+ * 본문 스크롤 하나로 긴 동네 목록도 볼 수 있고, 하단 고정 CTA 에 가려지지 않는다.
+ */
+.panel {
+  margin-top: 6px;
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-popover);
+}
+
+.panelLabel {
+  margin: 8px 8px 6px;
+  font-size: var(--text-caption);
+  color: var(--color-neutral-400);
+}
+
+.popular {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-neutral-100);
+}
+
+.popularChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 8px;
+}
+
+.popularChip {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-subtle);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-pill);
+  padding: 8px 12px;
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1;
+  transition:
+    border-color var(--duration-press) ease,
+    background-color var(--duration-press) ease,
+    color var(--duration-press) ease;
+}
+
+.popularChip:hover,
+.popularChip:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  background: var(--color-primary-surface);
+  color: var(--color-primary);
+}
+
+.empty {
+  margin: 0;
+  padding: 20px 8px;
+  text-align: center;
+  font-size: var(--text-label);
+  line-height: 1.6;
+  color: var(--color-text-muted, var(--color-neutral-600));
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 10px;
+  border: none;
+  border-radius: var(--radius-base);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-press) ease;
+}
+
+.row:hover {
+  background: var(--color-surface-subtle);
+}
+
+.row:focus-visible {
+  outline: none;
+  background: var(--color-primary-surface);
+}
+
+/* 선택된 행: primary 강조. */
+.rowActive {
+  background: var(--color-primary-surface);
+}
+
+.name {
+  min-width: 0;
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--color-text-strong);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowActive .name {
+  color: var(--color-primary);
+}
+
+/* 검색어와 일치하는 글자. */
+.match {
+  background: none;
+  color: var(--color-primary);
+}
+
+.region {
+  flex-shrink: 0;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-400);
+}

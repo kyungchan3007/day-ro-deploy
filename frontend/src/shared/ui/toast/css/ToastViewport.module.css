@@ -1,0 +1,47 @@
+/*
+ * toast-viewport : 전 화면 공통 토스트 위치 (issue #194).
+ * 헤더(48px) · 진행 바 바로 아래 상단, 640 컬럼 가운데.
+ * 하단 CTA · 모바일 키보드 · 하단 시트와 겹치지 않도록 상단에 둔다.
+ */
+.viewport {
+  position: fixed;
+  inset-inline: 0;
+  top: calc(env(safe-area-inset-top, 0px) + 4rem);
+  /* 하단 시트(40) · 사이드 메뉴 · 확인 다이얼로그(50) 위 */
+  z-index: var(--z-toast);
+  display: flex;
+  justify-content: center;
+  padding-inline: 1rem;
+  /* 토스트 아래 화면 조작을 막지 않는다 */
+  pointer-events: none;
+}
+
+.stack {
+  display: flex;
+  width: 100%;
+  max-width: var(--container-app);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stack > * {
+  animation: toast-in var(--duration-base) ease-out both;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack > * {
+    animation: none;
+  }
+}

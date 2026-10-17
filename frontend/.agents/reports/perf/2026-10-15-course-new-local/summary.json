@@ -1,0 +1,98 @@
+{
+  "url": "http://127.0.0.1:3126/course/new/",
+  "name": "course-new",
+  "env": "local",
+  "date": "2026-10-15",
+  "settings": {
+    "lighthouseVersion": "13.5.0",
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "width": 412,
+    "height": 823,
+    "fetchTime": "2026-10-15T12:24:46.851Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+    "benchmarkIndex": 4165,
+    "hostUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "cookie": "dayro_guest_browse=1"
+  },
+  "representative": 2,
+  "median": {
+    "score": 95,
+    "fcp": 905.9295,
+    "lcp": 2917.3372,
+    "tbt": 4,
+    "cls": 0,
+    "si": 1197.0839929583308,
+    "ttfb": 8,
+    "totalBytes": 317240,
+    "scriptBytes": 213403,
+    "unusedJsBytes": 25193
+  },
+  "runs": [
+    {
+      "score": 95,
+      "fcp": 909.1061,
+      "lcp": 2919.65915,
+      "tbt": 3,
+      "cls": 0,
+      "si": 1197.0839929583308,
+      "ttfb": 10,
+      "totalBytes": 317240,
+      "scriptBytes": 213403,
+      "unusedJsBytes": 25193,
+      "lcpElement": null
+    },
+    {
+      "score": 95,
+      "fcp": 906.2248,
+      "lcp": 2917.3372,
+      "tbt": 4,
+      "cls": 0,
+      "si": 906.2248,
+      "ttfb": 9,
+      "totalBytes": 317544,
+      "scriptBytes": 213403,
+      "unusedJsBytes": 25297,
+      "lcpElement": "<h1 class=\"text-center text-display font-bold leading-snug text-text-strong\">"
+    },
+    {
+      "score": 95,
+      "fcp": 905.5966000000001,
+      "lcp": 2916.3949000000002,
+      "tbt": 4,
+      "cls": 0,
+      "si": 1394.7044976867746,
+      "ttfb": 5,
+      "totalBytes": 317240,
+      "scriptBytes": 213403,
+      "unusedJsBytes": 25193,
+      "lcpElement": null
+    },
+    {
+      "score": 95,
+      "fcp": 905.9295,
+      "lcp": 2917.8942500000003,
+      "tbt": 4.5,
+      "cls": 0,
+      "si": 1405.3282396769143,
+      "ttfb": 8,
+      "totalBytes": 317372,
+      "scriptBytes": 213403,
+      "unusedJsBytes": 25193,
+      "lcpElement": null
+    },
+    {
+      "score": 98,
+      "fcp": 905.2523000000001,
+      "lcp": 2332.87845,
+      "tbt": 3,
+      "cls": 0,
+      "si": 905.2523000000001,
+      "ttfb": 5,
+      "totalBytes": 317239,
+      "scriptBytes": 213403,
+      "unusedJsBytes": 25297,
+      "lcpElement": "<h1 class=\"text-center text-display font-bold leading-snug text-text-strong\">"
+    }
+  ]
+}

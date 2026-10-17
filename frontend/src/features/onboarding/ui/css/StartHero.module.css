@@ -1,0 +1,93 @@
+/* start-hero : 시작 화면 소개 (issue #230, 시안 dayro_prototype 시작 화면). */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 25rem;
+  padding: 0 20px 24px;
+  text-align: center;
+}
+
+/* 로고 뒤 은은한 보라 빛. */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  width: 260px;
+  height: 260px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-primary) 13%, transparent) 0%,
+    color-mix(in srgb, var(--color-primary-gradient-end) 6%, transparent) 45%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.logo,
+.headline,
+.sub,
+.keywords {
+  position: relative;
+  animation: rise var(--duration-rise) ease-out both;
+}
+
+.headline {
+  margin-top: 28px;
+  font-size: var(--text-headline);
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.4px;
+  color: var(--color-text-strong);
+  animation-delay: calc(var(--delay-stagger) * 2);
+}
+
+.sub {
+  margin-top: 12px;
+  font-size: var(--text-body);
+  line-height: 1.5;
+  color: var(--color-text-subtle);
+  animation-delay: calc(var(--delay-stagger) * 3);
+}
+
+.keywords {
+  display: flex;
+  gap: 8px;
+  margin-top: 22px;
+  animation-delay: calc(var(--delay-stagger) * 4);
+}
+
+.keywords li {
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-tint);
+  color: var(--color-primary-deep);
+  font-size: var(--text-label);
+  font-weight: 600;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo,
+  .headline,
+  .sub,
+  .keywords {
+    animation: none;
+  }
+}

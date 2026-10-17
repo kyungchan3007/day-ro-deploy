@@ -1,0 +1,98 @@
+{
+  "url": "http://127.0.0.1:3126/onboarding/",
+  "name": "onboarding",
+  "env": "local",
+  "date": "2026-10-16",
+  "settings": {
+    "lighthouseVersion": "13.5.0",
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "width": 412,
+    "height": 823,
+    "fetchTime": "2026-10-16T10:32:30.763Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+    "benchmarkIndex": 4188.5,
+    "hostUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "cookie": null
+  },
+  "representative": 4,
+  "median": {
+    "score": 97,
+    "fcp": 906.6021000000001,
+    "lcp": 2614.7967999999996,
+    "tbt": 5,
+    "cls": 0,
+    "si": 906.6021000000001,
+    "ttfb": 2,
+    "totalBytes": 257069,
+    "scriptBytes": 191330,
+    "unusedJsBytes": 55269
+  },
+  "runs": [
+    {
+      "score": 97,
+      "fcp": 910.5589,
+      "lcp": 2622.83835,
+      "tbt": 7,
+      "cls": 0,
+      "si": 910.5589,
+      "ttfb": 4,
+      "totalBytes": 257069,
+      "scriptBytes": 191330,
+      "unusedJsBytes": 55269,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    },
+    {
+      "score": 97,
+      "fcp": 907.2915,
+      "lcp": 2617.9372499999995,
+      "tbt": 6.999999999999773,
+      "cls": 0,
+      "si": 907.2915,
+      "ttfb": 4,
+      "totalBytes": 257069,
+      "scriptBytes": 191330,
+      "unusedJsBytes": 55269,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    },
+    {
+      "score": 97,
+      "fcp": 906.6021000000001,
+      "lcp": 2613.90315,
+      "tbt": 4,
+      "cls": 0,
+      "si": 906.6021000000001,
+      "ttfb": 2,
+      "totalBytes": 257069,
+      "scriptBytes": 191330,
+      "unusedJsBytes": 55269,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    },
+    {
+      "score": 97,
+      "fcp": 906.5311999999999,
+      "lcp": 2614.7967999999996,
+      "tbt": 5,
+      "cls": 0,
+      "si": 906.5311999999999,
+      "ttfb": 2,
+      "totalBytes": 257069,
+      "scriptBytes": 191330,
+      "unusedJsBytes": 55269,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    },
+    {
+      "score": 97,
+      "fcp": 905.4721,
+      "lcp": 2613.20815,
+      "tbt": 5,
+      "cls": 0,
+      "si": 905.4721,
+      "ttfb": 2,
+      "totalBytes": 257069,
+      "scriptBytes": 191330,
+      "unusedJsBytes": 55269,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+flowchart LR
+    APP["app<br/>라우트 · BFF"] --> WID["widgets<br/>화면 조합"] --> FEA["features<br/>기능 슬라이스"] --> ENT["entities<br/>도메인 모델"] --> SHA["shared<br/>공용 UI · 유틸"]
+    classDef layer fill:#E8F1FF,stroke:#3178C6,color:#000
+    class APP,WID,FEA,ENT,SHA layer

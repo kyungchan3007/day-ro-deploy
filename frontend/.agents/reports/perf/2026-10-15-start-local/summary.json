@@ -1,0 +1,98 @@
+{
+  "url": "http://127.0.0.1:3126/",
+  "name": "start",
+  "env": "local",
+  "date": "2026-10-15",
+  "settings": {
+    "lighthouseVersion": "13.5.0",
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "width": 412,
+    "height": 823,
+    "fetchTime": "2026-10-15T10:29:14.763Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+    "benchmarkIndex": 4183.5,
+    "hostUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "cookie": null
+  },
+  "representative": 3,
+  "median": {
+    "score": 96,
+    "fcp": 905.4015999999999,
+    "lcp": 2764.79805,
+    "tbt": 3.5,
+    "cls": 0,
+    "si": 905.4015999999999,
+    "ttfb": 5,
+    "totalBytes": 343764,
+    "scriptBytes": 219200,
+    "unusedJsBytes": 29151
+  },
+  "runs": [
+    {
+      "score": 96,
+      "fcp": 909.3254999999999,
+      "lcp": 2771.98825,
+      "tbt": 4.000000000000227,
+      "cls": 0,
+      "si": 909.3254999999999,
+      "ttfb": 7,
+      "totalBytes": 343764,
+      "scriptBytes": 219200,
+      "unusedJsBytes": 29151,
+      "lcpElement": "<p class=\"text-center text-label text-text-disabled\">"
+    },
+    {
+      "score": 96,
+      "fcp": 906.6098,
+      "lcp": 2766.9146999999994,
+      "tbt": 3.5,
+      "cls": 0,
+      "si": 906.6098,
+      "ttfb": 5,
+      "totalBytes": 343764,
+      "scriptBytes": 219200,
+      "unusedJsBytes": 29151,
+      "lcpElement": "<p class=\"text-center text-label text-text-disabled\">"
+    },
+    {
+      "score": 96,
+      "fcp": 905.1986999999999,
+      "lcp": 2764.79805,
+      "tbt": 3.5000000000002274,
+      "cls": 0,
+      "si": 905.1986999999999,
+      "ttfb": 4,
+      "totalBytes": 343764,
+      "scriptBytes": 219200,
+      "unusedJsBytes": 29151,
+      "lcpElement": "<p class=\"text-center text-label text-text-disabled\">"
+    },
+    {
+      "score": 96,
+      "fcp": 904.7511,
+      "lcp": 2764.12665,
+      "tbt": 3.5,
+      "cls": 0,
+      "si": 904.7511,
+      "ttfb": 4,
+      "totalBytes": 343764,
+      "scriptBytes": 219200,
+      "unusedJsBytes": 29151,
+      "lcpElement": "<p class=\"text-center text-label text-text-disabled\">"
+    },
+    {
+      "score": 96,
+      "fcp": 905.4015999999999,
+      "lcp": 2764.1023999999998,
+      "tbt": 2.9999999999997726,
+      "cls": 0,
+      "si": 905.4015999999999,
+      "ttfb": 5,
+      "totalBytes": 343764,
+      "scriptBytes": 219200,
+      "unusedJsBytes": 29151,
+      "lcpElement": "<p class=\"text-center text-label text-text-disabled\">"
+    }
+  ]
+}

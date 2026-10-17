@@ -1,0 +1,30 @@
+/*
+ * 본문은 카드 묶음을 세로 가운데에 둔다.
+ * justify-content: center 는 카드가 본문보다 길 때 위 · 아래로 똑같이 넘쳐,
+ * 위로 넘친 부분이 스크롤로도 안 보였다(QA #13, issue #214 — 인앱 브라우저 · 큰 글자).
+ * 대신 자식에 margin-block: auto 를 줘서, 공간이 남으면 가운데 · 넘치면 위부터 스크롤되게 한다.
+ */
+.screen {
+  align-items: center;
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary-800),
+    var(--color-primary-600),
+    var(--color-primary-300)
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-block: 1.5rem;
+}
+
+.entrySection {
+  margin-block: auto;
+}
+
+.entryList {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

@@ -1,0 +1,11 @@
+/* 확정 코스 화면 하단 액션바 스타일 (widgets/course-map). 지도 · 리스트 레이아웃은 widgets/course-preview 가 맡는다(issue #229). */
+
+/* 하단 고정 액션바: 세로 배치 컨테이너만 담당. 버튼은 공용 <Button>(tonal/primary) 재사용. */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px var(--grid-margin, 20px);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+}

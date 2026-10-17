@@ -1,0 +1,174 @@
+/* course-place-list : 확정 코스 장소 리스트 스타일 (features/situation). 시안(HTML) 기준. */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  background: var(--color-surface);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-card);
+}
+
+/* 드래그 중인 행: 살짝 띄우고 위로 겹치게. */
+.rowDragging {
+  position: relative;
+  z-index: var(--z-raised);
+  box-shadow: var(--shadow-card-active);
+  opacity: 0.95;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 60px;
+  padding: 0 14px 0 8px;
+}
+
+/* 드래그 핸들: 여기서만 드래그 시작. 터치 스크롤과 충돌 안 나게 touch-action none. */
+.handle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 44px;
+  border: none;
+  background: none;
+  color: var(--color-neutral-300);
+  cursor: grab;
+  touch-action: none;
+}
+
+.handle:active {
+  cursor: grabbing;
+  color: var(--color-neutral-500);
+}
+
+.handle:focus-visible {
+  outline: none;
+  color: var(--color-primary);
+}
+
+.badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: var(--text-meta);
+  font-weight: 600;
+  box-shadow: var(--shadow-badge);
+}
+
+/* 출발지(1번): 흰 배경 + 보라 테두리 (지도 start 마커와 동일 규칙). */
+.badgeStart {
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+  color: var(--color-text-strong);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  margin-top: 2px;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-800);
+}
+
+.expandBtn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: var(--color-neutral-400);
+  cursor: pointer;
+  transition: transform var(--duration-fast) ease;
+}
+
+.expandBtn:active {
+  transform: scale(0.9);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 14px 14px 48px;
+}
+
+/* 장소 사진: 상세 폭에 맞춘 16:9 (QA #8, issue #219). 웹 · 모바일 공통. */
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-base);
+  background: var(--color-neutral-100);
+}
+
+/* 사진 없음 · 불러오기 실패: 같은 크기의 기본 이미지. */
+.photoEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--color-neutral-400);
+  font-size: var(--text-meta);
+}
+
+.detailList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+}
+
+/* 값이 없어 대체 문구를 보여주는 줄(예: 영업시간 정보 없음). */
+.detailEmpty {
+  color: var(--color-neutral-400);
+}
+
+.detailRow {
+  display: flex;
+  gap: 8px;
+  font-size: var(--text-meta);
+  color: var(--color-text-secondary, var(--color-neutral-700));
+}
+
+.detailRow dt {
+  flex-shrink: 0;
+  color: var(--color-neutral-500);
+}
+
+.detailRow dd {
+  min-width: 0;
+}

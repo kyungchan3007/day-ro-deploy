@@ -1,0 +1,98 @@
+{
+  "url": "https://day-ro.com/onboarding/",
+  "name": "onboarding",
+  "env": "prod",
+  "date": "2026-10-16",
+  "settings": {
+    "lighthouseVersion": "13.5.0",
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "width": 412,
+    "height": 823,
+    "fetchTime": "2026-10-16T10:31:02.070Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+    "benchmarkIndex": 4169,
+    "hostUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "cookie": null
+  },
+  "representative": 5,
+  "median": {
+    "score": 87,
+    "fcp": 2538.468,
+    "lcp": 3711.104,
+    "tbt": 12,
+    "cls": 0,
+    "si": 3635.2775600004356,
+    "ttfb": 720,
+    "totalBytes": 262646,
+    "scriptBytes": 199148,
+    "unusedJsBytes": 56488
+  },
+  "runs": [
+    {
+      "score": 74,
+      "fcp": 2538.468,
+      "lcp": 5586.402,
+      "tbt": 55,
+      "cls": 0,
+      "si": 3825.7808000001614,
+      "ttfb": 720,
+      "totalBytes": 262691,
+      "scriptBytes": 199213,
+      "unusedJsBytes": 56480,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    },
+    {
+      "score": 75,
+      "fcp": 3283.232,
+      "lcp": 4827.036,
+      "tbt": 0,
+      "cls": 0,
+      "si": 3950.973599999823,
+      "ttfb": 207,
+      "totalBytes": 262910,
+      "scriptBytes": 199351,
+      "unusedJsBytes": 56521,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    },
+    {
+      "score": 97,
+      "fcp": 1894.3485,
+      "lcp": 1894.3485,
+      "tbt": 12,
+      "cls": 0,
+      "si": 3635.2775600004356,
+      "ttfb": 1471,
+      "totalBytes": 260385,
+      "scriptBytes": 197566,
+      "unusedJsBytes": 55163,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    },
+    {
+      "score": 91,
+      "fcp": 2727.2619999999997,
+      "lcp": 2727.2619999999997,
+      "tbt": 50,
+      "cls": 0,
+      "si": 3565.1155320002536,
+      "ttfb": 1161,
+      "totalBytes": 262646,
+      "scriptBytes": 199148,
+      "unusedJsBytes": 56507,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    },
+    {
+      "score": 87,
+      "fcp": 2007.9715,
+      "lcp": 3711.104,
+      "tbt": 3,
+      "cls": 0,
+      "si": 2968.7520000003337,
+      "ttfb": 169,
+      "totalBytes": 262585,
+      "scriptBytes": 199089,
+      "unusedJsBytes": 56488,
+      "lcpElement": "<h1 class=\"OnboardingCarousel-module___1WbgG__title whitespace-pre-line\">"
+    }
+  ]
+}

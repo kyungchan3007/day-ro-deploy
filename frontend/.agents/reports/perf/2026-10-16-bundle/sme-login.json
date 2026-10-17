@@ -1,0 +1,1021 @@
+{
+  "results": [
+    {
+      "bundleName": "/private/tmp/claude-501/-Users-chan-Documents-develop-dayro-frontend/92bb0661-10b7-4a4d-9c40-c4e65993e222/scratchpad/wtperf/frontend/.next-perf/static/chunks/0b-04o3wr6ml5.js",
+      "totalBytes": 65140,
+      "mappedBytes": 64898,
+      "unmappedBytes": 197,
+      "eolBytes": 4,
+      "sourceMapCommentBytes": 41,
+      "files": {
+        "turbopack:///[project]/node_modules/next/src/client/app-dir/link.tsx": {
+          "size": 3404
+        },
+        "turbopack:///[project]/node_modules/next/src/client/image-component.tsx": {
+          "size": 3555
+        },
+        "turbopack:///[project]/node_modules/next/src/client/use-merged-ref.ts": {
+          "size": 693
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/find-closest-quality.ts": {
+          "size": 370
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/image-loader.ts": {
+          "size": 1109
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/head.tsx": {
+          "size": 1689
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/image-blur-svg.ts": {
+          "size": 989
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/image-config.ts": {
+          "size": 842
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/get-img-props.ts": {
+          "size": 4856
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/image-config-context.shared-runtime.ts": {
+          "size": 258
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router-context.shared-runtime.ts": {
+          "size": 203
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/image-external.tsx": {
+          "size": 557
+        },
+        "turbopack:///[project]/node_modules/next/image.js": {
+          "size": 124
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/is-local-url.ts": {
+          "size": 343
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/querystring.ts": {
+          "size": 776
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/format-url.ts": {
+          "size": 1066
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/side-effect.tsx": {
+          "size": 777
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/utils.ts": {
+          "size": 2343
+        },
+        "turbopack:///[project]/src/shared/ui/badge/PlaceNumberBadge.tsx": {
+          "size": 581
+        },
+        "turbopack:///[project]/src/shared/ui/button/Button.tsx": {
+          "size": 1131
+        },
+        "turbopack:///[project]/src/shared/ui/button/BackButton.tsx": {
+          "size": 611
+        },
+        "turbopack:///[project]/src/shared/ui/card/PlaceCard.tsx": {
+          "size": 2548
+        },
+        "turbopack:///[project]/src/shared/ui/route/constants.tsx": {
+          "size": 516
+        },
+        "turbopack:///[project]/src/shared/ui/route/TransportStep.tsx": {
+          "size": 779
+        },
+        "turbopack:///[project]/src/shared/ui/route/TransportInfo.tsx": {
+          "size": 310
+        },
+        "turbopack:///[project]/src/shared/ui/route/TransportLabel.tsx": {
+          "size": 439
+        },
+        "turbopack:///[project]/src/shared/ui/route/RouteSummary.tsx": {
+          "size": 300
+        },
+        "turbopack:///[project]/src/shared/ui/route/PathRoute.tsx": {
+          "size": 464
+        },
+        "turbopack:///[project]/src/shared/ui/card/SelectablePlaceCard.tsx": {
+          "size": 1866
+        },
+        "turbopack:///[project]/src/shared/ui/card/index.ts": {
+          "size": 71
+        },
+        "turbopack:///[project]/src/shared/ui/course/CourseTabGroup.tsx": {
+          "size": 1018
+        },
+        "turbopack:///[project]/src/shared/ui/course/css/CourseOrderStrip.module.css%20[app-client]%20(css%20module)": {
+          "size": 182
+        },
+        "turbopack:///[project]/src/shared/ui/course/index.ts": {
+          "size": 28
+        },
+        "turbopack:///[project]/src/shared/ui/course/CourseActions.tsx": {
+          "size": 547
+        },
+        "turbopack:///[project]/src/shared/ui/course/CourseOrderStrip.tsx": {
+          "size": 1087
+        },
+        "turbopack:///[project]/src/shared/ui/dialog/ConfirmDialog.tsx": {
+          "size": 2046
+        },
+        "turbopack:///[project]/src/shared/ui/field/SearchField.tsx": {
+          "size": 1161
+        },
+        "turbopack:///[project]/src/shared/ui/icon/Icon.tsx": {
+          "size": 318
+        },
+        "turbopack:///[project]/src/shared/ui/icon/icons.tsx": {
+          "size": 5002
+        },
+        "turbopack:///[project]/src/shared/ui/illustration/Illustration.tsx": {
+          "size": 444
+        },
+        "turbopack:///[project]/src/shared/ui/illustration/assets/date-planning.webp.mjs%20(structured%20image%20object%20with%20data%20url)": {
+          "size": 621
+        },
+        "turbopack:///[project]/src/shared/ui/illustration/assets/place-checklist.webp.mjs%20(structured%20image%20object%20with%20data%20url)": {
+          "size": 625
+        },
+        "turbopack:///[project]/src/shared/ui/illustration/assets/map-pin.webp.mjs%20(structured%20image%20object%20with%20data%20url)": {
+          "size": 533
+        },
+        "turbopack:///[project]/src/shared/ui/illustration/assets/chat-heart.webp.mjs%20(structured%20image%20object%20with%20data%20url)": {
+          "size": 517
+        },
+        "turbopack:///[project]/src/shared/ui/illustration/assets/intro.webp.mjs%20(structured%20image%20object%20with%20data%20url)": {
+          "size": 564
+        },
+        "turbopack:///[project]/src/shared/ui/sheet/index.ts": {
+          "size": 47
+        },
+        "turbopack:///[project]/src/shared/ui/progress/StepProgress.tsx": {
+          "size": 579
+        },
+        "turbopack:///[project]/src/shared/ui/motion/Floating.tsx": {
+          "size": 164
+        },
+        "turbopack:///[project]/src/shared/ui/feedback/LoadingScreen.tsx": {
+          "size": 697
+        },
+        "turbopack:///[project]/src/shared/ui/feedback/EmptyState.tsx": {
+          "size": 531
+        },
+        "turbopack:///[project]/src/shared/ui/index.ts": {
+          "size": 193
+        },
+        "turbopack:///[project]/src/shared/ui/select/index.ts": {
+          "size": 11
+        },
+        "turbopack:///[project]/src/shared/ui/field/index.ts": {
+          "size": 71
+        },
+        "turbopack:///[project]/src/shared/ui/layout/AppShell.tsx": {
+          "size": 437
+        },
+        "turbopack:///[project]/src/shared/ui/layout/Container.tsx": {
+          "size": 189
+        },
+        "turbopack:///[project]/src/shared/ui/layout/SideMenu.tsx": {
+          "size": 1768
+        },
+        "turbopack:///[project]/src/shared/ui/layout/css/SiteFooter.module.css%20[app-client]%20(css%20module)": {
+          "size": 256
+        },
+        "turbopack:///[project]/src/shared/ui/layout/index.ts": {
+          "size": 49
+        },
+        "turbopack:///[project]/src/shared/ui/layout/NavBar.tsx": {
+          "size": 978
+        },
+        "turbopack:///[project]/src/shared/ui/layout/SiteFooter.tsx": {
+          "size": 25
+        },
+        "turbopack:///[project]/src/shared/ui/menu/MenuItem.tsx": {
+          "size": 427
+        },
+        "turbopack:///[project]/src/shared/ui/dialog/index.ts": {
+          "size": 25
+        },
+        "turbopack:///[project]/src/shared/ui/auth/LogoutButton.tsx": {
+          "size": 420
+        },
+        "turbopack:///[project]/src/shared/ui/lib/cn.ts": {
+          "size": 77
+        },
+        "turbopack:///[project]/src/shared/ui/lib/index.ts": {
+          "size": 76
+        },
+        "turbopack:///[project]/src/shared/ui/lib/useControllableState.ts": {
+          "size": 223
+        },
+        "turbopack:///[project]/src/shared/ui/lib/useIsClient.ts": {
+          "size": 143
+        },
+        "turbopack:///[project]/src/shared/ui/lib/useModalDialog.ts": {
+          "size": 748
+        },
+        "turbopack:///[project]/src/shared/ui/lib/focus-trap.ts": {
+          "size": 624
+        },
+        "turbopack:///[project]/src/shared/ui/lib/useSheetDialog.ts": {
+          "size": 447
+        },
+        "turbopack:///[project]/src/shared/ui/logo/Logo.tsx": {
+          "size": 905
+        },
+        "turbopack:///[project]/src/shared/ui/logo/LogoFull.tsx": {
+          "size": 23
+        },
+        "turbopack:///[project]/src/shared/ui/logo/assets/logo-horizontal.webp.mjs%20(structured%20image%20object%20with%20data%20url)": {
+          "size": 420
+        },
+        "turbopack:///[project]/src/shared/ui/logo/LogoHorizontal.tsx": {
+          "size": 236
+        },
+        "turbopack:///[project]/src/shared/ui/motion/css/Floating.module.css%20[app-client]%20(css%20module)": {
+          "size": 124
+        },
+        "turbopack:///[project]/src/shared/ui/select/Select.tsx": {
+          "size": 1756
+        },
+        "turbopack:///[project]/src/shared/ui/select/useSelect.ts": {
+          "size": 1310
+        },
+        "turbopack:///[project]/src/shared/ui/sheet/css/BottomSheet.module.css%20[app-client]%20(css%20module)": {
+          "size": 224
+        },
+        "turbopack:///[project]/src/shared/ui/sheet/BottomSheet.tsx": {
+          "size": 740
+        },
+        "turbopack:///[project]/src/shared/ui/toast/css/ToastViewport.module.css%20[app-client]%20(css%20module)": {
+          "size": 212
+        },
+        "turbopack:///[project]/src/shared/ui/toast/Toast.tsx": {
+          "size": 445
+        },
+        "turbopack:///[project]/src/shared/ui/toast/ToastViewport.tsx": {
+          "size": 292
+        },
+        "turbopack:///[project]/src/shared/ui/toast/index.ts": {
+          "size": 32
+        },
+        "turbopack:///[project]/src/shared/ui/toast/render-toast.tsx": {
+          "size": 144
+        },
+        "turbopack:///[project]/src/shared/ui/toast/useToast.ts": {
+          "size": 567
+        },
+        "[sourceMappingURL]": {
+          "size": 41
+        },
+        "[unmapped]": {
+          "size": 197
+        },
+        "[EOLs]": {
+          "size": 4
+        }
+      }
+    },
+    {
+      "bundleName": "/private/tmp/claude-501/-Users-chan-Documents-develop-dayro-frontend/92bb0661-10b7-4a4d-9c40-c4e65993e222/scratchpad/wtperf/frontend/.next-perf/static/chunks/0lrw0vgj5gk40.js",
+      "totalBytes": 14518,
+      "mappedBytes": 14340,
+      "unmappedBytes": 135,
+      "eolBytes": 2,
+      "sourceMapCommentBytes": 41,
+      "files": {
+        "turbopack:///[project]/src/features/auth/hooks/useAuthSession.ts": {
+          "size": 398
+        },
+        "turbopack:///[project]/src/features/auth/api/session.ts": {
+          "size": 248
+        },
+        "turbopack:///[project]/src/features/auth/hooks/useWithdraw.ts": {
+          "size": 392
+        },
+        "turbopack:///[project]/src/features/auth/api/withdraw.ts": {
+          "size": 255
+        },
+        "turbopack:///[project]/src/features/auth/model/oauth.ts": {
+          "size": 930
+        },
+        "turbopack:///[project]/src/features/auth/ui/KakaoLoginButton.tsx": {
+          "size": 1060
+        },
+        "turbopack:///[project]/src/features/auth/ui/LoginNoticeToast.tsx": {
+          "size": 220
+        },
+        "turbopack:///[project]/src/features/auth/hooks/useLoginNoticeToast.ts": {
+          "size": 231
+        },
+        "turbopack:///[project]/src/features/auth/ui/css/AccountMenu.module.css%20[app-client]%20(css%20module)": {
+          "size": 284
+        },
+        "turbopack:///[project]/src/features/auth/ui/AccountMenu.tsx": {
+          "size": 1901
+        },
+        "turbopack:///[project]/src/features/auth/hooks/useAccountMenu.ts": {
+          "size": 820
+        },
+        "turbopack:///[project]/src/features/auth/api/logout.ts": {
+          "size": 228
+        },
+        "turbopack:///[project]/src/features/auth/hooks/useLogout.ts": {
+          "size": 359
+        },
+        "turbopack:///[project]/src/features/auth/model/menu-login.ts": {
+          "size": 154
+        },
+        "turbopack:///[project]/src/features/auth/lib/session-user.ts": {
+          "size": 127
+        },
+        "turbopack:///[project]/src/features/auth/ui/css/WithdrawReasonForm.module.css%20[app-client]%20(css%20module)": {
+          "size": 811
+        },
+        "turbopack:///[project]/src/features/auth/ui/WithdrawReasonForm.tsx": {
+          "size": 3053
+        },
+        "turbopack:///[project]/src/features/auth/hooks/useWithdrawReasonForm.ts": {
+          "size": 699
+        },
+        "turbopack:///[project]/src/shared/lib/login-redirect.ts": {
+          "size": 104
+        },
+        "turbopack:///[project]/src/shared/static/auth/index.ts": {
+          "size": 2030
+        },
+        "turbopack:///[project]/src/shared/static/site/index.ts": {
+          "size": 36
+        },
+        "[sourceMappingURL]": {
+          "size": 41
+        },
+        "[unmapped]": {
+          "size": 135
+        },
+        "[EOLs]": {
+          "size": 2
+        }
+      }
+    },
+    {
+      "bundleName": "/private/tmp/claude-501/-Users-chan-Documents-develop-dayro-frontend/92bb0661-10b7-4a4d-9c40-c4e65993e222/scratchpad/wtperf/frontend/.next-perf/static/chunks/11588hk0df2gr.js",
+      "totalBytes": 160016,
+      "mappedBytes": 159738,
+      "unmappedBytes": 214,
+      "eolBytes": 23,
+      "sourceMapCommentBytes": 41,
+      "files": {
+        "turbopack:///[project]/node_modules/next/src/client/app-call-server.ts": {
+          "size": 531
+        },
+        "turbopack:///[project]/node_modules/next/src/client/app-find-source-map-url.ts": {
+          "size": 454
+        },
+        "turbopack:///[project]/node_modules/next/src/client/assign-location.ts": {
+          "size": 528
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/app-router-headers.ts": {
+          "size": 1734
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/app-router-instance.ts": {
+          "size": 4606
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/app-router-utils.ts": {
+          "size": 854
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/links.ts": {
+          "size": 3204
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/match-segments.ts": {
+          "size": 461
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/compute-changed-path.ts": {
+          "size": 2551
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/create-href-from-url.ts": {
+          "size": 444
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/fetch-server-response.ts": {
+          "size": 4371
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/is-navigating-to-new-root-layout.ts": {
+          "size": 777
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/ppr-navigations.ts": {
+          "size": 10401
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/reducers/committed-state.ts": {
+          "size": 521
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/reducers/has-interception-route-in-current-tree.ts": {
+          "size": 695
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/reducers/navigate-reducer.ts": {
+          "size": 911
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/reducers/refresh-reducer.ts": {
+          "size": 1175
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/reducers/restore-reducer.ts": {
+          "size": 1177
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/reducers/server-action-reducer.ts": {
+          "size": 4760
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/reducers/server-patch-reducer.ts": {
+          "size": 977
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/router-reducer-types.ts": {
+          "size": 892
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/router-reducer.ts": {
+          "size": 1134
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-transition.ts": {
+          "size": 707
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/bfcache.ts": {
+          "size": 1435
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/cache-key.ts": {
+          "size": 681
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/cache-map.ts": {
+          "size": 2444
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/cache.ts": {
+          "size": 23008
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/fetch.ts": {
+          "size": 469
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/lru.ts": {
+          "size": 1074
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/navigation-testing-lock.disabled.ts": {
+          "size": 1187
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/navigation.ts": {
+          "size": 6436
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/optimistic-routes.ts": {
+          "size": 5452
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/prefetch.ts": {
+          "size": 588
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/scheduler.ts": {
+          "size": 13463
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/types.ts": {
+          "size": 919
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/segment-cache/vary-path.ts": {
+          "size": 2574
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/use-action-queue.ts": {
+          "size": 1268
+        },
+        "turbopack:///[project]/node_modules/next/src/client/flight-data-helpers.ts": {
+          "size": 1962
+        },
+        "turbopack:///[project]/node_modules/next/src/client/lib/javascript-url.ts": {
+          "size": 530
+        },
+        "turbopack:///[project]/node_modules/next/src/client/navigation-build-id.ts": {
+          "size": 446
+        },
+        "turbopack:///[project]/node_modules/next/src/client/remove-base-path.ts": {
+          "size": 467
+        },
+        "turbopack:///[project]/node_modules/next/src/client/route-params.ts": {
+          "size": 2203
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react-dom/cjs/react-dom.production.js": {
+          "size": 3660
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react-dom/index.js": {
+          "size": 246
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.production.js": {
+          "size": 23169
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react-server-dom-turbopack/client.browser.js": {
+          "size": 51
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react-server-dom-turbopack/client.js": {
+          "size": 107
+        },
+        "turbopack:///[project]/node_modules/next/src/lib/constants.ts": {
+          "size": 6561
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/action-revalidation-kind.ts": {
+          "size": 267
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/app-router-types.ts": {
+          "size": 1150
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/deployment-id.ts": {
+          "size": 612
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/hash.ts": {
+          "size": 358
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/cache-busting-search-param.ts": {
+          "size": 884
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/set-cache-busting-search-param.ts": {
+          "size": 1203
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/instant-messages.ts": {
+          "size": 1651
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/invariant-error.ts": {
+          "size": 326
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/is-thenable.ts": {
+          "size": 246
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/page-path/ensure-leading-slash.ts": {
+          "size": 215
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/promise-with-resolvers.ts": {
+          "size": 337
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/add-path-prefix.ts": {
+          "size": 232
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/remove-trailing-slash.ts": {
+          "size": 319
+        },
+        "turbopack:///[project]/node_modules/next/src/client/normalize-trailing-slash.ts": {
+          "size": 625
+        },
+        "turbopack:///[project]/node_modules/next/src/client/add-base-path.ts": {
+          "size": 469
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/app-paths.ts": {
+          "size": 879
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/html-bots.ts": {
+          "size": 469
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/is-bot.ts": {
+          "size": 561
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/interception-routes.ts": {
+          "size": 1577
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/parse-path.ts": {
+          "size": 442
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/path-has-prefix.ts": {
+          "size": 295
+        },
+        "turbopack:///[project]/node_modules/next/src/client/has-base-path.ts": {
+          "size": 420
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/segment-cache/segment-value-encoding.ts": {
+          "size": 791
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/segment-cache/vary-params-decoding.ts": {
+          "size": 497
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/server-reference-info.ts": {
+          "size": 648
+        },
+        "[sourceMappingURL]": {
+          "size": 41
+        },
+        "[unmapped]": {
+          "size": 214
+        },
+        "[EOLs]": {
+          "size": 23
+        }
+      }
+    },
+    {
+      "bundleName": "/private/tmp/claude-501/-Users-chan-Documents-develop-dayro-frontend/92bb0661-10b7-4a4d-9c40-c4e65993e222/scratchpad/wtperf/frontend/.next-perf/static/chunks/26s17m8bojtx9.js",
+      "totalBytes": 44261,
+      "mappedBytes": 44061,
+      "unmappedBytes": 157,
+      "eolBytes": 2,
+      "sourceMapCommentBytes": 41,
+      "files": {
+        "turbopack:///[project]/node_modules/zod/v4/core/core.js": {
+          "size": 1224
+        },
+        "turbopack:///[project]/node_modules/zod/v4/core/registries.js": {
+          "size": 696
+        },
+        "turbopack:///[project]/src/shared/api/endpoints.ts": {
+          "size": 521
+        },
+        "turbopack:///[project]/node_modules/zod/v4/core/util.js": {
+          "size": 3851
+        },
+        "turbopack:///[project]/node_modules/zod/v4/core/regexes.js": {
+          "size": 4963
+        },
+        "turbopack:///[project]/node_modules/zod/v4/core/checks.js": {
+          "size": 3634
+        },
+        "turbopack:///[project]/node_modules/zod/v4/core/errors.js": {
+          "size": 311
+        },
+        "turbopack:///[project]/node_modules/zod/v4/core/parse.js": {
+          "size": 949
+        },
+        "turbopack:///[project]/node_modules/zod/v4/core/versions.js": {
+          "size": 29
+        },
+        "turbopack:///[project]/node_modules/zod/v4/core/schemas.js": {
+          "size": 17893
+        },
+        "turbopack:///[project]/node_modules/zod/v4/core/api.js": {
+          "size": 551
+        },
+        "turbopack:///[project]/node_modules/zod/v4/mini/schemas.js": {
+          "size": 2368
+        },
+        "turbopack:///[project]/src/shared/api/openapi/dayro.openapi.ts": {
+          "size": 4654
+        },
+        "turbopack:///[project]/node_modules/zod/v4/locales/en.js": {
+          "size": 2417
+        },
+        "[sourceMappingURL]": {
+          "size": 41
+        },
+        "[unmapped]": {
+          "size": 157
+        },
+        "[EOLs]": {
+          "size": 2
+        }
+      }
+    },
+    {
+      "bundleName": "/private/tmp/claude-501/-Users-chan-Documents-develop-dayro-frontend/92bb0661-10b7-4a4d-9c40-c4e65993e222/scratchpad/wtperf/frontend/.next-perf/static/chunks/3-dfue6sy38vy.js",
+      "totalBytes": 34662,
+      "mappedBytes": 34479,
+      "unmappedBytes": 140,
+      "eolBytes": 2,
+      "sourceMapCommentBytes": 41,
+      "files": {
+        "turbopack:///[project]/node_modules/@swc/helpers/cjs/_interop_require_default.cjs": {
+          "size": 85
+        },
+        "turbopack:///[project]/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs": {
+          "size": 676
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/error-boundary.tsx": {
+          "size": 1763
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/handle-isr-error.tsx": {
+          "size": 511
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/http-access-fallback/http-access-fallback.ts": {
+          "size": 1078
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/is-next-router-error.ts": {
+          "size": 474
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/nav-failure-handler.ts": {
+          "size": 763
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/navigation-dynamic-rendering.browser.ts": {
+          "size": 516
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/server-inserted-html.shared-runtime.tsx": {
+          "size": 373
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/navigation-untracked.ts": {
+          "size": 733
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/not-found.ts": {
+          "size": 495
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/forbidden.ts": {
+          "size": 638
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/unauthorized.ts": {
+          "size": 640
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/readonly-url-search-params.ts": {
+          "size": 846
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/redirect-boundary.tsx": {
+          "size": 1334
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/redirect-error.ts": {
+          "size": 777
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/redirect-status-code.ts": {
+          "size": 504
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/redirect.ts": {
+          "size": 1627
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/create-router-cache-key.ts": {
+          "size": 456
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/server-async-storage.browser.ts": {
+          "size": 551
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/unrecognized-action-error.ts": {
+          "size": 564
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/unresolved-thenable.ts": {
+          "size": 474
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/unstable-rethrow.browser.ts": {
+          "size": 517
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/navigation.react-server.ts": {
+          "size": 1110
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/navigation.ts": {
+          "size": 2674
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/process/browser.js": {
+          "size": 1913
+        },
+        "turbopack:///[project]/node_modules/next/src/build/polyfills/process.ts": {
+          "size": 158
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react/cjs/react-jsx-runtime.production.js": {
+          "size": 348
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react/jsx-runtime.js": {
+          "size": 51
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react/cjs/react.production.js": {
+          "size": 7793
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react/index.js": {
+          "size": 107
+        },
+        "turbopack:///[project]/node_modules/next/src/lib/framework/boundary-constants.tsx": {
+          "size": 460
+        },
+        "turbopack:///[project]/node_modules/next/src/lib/framework/boundary-components.tsx": {
+          "size": 724
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/app-router-context.shared-runtime.ts": {
+          "size": 551
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/hooks-client-context.shared-runtime.ts": {
+          "size": 692
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/lazy-dynamic/bailout-to-csr.ts": {
+          "size": 468
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/segment.ts": {
+          "size": 1035
+        },
+        "[sourceMappingURL]": {
+          "size": 41
+        },
+        "[unmapped]": {
+          "size": 140
+        },
+        "[EOLs]": {
+          "size": 2
+        }
+      }
+    },
+    {
+      "bundleName": "/private/tmp/claude-501/-Users-chan-Documents-develop-dayro-frontend/92bb0661-10b7-4a4d-9c40-c4e65993e222/scratchpad/wtperf/frontend/.next-perf/static/chunks/39zpan3cibkqa.js",
+      "totalBytes": 15974,
+      "mappedBytes": 15717,
+      "unmappedBytes": 214,
+      "eolBytes": 2,
+      "sourceMapCommentBytes": 41,
+      "files": {
+        "turbopack:///[project]/node_modules/next/src/client/components/bfcache-state-manager.ts": {
+          "size": 743
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/client-page.tsx": {
+          "size": 817
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/client-segment.tsx": {
+          "size": 663
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/http-access-fallback/error-boundary.tsx": {
+          "size": 1727
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/instant-validation/impl.browser.tsx": {
+          "size": 603
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/instant-validation/boundary.tsx": {
+          "size": 706
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/layout-router.tsx": {
+          "size": 5282
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/render-from-template-context.tsx": {
+          "size": 525
+        },
+        "turbopack:///[project]/node_modules/next/src/client/request/params.browser.prod.ts": {
+          "size": 497
+        },
+        "turbopack:///[project]/node_modules/next/src/client/request/params.browser.ts": {
+          "size": 436
+        },
+        "turbopack:///[project]/node_modules/next/src/client/request/search-params.browser.prod.ts": {
+          "size": 503
+        },
+        "turbopack:///[project]/node_modules/next/src/client/request/search-params.browser.ts": {
+          "size": 432
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/client-boundary-params.browser.ts": {
+          "size": 566
+        },
+        "turbopack:///[project]/node_modules/next/src/lib/metadata/generate/icon-mark.tsx": {
+          "size": 169
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/router/utils/disable-smooth-scroll.ts": {
+          "size": 442
+        },
+        "turbopack:///[project]/node_modules/next/navigation.js": {
+          "size": 45
+        },
+        "turbopack:///[project]/src/features/auth/hooks/AuthEventTracker.ts": {
+          "size": 400
+        },
+        "turbopack:///[project]/src/shared/analytics/useAnalytics.ts": {
+          "size": 220
+        },
+        "turbopack:///[project]/src/shared/analytics/AnalyticsTracker.tsx": {
+          "size": 56
+        },
+        "turbopack:///[project]/src/shared/analytics/config.ts": {
+          "size": 268
+        },
+        "turbopack:///[project]/src/shared/analytics/dispatch.ts": {
+          "size": 341
+        },
+        "turbopack:///[project]/src/shared/analytics/track.ts": {
+          "size": 276
+        },
+        "[sourceMappingURL]": {
+          "size": 41
+        },
+        "[unmapped]": {
+          "size": 214
+        },
+        "[EOLs]": {
+          "size": 2
+        }
+      }
+    },
+    {
+      "bundleName": "/private/tmp/claude-501/-Users-chan-Documents-develop-dayro-frontend/92bb0661-10b7-4a4d-9c40-c4e65993e222/scratchpad/wtperf/frontend/.next-perf/static/chunks/3ae5hsd2s2z_f.js",
+      "totalBytes": 228844,
+      "mappedBytes": 228673,
+      "unmappedBytes": 128,
+      "eolBytes": 2,
+      "sourceMapCommentBytes": 41,
+      "files": {
+        "turbopack:///[project]/node_modules/next/dist/build/polyfills/polyfill-module.js": {
+          "size": 1712
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/scheduler/cjs/scheduler.production.js": {
+          "size": 3461
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/scheduler/index.js": {
+          "size": 55
+        },
+        "turbopack:///[project]/node_modules/next/src/client/app-index.tsx": {
+          "size": 3783
+        },
+        "turbopack:///[project]/node_modules/next/src/client/app-next-turbopack.ts": {
+          "size": 462
+        },
+        "turbopack:///[project]/node_modules/next/src/client/asset-prefix.ts": {
+          "size": 959
+        },
+        "turbopack:///[project]/node_modules/next/src/client/set-attributes-from-props.ts": {
+          "size": 959
+        },
+        "turbopack:///[project]/node_modules/next/src/client/app-bootstrap.ts": {
+          "size": 848
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/app-router-announcer.tsx": {
+          "size": 1435
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/app-router.tsx": {
+          "size": 5531
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/errors/graceful-degrade-boundary.tsx": {
+          "size": 1269
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/errors/root-error-boundary.tsx": {
+          "size": 720
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/create-initial-router-state.ts": {
+          "size": 2269
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/router-reducer/reducers/find-head-in-cache.ts": {
+          "size": 808
+        },
+        "turbopack:///[project]/node_modules/next/src/client/react-client-callbacks/error-boundary-callbacks.ts": {
+          "size": 950
+        },
+        "turbopack:///[project]/node_modules/next/src/client/register-deployment-id-global.ts": {
+          "size": 316
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.production.js": {
+          "size": 200702
+        },
+        "turbopack:///[project]/node_modules/next/dist/compiled/react-dom/client.js": {
+          "size": 302
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/is-plain-object.ts": {
+          "size": 418
+        },
+        "turbopack:///[project]/node_modules/next/src/lib/is-error.ts": {
+          "size": 612
+        },
+        "turbopack:///[project]/node_modules/next/src/client/react-client-callbacks/report-global-error.ts": {
+          "size": 445
+        },
+        "turbopack:///[project]/node_modules/next/src/client/react-client-callbacks/on-recoverable-error.ts": {
+          "size": 609
+        },
+        "turbopack:///[project]/node_modules/next/src/lib/require-instrumentation-client.ts": {
+          "size": 48
+        },
+        "[sourceMappingURL]": {
+          "size": 41
+        },
+        "[unmapped]": {
+          "size": 128
+        },
+        "[EOLs]": {
+          "size": 2
+        }
+      }
+    },
+    {
+      "bundleName": "/private/tmp/claude-501/-Users-chan-Documents-develop-dayro-frontend/92bb0661-10b7-4a4d-9c40-c4e65993e222/scratchpad/wtperf/frontend/.next-perf/static/chunks/3q7ckvcgbg_zl.js",
+      "totalBytes": 5630,
+      "mappedBytes": 4402,
+      "unmappedBytes": 1155,
+      "eolBytes": 32,
+      "sourceMapCommentBytes": 41,
+      "files": {
+        "turbopack:///[project]/node_modules/next/src/client/components/builtin/error-styles.tsx": {
+          "size": 2761
+        },
+        "turbopack:///[project]/node_modules/next/src/client/components/builtin/global-error.tsx": {
+          "size": 1518
+        },
+        "turbopack:///[project]/node_modules/next/src/shared/lib/head-manager-context.shared-runtime.ts": {
+          "size": 123
+        },
+        "[sourceMappingURL]": {
+          "size": 41
+        },
+        "[unmapped]": {
+          "size": 1155
+        },
+        "[EOLs]": {
+          "size": 32
+        }
+      }
+    },
+    {
+      "bundleName": "/private/tmp/claude-501/-Users-chan-Documents-develop-dayro-frontend/92bb0661-10b7-4a4d-9c40-c4e65993e222/scratchpad/wtperf/frontend/.next-perf/static/chunks/turbopack-21l3kmmilf3i3.js",
+      "totalBytes": 9764,
+      "mappedBytes": 9424,
+      "unmappedBytes": 297,
+      "eolBytes": 2,
+      "sourceMapCommentBytes": 41,
+      "files": {
+        "turbopack:///[turbopack]/browser/runtime/dom/runtime-backend-dom.ts": {
+          "size": 2408
+        },
+        "turbopack:///[turbopack]/shared/runtime/runtime-utils.ts": {
+          "size": 4361
+        },
+        "turbopack:///[turbopack]/browser/runtime/base/runtime-base.ts": {
+          "size": 2042
+        },
+        "turbopack:///[turbopack]/browser/runtime/base/build-base.ts": {
+          "size": 613
+        },
+        "[sourceMappingURL]": {
+          "size": 41
+        },
+        "[unmapped]": {
+          "size": 297
+        },
+        "[EOLs]": {
+          "size": 2
+        }
+      }
+    }
+  ]
+}

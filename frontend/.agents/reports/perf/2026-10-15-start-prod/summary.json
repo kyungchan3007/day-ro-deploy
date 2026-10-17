@@ -1,0 +1,98 @@
+{
+  "url": "https://day-ro.com/",
+  "name": "start",
+  "env": "prod",
+  "date": "2026-10-15",
+  "settings": {
+    "lighthouseVersion": "13.5.0",
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "width": 412,
+    "height": 823,
+    "fetchTime": "2026-10-15T10:26:44.811Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+    "benchmarkIndex": 4162,
+    "hostUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "cookie": null
+  },
+  "representative": 2,
+  "median": {
+    "score": 84,
+    "fcp": 2123.67,
+    "lcp": 4070.078999999999,
+    "tbt": 8.5,
+    "cls": 0,
+    "si": 3119.8823419976234,
+    "ttfb": 647,
+    "totalBytes": 342999,
+    "scriptBytes": 224194,
+    "unusedJsBytes": 29698
+  },
+  "runs": [
+    {
+      "score": 77,
+      "fcp": 2808.4880000000003,
+      "lcp": 4693.242499999999,
+      "tbt": 13.5,
+      "cls": 0.00007569956896798242,
+      "si": 3867.3649459906333,
+      "ttfb": 949,
+      "totalBytes": 342969,
+      "scriptBytes": 224192,
+      "unusedJsBytes": 29698,
+      "lcpElement": "<p class=\"text-center text-label text-text-disabled\">"
+    },
+    {
+      "score": 84,
+      "fcp": 2085.8669999999997,
+      "lcp": 4070.078999999999,
+      "tbt": 8.5,
+      "cls": 0,
+      "si": 3126.6973500088034,
+      "ttfb": 175,
+      "totalBytes": 342966,
+      "scriptBytes": 224194,
+      "unusedJsBytes": 29702,
+      "lcpElement": "<p class=\"text-center text-label text-text-disabled\">"
+    },
+    {
+      "score": 91,
+      "fcp": 2196.5679999999998,
+      "lcp": 3211.096,
+      "tbt": 17.5,
+      "cls": 0,
+      "si": 2649.573678007733,
+      "ttfb": 647,
+      "totalBytes": 343293,
+      "scriptBytes": 224497,
+      "unusedJsBytes": 29876,
+      "lcpElement": "<p class=\"text-center text-label text-text-disabled\">"
+    },
+    {
+      "score": 90,
+      "fcp": 2091.214,
+      "lcp": 3247.0830000000005,
+      "tbt": 3.5,
+      "cls": 0.00007569956896798242,
+      "si": 3116.366574014641,
+      "ttfb": 812,
+      "totalBytes": 342999,
+      "scriptBytes": 224139,
+      "unusedJsBytes": 29670,
+      "lcpElement": "<img alt=\"Dayro\" width=\"150\" height=\"117\" decoding=\"async\" data-nimg=\"1\" class=\"StartHero-module__LQdFKW__logo\" style=\"color:transparent\" src=\"/_next/static/media/logo-full.2xv7c8k6axfrs.webp\">"
+    },
+    {
+      "score": 83,
+      "fcp": 2123.67,
+      "lcp": 4229.424000000001,
+      "tbt": 7,
+      "cls": 0,
+      "si": 3119.8823419976234,
+      "ttfb": 179,
+      "totalBytes": 343128,
+      "scriptBytes": 224264,
+      "unusedJsBytes": 29698,
+      "lcpElement": "<p class=\"text-center text-label text-text-disabled\">"
+    }
+  ]
+}
